@@ -48,4 +48,12 @@
   });
   // Card details: always open on wide screens (CSS handles browsers with ::details-content)
   if(window.matchMedia('(min-width:701px)').matches)document.querySelectorAll('details.more').forEach(function(d){d.open=true});
+  // Quote form: preselect city from ?city=slug and keep _subject as "Quote request: <city>"
+  var fc=document.getElementById('f-city'),fs=document.getElementById('f-subject');
+  if(fc&&fs){
+    var slug=new URLSearchParams(location.search).get('city');
+    if(slug)Array.prototype.forEach.call(fc.options,function(o){if(o.getAttribute('data-slug')===slug)fc.value=o.value});
+    var sub=function(){fs.value='Quote request: '+(fc.value||'(city not chosen)')};
+    fc.addEventListener('change',sub);sub();
+  }
 })();

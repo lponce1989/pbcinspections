@@ -181,6 +181,16 @@ def card(i):
 <p class="src"><a href="{e(i["source"])}" rel="nofollow noopener" target="_blank">{e(dom(i["source"]))} &#8599;</a> &middot; checked <time datetime="{e(i["checked"])}">{nice_date(i["checked"])}</time> &middot; <a href="{e(i["phone_src"])}" rel="nofollow noopener" target="_blank">phone source</a></p>
 <p class="fix small">Is this your business? <a href="mailto:{CORRECTIONS}?subject={urllib.parse.quote("Fix my listing: "+i["name"])}">Fix your listing</a>.</p></article>'''
 
+# ---------- Quote request ----------
+FORM_ACTION="https://formsubmit.co/"+CONTACT
+CONSENT=("When you send this, we share your request (name, contact details, city, ZIP and what you need) with up to 3 inspectors listed on this site who serve your area, so they can contact you with a quote. "
+         "We don't sell your information. Inspectors set their own prices; we don't guarantee a reply or a price.")
+def cta(pre,city=None):
+    q=f'?city={city["slug"]}' if city else ''
+    where=f' in {e(city["name"])}' if city else ''
+    return (f'<aside class="cta" aria-label="Request quotes"><div><strong>Want quotes without calling around?</strong> '
+            f'<span>Tell us what you need{where} and we\'ll pass it to up to 3 local inspectors.</span></div>'
+            f'<a class="btn btn-book" href="{pre}request/index.html{q}">Request quotes</a></aside>')
 # ---------- Home ----------
 which='''<table class="which"><thead><tr><th>Your situation</th><th>Report usually asked for</th></tr></thead><tbody>
 <tr><td>Home more than 20 years old, applying to Citizens</td><td>4-point</td></tr>
@@ -197,6 +207,7 @@ f'''<section class="hero"><h1>Compare Palm Beach County home insurance inspector
 <p class="lead">Wind mitigation, 4-point and roof certification: published prices, phone and booking, and a license check for each inspector.</p>
 <nav class="chips" aria-label="Cities">{chips}</nav><p class="which-link"><a class="chip chip-alt" href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Which report do I need? &rarr;</a></p>
 <ul class="trust"><li>{len(FIRMS)} companies</li><li>{len(cities)} cities</li><li>Prices sourced and dated</li><li>Licenses checked on DBPR</li></ul></section>
+{cta('')}
 <section><h2>What inspections cost in Palm Beach County</h2>{stat_tiles(FIRMS,False)}<p class="small">Each company counted once; checked {nice_date(CHECKED)}. <a href="prices/index.html">Prices by city and how we counted &rarr;</a></p></section>
 <section><h2>Which report do you need?</h2>{which}</section>
 <section><h2>Browse by city</h2>{city_grid("cities/")}</section>
@@ -253,7 +264,7 @@ for c in cities:
     layout(f'cities/{c["slug"]}.html',f'{c["name"]} Wind Mitigation & 4-Point Inspectors ({len(rows)} compared)',
     f'{len(rows)} inspectors serving {c["name"]}, FL: published wind mitigation, 4-point and roof certification prices, size caps, phone and Florida license checks.',
     f'''<h1>{e(c["name"])} wind mitigation, 4-point &amp; roof certification inspectors</h1>{intro(c)}
-<section class="listing"><h2>{len(rows)} inspectors serving {e(c["name"])}</h2><div class="prose">{HOWCHECK}</div>
+<section class="listing"><h2>{len(rows)} inspectors serving {e(c["name"])}</h2><div class="prose">{HOWCHECK}</div>{cta("../",c)}
 {FILTERS}
 {table(rows)}
 <h2 class="details-h">Details</h2><div class="cards">{"".join(card(i) for i in rows)}</div>
@@ -271,7 +282,7 @@ def faq(qs): return {"@context":"https://schema.org","@type":"FAQPage","mainEnti
 def guide(slug,title,desc,body,qs):
     t=dict(GUIDES)[slug]
     faqhtml="<h2>FAQ</h2>"+"".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q,a in qs)
-    layout(f"{G}{slug}.html",title,desc,f'<article class="prose"><h1>{e(t)}</h1><p class="notice"><strong>Not insurance advice.</strong> General information only. Your insurer or agent decides what it needs.</p>{body}{faqhtml}</article>',
+    layout(f"{G}{slug}.html",title,desc,f'<article class="prose"><h1>{e(t)}</h1><p class="notice"><strong>Not insurance advice.</strong> General information only. Your insurer or agent decides what it needs.</p>{body}{cta("../")}{faqhtml}</article>',
       [("Guides","guides/index.html"),(t,f"{G}{slug}.html")],[faq(qs)])
 SRC_CIT='<li>Citizens Property Insurance, Inspections: <a href="https://www.citizensfla.com/web/public/inspections">citizensfla.com/web/public/inspections</a> (checked 2026-10-21)</li>'
 SRC_OIR='<li>Florida OIR, Wind Mitigation Resources: <a href="https://floir.gov/consumers/wind-mitigation-resources/">floir.gov</a> (checked 2026-10-21)</li>'
@@ -372,6 +383,38 @@ guide("my-safe-florida-home-vs-private-wind-mitigation","My Safe Florida Home Fr
 layout("guides/index.html","Guides: Florida Wind Mitigation, 4-Point & Roof Inspections | PBC Inspections","Plain-English guides to Florida insurance inspections.",
  f'<h1>Guides</h1>{guide_list()}',[("Guides","guides/index.html")])
 
+opts="".join(f'<option value="{e(c["name"])}" data-slug="{c["slug"]}">{e(c["name"])}</option>' for c in cities)
+layout("request/index.html","Request Inspection Quotes in Palm Beach County | PBC Inspections",
+"Request quotes for a wind mitigation, 4-point or roof certification inspection from local Palm Beach County inspectors.",
+f'''<div class="prose"><h1>Request quotes from local inspectors</h1>
+<p class="lead">Tell us what you need. We'll pass your request to up to 3 inspectors listed on this site who serve your area.</p></div>
+<form class="qform card" action="{FORM_ACTION}" method="POST">
+<input type="hidden" name="_subject" value="Quote request: (city not chosen)" id="f-subject">
+<input type="hidden" name="_next" value="{BASE_URL}/thanks.html">
+<input type="hidden" name="_captcha" value="true">
+<input type="hidden" name="_template" value="table">
+<div class="hp" aria-hidden="true"><label for="f-honey">Leave this empty</label><input type="text" name="_honey" id="f-honey" tabindex="-1" autocomplete="off"></div>
+<div class="fgrid">
+<div class="field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+<div class="field"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required></div>
+<div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+<div class="field"><label for="f-city">City</label><select id="f-city" name="city" required><option value="">Choose a city</option>{opts}<option value="Other">Other Palm Beach County city</option></select></div>
+<div class="field"><label for="f-zip">ZIP code</label><input id="f-zip" name="zip" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{{5}}" maxlength="5" required aria-describedby="f-zip-h"><span class="hint" id="f-zip-h">5 digits</span></div>
+<div class="field"><label for="f-time">Timeframe</label><select id="f-time" name="timeframe" required><option value="">Choose one</option><option>As soon as possible</option><option>Within 2 weeks</option><option>Within a month</option><option>Just comparing prices</option></select></div>
+</div>
+<fieldset class="field"><legend>Inspections needed</legend>
+<label class="chk"><input type="checkbox" name="inspections" value="Wind mitigation"> Wind mitigation</label>
+<label class="chk"><input type="checkbox" name="inspections" value="4-point"> 4-point</label>
+<label class="chk"><input type="checkbox" name="inspections" value="Roof certification"> Roof certification</label>
+<label class="chk"><input type="checkbox" name="inspections" value="Not sure"> Not sure</label></fieldset>
+<div class="field"><label for="f-notes">Notes <span class="opt">(optional)</span></label><textarea id="f-notes" name="notes" rows="4" placeholder="Year built, roof type, insurer deadline, anything else"></textarea></div>
+<p class="consent small">{CONSENT} See our <a href="../about.html#privacy">privacy note</a>.</p>
+<button class="btn btn-book" type="submit">Send request</button>
+</form>
+<p class="small muted prose">Prefer to call? Every inspector's phone number is on the <a href="../cities/index.html">city pages</a>.</p>''',[("Request quotes","request/index.html")])
+layout("thanks.html","Request Received | PBC Inspections","Your inspection quote request was sent.",
+'''<div class="prose"><h1>Thanks, your request was sent</h1><p class="lead">We'll pass it to up to 3 local inspectors who serve your area. They'll contact you directly by phone or email.</p>
+<p>In the meantime you can compare <a href="prices/index.html">published prices</a> or read <a href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">which report you need</a>.</p></div>''',[])
 # ---------- About ----------
 layout("about.html",f"About, Listing Criteria & Disclosures | {SITE}","About this directory, listing and removal criteria, the no-advice disclaimer, and the referral-fee disclosure.",
 f'''<article class="prose"><h1>About &amp; disclaimer</h1><p>{LONG} is an independent directory of Palm Beach County, Florida inspectors who do wind mitigation, 4-point, and roof certification reports. It is owned by Leonard Ponce.</p>
@@ -381,6 +424,7 @@ f'''<article class="prose"><h1>About &amp; disclaimer</h1><p>{LONG} is an indepe
 <h2>Licenses</h2><p>Where shown, license types and numbers come from the Florida DBPR license search on the date listed. "Not verified" means we could not confirm a license from official sources, not that the business is unlicensed. <a href="guides/look-up-inspector-license-dbpr.html">Check one yourself</a>.</p>
 <h2>Affiliate &amp; referral disclosure</h2><p class="notice">Right now we have <strong>no paid relationships</strong> with any inspector, insurer, insurance agency, or lead-generation company. No listing is paid for, and nothing on this site is an affiliate link. In the future the site may earn referral fees, for example from an insurance-quote tool or from featured listings. If that happens we will update this page first, name the type of relationship, and clearly label any paid or affiliate link or placement where it appears. Payment will never change the prices or license information we show.</p>
 <h2>Not insurance advice</h2><p>Nothing here is a recommendation to buy, change, or cancel an insurance policy. We do not sell insurance and we are not licensed as an insurance agent. Whether an inspection earns a discount, and how much, depends on your insurer's filed rates and on what the inspector verifies. Talk to a licensed insurance agent or your insurer before you make coverage decisions.</p>
+<h2 id="privacy">Privacy</h2><p>If you use our <a href="request/index.html">quote request form</a>, what you enter (name, phone, email, city, ZIP, inspections needed, timeframe and notes) is sent to us by email through FormSubmit (formsubmit.co), a third-party form service. We use it only to pass your request to up to 3 inspectors listed on this site who serve your area. We don't sell your information. To have a request deleted, email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>. The site sets no cookies and runs no analytics or ad trackers; its font is loaded from Google Fonts.</p>
 <h2>Contact</h2><p>Listing requests: <a href="mailto:{CONTACT}">{CONTACT}</a>. Corrections: <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p></article>''',[("About","about.html")])
 
 # ---------- static ----------
@@ -389,7 +433,7 @@ open(f"{OUT}/favicon.svg","w").write(_svg+"\n")
 open(f"{OUT}/site.js","w").write(open(f"{ROOT}/src/site.js").read())
 open(f"{OUT}/.nojekyll","w").write("")
 open(f"{OUT}/CNAME","w").write("pbcinspections.com\n")
-open(f"{OUT}/sitemap.xml","w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+"".join(f'  <url><loc>{url(p)}</loc><lastmod>{CHECKED}</lastmod></url>\n' for p in pages)+"</urlset>\n")
+open(f"{OUT}/sitemap.xml","w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+"".join(f'  <url><loc>{url(p)}</loc><lastmod>{CHECKED}</lastmod></url>\n' for p in pages if p!="thanks.html")+"</urlset>\n")
 open(f"{OUT}/robots.txt","w").write(f"User-agent: *\nAllow: /\nSitemap: {BASE_URL}/sitemap.xml\n")
 keys=["slug","name","firm","cities","base","base_note","phone","phone_src","email","booking","wind_mit","four_point","roof_cert","bundle","lic_status","license","service_area","website","source","checked"]
 with open(f"{ROOT}/data/inspectors.csv","w",newline="") as f:
