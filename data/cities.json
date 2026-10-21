@@ -2,16 +2,41 @@
  {
   "slug": "boca-raton",
   "name": "Boca Raton",
-  "intro": "Boca Raton mixes older homes east of I-95 (where insurers often ask for 4-point and roof documentation) with newer gated communities to the west (where a wind mitigation report is usually the big premium lever)."
+  "intro": "Inspectors who state on their own websites that they serve Boca Raton. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
  },
  {
   "slug": "west-palm-beach",
   "name": "West Palm Beach",
-  "intro": "West Palm Beach has a lot of older housing, from 1920s bungalows in Flamingo Park and Grandview Heights to mid-century ranch homes, so many insurers ask for 4-point and roof documentation. Newer condos and townhomes often benefit most from a wind mitigation report."
+  "intro": "Inspectors who state on their own websites that they serve West Palm Beach. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
  },
  {
   "slug": "delray-beach",
   "name": "Delray Beach",
-  "intro": "Delray Beach mixes historic cottages and CBS block homes east of I-95, where 4-point and roof reports are common insurer asks, with newer gated communities to the west, where a wind mitigation report is usually the main premium lever."
+  "intro": "Inspectors who state on their own websites that they serve Delray Beach. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
+ },
+ {
+  "slug": "boynton-beach",
+  "name": "Boynton Beach",
+  "intro": "Inspectors who state on their own websites that they serve Boynton Beach. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
+ },
+ {
+  "slug": "jupiter",
+  "name": "Jupiter",
+  "intro": "Inspectors who state on their own websites that they serve Jupiter. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
+ },
+ {
+  "slug": "wellington",
+  "name": "Wellington",
+  "intro": "Inspectors who state on their own websites that they serve Wellington. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
+ },
+ {
+  "slug": "palm-beach-gardens",
+  "name": "Palm Beach Gardens",
+  "intro": "Inspectors who state on their own websites that they serve Palm Beach Gardens. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
+ },
+ {
+  "slug": "lake-worth-beach",
+  "name": "Lake Worth Beach",
+  "intro": "Inspectors who state on their own websites that they serve Lake Worth Beach. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
  }
 ]

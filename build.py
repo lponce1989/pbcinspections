@@ -1,98 +1,275 @@
 #!/usr/bin/env python3
-"""Tiny static generator. No dependencies. Output -> docs/ (GitHub Pages: deploy from /docs)."""
-import json, csv, os, html, datetime
+"""Zero-dependency static generator. Output -> docs/ (GitHub Pages: main /docs)."""
+import json, csv, os, html, datetime, statistics, shutil
 ROOT=os.path.dirname(os.path.abspath(__file__)); OUT=os.path.join(ROOT,"docs")
-SITE="Palm Beach Inspection Finder"
-BASE_URL=os.environ.get("BASE_URL","https://pbcinspections.com")
-CONTACT="listings@pbcinspections.com"  # forwarded via Porkbun email forwarding (to be set up)
+SITE="PBC Inspections"; LONG="Palm Beach Inspection Finder"
+BASE_URL=os.environ.get("BASE_URL","https://pbcinspections.com").rstrip("/")
+CONTACT="listings@pbcinspections.com"      # Porkbun email forwarding
+CORRECTIONS="corrections@pbcinspections.com"
 e=html.escape
 data=json.load(open(f"{ROOT}/data/inspectors.json")); cities=json.load(open(f"{ROOT}/data/cities.json"))
+INS=data["inspectors"]; CHECKED=data["checked"]
 pages=[]
+G="guides/"
+GUIDES=[("4-point-vs-wind-mitigation-vs-roof-certification","4-point vs. wind mitigation vs. roof certification"),
+ ("oir-b1-1802-rev-04-26-changes","What changed on the OIR-B1-1802 (Rev. 04/26) wind mitigation form"),
+ ("how-long-inspection-reports-are-valid","How long a wind mitigation, 4-point or roof report stays valid"),
+ ("look-up-inspector-license-dbpr","How to look up a Florida inspector's license on DBPR"),
+ ("my-safe-florida-home-vs-private-wind-mitigation","My Safe Florida Home inspection vs. a private wind mitigation")]
+BASE_LABEL={"pbc":"Local (PBC-based)","bd":"Serves area from Broward/Miami-Dade","other":"Based elsewhere in Florida","unknown":"Address not stated"}
+LIC_LABEL={"verified":"Verified","not_verified":"Not verified","note":"See note"}
+TYPES=[("wind","Wind mitigation"),("four","4-point"),("roof","Roof certification"),("bundle","4-point + wind bundle")]
+TXT={"wind":"wind_mit","four":"four_point","roof":"roof_cert","bundle":"bundle"}
 
-def layout(path,title,desc,body):
-    depth=path.count("/"); pre="../"*depth
-    nav=f'<a href="{pre}index.html">Home</a><a href="{pre}guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Guide</a>' + "".join(f'<a href="{pre}cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in cities) + f'<a href="{pre}about.html">About</a>'
-    canon=f"{BASE_URL}/{path}".replace("/index.html","/")
+def url(path): return f"{BASE_URL}/{path}".replace("index.html","")
+def ld(obj): return '<script type="application/ld+json">'+json.dumps(obj,ensure_ascii=False)+'</script>'
+def ago(d): return f'<time class="ago" datetime="{e(d)}">{e(d)}</time>'
+
+def layout(path,title,desc,body,crumbs,extra_ld=()):
+    pre="../"*path.count("/")
+    nav=(f'<a href="{pre}index.html">Home</a><a href="{pre}cities/index.html">Cities</a><a href="{pre}prices/index.html">Prices</a>'
+         f'<a href="{pre}guides/index.html">Guides</a><a href="{pre}about.html">About</a>')
+    canon=url(path)
+    bc={"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":url("index.html")}]+
+        [{"@type":"ListItem","position":n+2,"name":nm,"item":url(p)} for n,(nm,p) in enumerate(crumbs)]}
+    crumb_html='' if not crumbs else '<nav class="crumbs" aria-label="Breadcrumb"><a href="'+pre+'index.html">Home</a>'+"".join(f' &rsaquo; <a href="{pre}{p}">{e(nm)}</a>' for nm,p in crumbs)+'</nav>'
     doc=f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{e(title)}</title><meta name="description" content="{e(desc)}">
 <link rel="canonical" href="{canon}"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="website"><meta property="og:url" content="{canon}"><meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="{pre}style.css"></head><body>
-<header><div class="wrap"><a class="brand" href="{pre}index.html">{SITE}</a><nav>{nav}</nav></div></header>
-<main class="wrap">{body}</main>
-<footer><div class="wrap"><p>Informational directory only, not insurance advice. Listings and prices are copied from inspectors' own websites on the date shown and may have changed; always confirm with the inspector. <a href="{pre}about.html">Disclaimer &amp; disclosures</a>.</p><p>&copy; {datetime.date.today().year} {SITE} &middot; Owner: Leonard Ponce</p></div></footer>
-</body></html>'''
+<link rel="stylesheet" href="{pre}style.css">{ld(bc)}{"".join(ld(x) for x in extra_ld)}</head><body>
+<header><div class="wrap"><a class="brand" href="{pre}index.html">{LONG}</a><nav>{nav}</nav></div></header>
+<main class="wrap">{crumb_html}{body}</main>
+<footer><div class="wrap"><p>Informational directory only, not insurance advice. Listings and prices are copied from inspectors' own websites on the date shown and may have changed; always confirm with the inspector. <a href="{pre}about.html">Disclaimer, disclosures &amp; listing criteria</a>. Corrections: <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p><p>&copy; {datetime.date.today().year} {LONG} &middot; Owner: Leonard Ponce</p></div></footer>
+<script src="{pre}site.js" defer></script></body></html>'''
     fp=os.path.join(OUT,path); os.makedirs(os.path.dirname(fp),exist_ok=True); open(fp,"w").write(doc); pages.append(path)
 
-guide="guides/4-point-vs-wind-mitigation-vs-roof-certification.html"
-# Home
-city_links="".join(f'<li><a href="cities/{c["slug"]}.html">{e(c["name"])} inspectors</a> ({sum(c["slug"] in i["cities"] for i in data["inspectors"])} listed)</li>' for c in cities)
-layout("index.html",f"{SITE}: Wind Mitigation, 4-Point & Roof Certification Inspectors in Palm Beach County, FL",
-"Compare Palm Beach County wind mitigation (OIR-B1-1802), 4-point and roof certification inspectors, with published prices and sources.",
-f'''<section class="hero"><h1>Find a wind mitigation, 4-point, or roof certification inspector in Palm Beach County</h1>
-<p>A directory of inspectors who do the three reports Florida insurers ask for most. Where an inspector publishes prices, we show them with a link to the source and the date we checked. If they don't publish prices, we say "call for price". We don't make numbers up.</p></section>
-<section><h2>Browse by city</h2><ul class="list">{city_links}</ul><p class="muted">More Palm Beach County cities coming soon: Boynton Beach, Jupiter, Wellington.</p></section>
-<section><h2>Guides</h2><ul class="list"><li><a href="{guide}">4-point vs. wind mitigation vs. roof certification: which one your insurer wants</a></li></ul></section>
+# ---------- price helpers ----------
+def pr(i,t): return i["prices"][t]
+def price_html(i,t):
+    p=pr(i,t)
+    if p["amt"] is None: return e(i[TXT[t]])
+    cap=f'homes {p["cap"]}' if p["cap"] and not p["cap"].startswith("homes") else (p["cap"] or "no size cap stated")
+    note=f'; {p["note"]}' if p["note"] else ''
+    return f'${p["amt"]}<span class="cap"> ({e(cap)}{e(note)})</span>'
+def at2000(i):
+    bits=[f'{lbl} ${pr(i,t)["amt"]}' for t,lbl in (("wind","Wind"),("four","4-pt"),("roof","Roof")) if pr(i,t)["amt"] is not None and pr(i,t)["covers2000"]]
+    return " &middot; ".join(bits) if bits else '<span class="muted">Not stated</span>'
+def firms():
+    f={}
+    for i in INS: f.setdefault(i["firm"],[]).append(i)
+    return f
+def firm_value(recs,t):
+    v=[pr(i,t)["amt"] for i in recs if pr(i,t)["amt"] is not None]
+    return statistics.median(v) if v else None
+def stats(recs_by_firm,t):
+    v=[firm_value(r,t) for r in recs_by_firm.values()]; v=[x for x in v if x is not None]
+    return dict(n=len(v),total=len(recs_by_firm),lo=min(v) if v else None,hi=max(v) if v else None,med=statistics.median(v) if v else None)
+def money(x): return "—" if x is None else (f"${x:,.0f}" if float(x).is_integer() else f"${x:,.2f}")
+FIRMS=firms()
+
+def stats_table(byfirm,caption=""):
+    rows="".join(f'<tr><td>{lbl}</td><td>{money(s["lo"])}&ndash;{money(s["hi"])}</td><td>{money(s["med"])}</td><td>{s["n"]} of {s["total"]}</td></tr>' for t,lbl in TYPES for s in [stats(byfirm,t)])
+    return f'<table class="stats"><thead><tr><th>Inspection</th><th>Published price range</th><th>Median</th><th>Firms publishing a price</th></tr></thead><tbody>{rows}</tbody></table>'
+
+# ---------- city table + cards ----------
+def row(i):
+    p=lambda t: pr(i,t)["amt"]
+    pub=any(p(t) is not None for t in ("wind","four","roof"))
+    bundle=p("bundle") is not None or i["bundle"].startswith(("Yes","Included","Wind Mit"))
+    attrs=f'data-pub="{int(pub)}" data-bundle="{int(bundle)}" data-lic="{int(i["lic_status"]=="verified")}" data-local="{int(i["base"]=="pbc")}"'
+    cell=lambda t,lbl: f'<td data-label="{lbl}" data-v="{"" if p(t) is None else p(t)}"><div>{price_html(i,t)}</div></td>'
+    return (f'<tr {attrs}><td data-label="Inspector"><a href="#{e(i["slug"])}">{e(i["name"])}</a><br><span class="tag tag-{i["base"]}">{BASE_LABEL[i["base"]]}</span></td>'
+      +cell("wind","Wind mitigation")+cell("four","4-point")+cell("roof","Roof cert")+cell("bundle","Bundle")
+      +f'<td data-label="~2,000 sq ft home"><div>{at2000(i)}</div></td><td data-label="FL license"><div><span class="badge b-{i["lic_status"]}">{LIC_LABEL[i["lic_status"]]}</span> <a class="small" href="#{e(i["slug"])}">details</a></div></td></tr>')
+def table(rows):
+    return ('<div class="filters" hidden><strong>Show only:</strong> <label><input type="checkbox" data-f="pub"> Publishes prices</label> <label><input type="checkbox" data-f="bundle"> Offers a bundle</label> '
+     '<label><input type="checkbox" data-f="lic"> License verified</label> <label><input type="checkbox" data-f="local"> Based in Palm Beach County</label> <span class="count" aria-live="polite"></span></div>'
+     '<table class="compare sortable"><thead><tr><th>Inspector</th><th data-sort>Wind mitigation</th><th data-sort>4-point</th><th data-sort>Roof cert</th><th data-sort>Bundle</th><th>~2,000 sq ft home<sup>*</sup></th><th>FL license</th></tr></thead><tbody>'
+     +"".join(row(i) for i in rows)+'</tbody></table>'
+     '<p class="muted small"><sup>*</sup> "~2,000 sq ft home" shows a price only where the inspector says its listed price covers a home of that size. Elsewhere, each price shows the size cap the inspector states, or "no size cap stated". "From" prices can rise with size, age and travel.</p>')
+def card(i):
+    contact=f'<a href="tel:{e("".join(ch for ch in i["phone"] if ch.isdigit() or ch=="+"))}">{e(i["phone"])}</a> <span class="muted small">(from <a href="{e(i["phone_src"])}" rel="nofollow noopener" target="_blank">its site</a>)</span>'
+    book=f'<dt>Online booking</dt><dd><a href="{e(i["booking"])}" rel="nofollow noopener" target="_blank">Book on its site</a></dd>' if i.get("booking") else ''
+    return f'''<article class="card insp" id="{e(i["slug"])}"><h3><a href="{e(i["website"])}" rel="nofollow noopener" target="_blank">{e(i["name"])}</a></h3>
+<p><span class="tag tag-{i["base"]}">{BASE_LABEL[i["base"]]}</span> <span class="muted small">{e(i["base_note"])}</span></p>
+<p class="muted">{e(i["service_area"])}</p><dl><dt>Wind mitigation</dt><dd>{price_html(i,"wind")}</dd><dt>4-point</dt><dd>{price_html(i,"four")}</dd><dt>Roof certification</dt><dd>{price_html(i,"roof")}</dd><dt>Bundle</dt><dd>{e(i["bundle"])}</dd>
+<dt>Phone</dt><dd>{contact}</dd>{book}<dt>FL license</dt><dd><span class="badge b-{i["lic_status"]}">{LIC_LABEL[i["lic_status"]]}</span> {e(i["license"])}</dd></dl>
+<p class="src">Source: <a href="{e(i["source"])}" rel="nofollow noopener" target="_blank">{e(i["source"])}</a>, checked {ago(i["checked"])}</p>
+<p class="fix small">Is this your business? <a href="mailto:{CORRECTIONS}?subject={e("Fix listing: "+i["name"])}">Fix your listing</a>.</p></article>'''
+
+# ---------- Home ----------
+which='''<table class="which"><thead><tr><th>Your situation</th><th>Report usually asked for</th></tr></thead><tbody>
+<tr><td>Home more than 20 years old, applying to Citizens</td><td>4-point</td></tr>
+<tr><td>Shingle roof over 25 years, or tile/metal roof over 50 years (Citizens)</td><td>Roof certification (roof inspection form)</td></tr>
+<tr><td>You want wind-premium discounts</td><td>Wind mitigation (OIR-B1-1802)</td></tr>
+<tr><td>Buying an older home</td><td>Often a 4-point + wind mitigation bundle</td></tr></tbody></table>
+<p class="muted small">Thresholds are Citizens' published rules (checked 2026-10-21). Other insurers set their own. Ask your agent. <a href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Full comparison</a>.</p>'''
+city_links="".join(f'<li><a href="cities/{c["slug"]}.html">{e(c["name"])}</a> ({sum(c["slug"] in i["cities"] for i in INS)} listed)</li>' for c in cities)
+layout("index.html","Wind Mitigation & 4-Point Inspectors, Palm Beach County | PBC Inspections",
+"Compare Palm Beach County wind mitigation (OIR-B1-1802), 4-point and roof certification inspectors: published prices, size caps, phone, booking and Florida license checks.",
+f'''<section class="hero"><h1>Wind mitigation, 4-point &amp; roof certification inspectors in Palm Beach County</h1>
+<p>{len(FIRMS)} inspection companies across {len(cities)} cities. Where an inspector publishes prices we show them, with the size cap, a link to the source and the date we checked. If they don't, we say "call for price". We don't make numbers up.</p></section>
+<section><h2>Which report do you need?</h2>{which}</section>
+<section><h2>What inspections cost in Palm Beach County</h2>{stats_table(FIRMS)}<p class="muted small">Each company counted once. Prices checked {ago(CHECKED)}. <a href="prices/index.html">Prices by city and method</a>.</p></section>
+<section><h2>Browse by city</h2><ul class="list cols">{city_links}</ul><p><a href="cities/index.html">All cities</a></p></section>
+<section><h2>Guides</h2><ul class="list">{"".join(f'<li><a href="{G}{s}.html">{e(t)}</a></li>' for s,t in GUIDES)}</ul></section>
 <!-- QUOTE-WIDGET-HOOK: future insurance-quote widget goes here. Hidden from public view; no widget, partner or affiliate link is connected yet. -->
-<section id="list" class="card"><h2>List your inspection business</h2><p>Do you do wind mitigation, 4-point, or roof certification inspections in Palm Beach County? Self-serve listings are coming soon. Until then, email your business name, website, service area, pricing page and Florida license number to <a href="mailto:{CONTACT}">{CONTACT}</a>. Listings are free.</p></section>''')
+<section id="list" class="card"><h2>List your inspection business</h2><p>Do you do wind mitigation, 4-point, or roof certification inspections in Palm Beach County? Self-serve listings are coming soon. Until then, email your business name, website, service area, pricing page and Florida license number to <a href="mailto:{CONTACT}">{CONTACT}</a>. Listings are free. Already listed and something's wrong? Email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p></section>''',[])
 
-# City pages
-def tbl(rows):
-    out='<div class="table-scroll"><table class="compare"><thead><tr><th>Inspector</th><th>Wind mitigation</th><th>4-point</th><th>Roof cert</th><th>FL license</th></tr></thead><tbody>'
-    for i in rows:
-        out+=f'<tr><td>{e(i["name"])}</td><td>{e(i["wind_mit"])}</td><td>{e(i["four_point"])}</td><td>{e(i["roof_cert"])}</td><td>{e(i.get("license","Not verified"))}</td></tr>'
-    out+='</tbody></table></div><div class="cards">'
-    for i in rows:
-        out+=f'''<article class="card insp"><h3><a href="{e(i["website"])}" rel="nofollow noopener" target="_blank">{e(i["name"])}</a></h3>
-<p class="muted">{e(i["service_area"])}</p><dl><dt>Wind mitigation</dt><dd>{e(i["wind_mit"])}</dd><dt>4-point</dt><dd>{e(i["four_point"])}</dd><dt>Roof certification</dt><dd>{e(i["roof_cert"])}</dd><dt>Bundle</dt><dd>{e(i["bundle"])}</dd><dt>FL license</dt><dd>{e(i.get("license","Not verified"))}</dd></dl>
-<p class="src">Source: <a href="{e(i["source"])}" rel="nofollow noopener" target="_blank">{e(i["source"])}</a>, checked {e(i["checked"])}</p></article>'''
-    return out+"</div>"
+# ---------- Prices ----------
+city_rows=""
 for c in cities:
-    rows=[i for i in data["inspectors"] if c["slug"] in i["cities"]]
-    layout(f'cities/{c["slug"]}.html',f'{c["name"]} Wind Mitigation, 4-Point & Roof Certification Inspectors ({len(rows)} compared)',
-    f'{len(rows)} inspectors serving {c["name"]}, FL, with published wind mitigation, 4-point and roof certification prices and sources.',
-    f'''<h1>{e(c["name"])} wind mitigation, 4-point & roof certification inspectors</h1><p>{e(c["intro"])}</p>
-<p class="muted">{len(rows)} inspectors, listed in no particular order. None are paid placements. Prices are "starting at" figures copied from each inspector's site on the date shown. Size, age, and travel can change the final price. Always confirm the price, and check the inspector's Florida license, before you book. License details come from the Florida DBPR license search (<a href="https://www.myfloridalicense.com/wl11.asp" rel="nofollow noopener" target="_blank">myfloridalicense.com</a>), checked 2026-10-21; "not verified" means we could not match the business to a license, not that it is unlicensed.</p>
-{tbl(rows)}<p>Not sure which report you need? Read the <a href="../{guide}">guide</a>.</p>''')
+    recs=[i for i in INS if c["slug"] in i["cities"]]; byf={}
+    for i in recs: byf.setdefault(i["firm"],[]).append(i)
+    cells="".join(f'<td data-label="{lbl}"><div>{money(s["lo"])}&ndash;{money(s["hi"])} <span class="muted small">(median {money(s["med"])}, {s["n"]}/{s["total"]})</span></div></td>' if s["n"] else f'<td data-label="{lbl}">—</td>' for t,lbl in TYPES for s in [stats(byf,t)])
+    city_rows+=f'<tr><td data-label="City"><a href="../cities/{c["slug"]}.html">{e(c["name"])}</a></td>{cells}</tr>'
+layout("prices/index.html","Palm Beach County Wind Mitigation, 4-Point & Roof Cert Prices, 2026",
+"Published 2026 prices for wind mitigation, 4-point, roof certification and bundles from Palm Beach County inspectors: ranges, medians and how we counted.",
+f'''<h1>Palm Beach County wind mitigation, 4-point &amp; roof cert prices, 2026</h1>
+<p>These figures come only from prices inspectors publish on their own websites, checked {ago(CHECKED)}. They are "starting at" or listed prices, not quotes.</p>
+<h2>County-wide</h2>{stats_table(FIRMS)}
+<h2>By city</h2><table class="compare stack"><thead><tr><th>City</th>{"".join(f"<th>{l}</th>" for _,l in TYPES)}</tr></thead><tbody>{city_rows}</tbody></table>
+<h2>How we calculated this</h2><ul class="prose">
+<li><strong>One company, one vote.</strong> {len(FIRMS)} companies appear across our city pages, many on several pages. County-wide figures count each company once.</li>
+<li><strong>Per-city prices.</strong> Sun Inspections publishes a different price for each city. For the county-wide figures we use the median of its city prices. On the by-city table we use the price that company publishes for that city.</li>
+<li><strong>Which number.</strong> We use the stand-alone price the inspector lists, or its lowest "from" price. Where one company shows two figures for the same service on different pages (Accurate Building Inspections lists wind mitigation at $150 on its package page and $125 on its wind mitigation page), we use the figure on the page cited as the listing's source and note the other.</li>
+<li><strong>Size caps differ.</strong> Some prices cover homes up to 2,000, 2,500 or 3,000 sq ft; others state no cap. Larger, older or more distant homes often cost more. Each listing shows the cap.</li>
+<li><strong>Not counted:</strong> companies that publish no price for that service, and reports included "free" with a full home inspection (TruView, InspectionNow), because there is no stand-alone price.</li>
+<li>"Firms publishing a price" = companies with a published price for that service / all listed companies.</li></ul>''',[("Prices","prices/index.html")])
 
-# Guide
-layout(guide,"4-Point vs. Wind Mitigation vs. Roof Certification: Which One Your Florida Insurer Wants",
+# ---------- City pages ----------
+for c in cities:
+    rows=[i for i in INS if c["slug"] in i["cities"]]
+    il={"@context":"https://schema.org","@type":"ItemList","name":f'Wind mitigation and 4-point inspectors serving {c["name"]}, FL',"numberOfItems":len(rows),
+        "itemListElement":[{"@type":"ListItem","position":n+1,"item":{"@type":"LocalBusiness","name":i["name"],"url":i["website"],"telephone":i["phone"]}} for n,i in enumerate(rows)]}
+    layout(f'cities/{c["slug"]}.html',f'{c["name"]} Wind Mitigation & 4-Point Inspectors ({len(rows)} compared)',
+    f'{len(rows)} inspectors serving {c["name"]}, FL: published wind mitigation, 4-point and roof certification prices, size caps, phone and Florida license checks.',
+    f'''<h1>{e(c["name"])} wind mitigation, 4-point &amp; roof certification inspectors</h1><p>{e(c["intro"])}</p>
+<p class="muted">{len(rows)} inspectors, listed in no particular order. None are paid placements. Licenses were checked on the Florida DBPR license search (<a href="https://www.myfloridalicense.com/wl11.asp" rel="nofollow noopener" target="_blank">myfloridalicense.com</a>). "Not verified" means we could not match the business to a license record, not that it is unlicensed. Always confirm price and license before you book.</p>
+{table(rows)}
+<p class="fix">Listed here and something is wrong or out of date? <a href="mailto:{CORRECTIONS}?subject={e("Fix listing ("+c["name"]+")")}">Fix your listing</a> at {CORRECTIONS}.</p>
+<h2>Details</h2><div class="cards">{"".join(card(i) for i in rows)}</div>
+<p class="fix">Fix your listing: <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>. Not sure which report you need? Read the <a href="../{G}4-point-vs-wind-mitigation-vs-roof-certification.html">guide</a>.</p>''',
+    [("Cities","cities/index.html"),(c["name"],f'cities/{c["slug"]}.html')],[il])
+
+# ---------- Cities index ----------
+layout("cities/index.html","Palm Beach County Cities: Wind Mitigation & 4-Point Inspectors | PBC Inspections",
+"Browse wind mitigation, 4-point and roof certification inspectors by Palm Beach County city.",
+f'''<h1>Cities</h1><ul class="list cols">{"".join(f'<li><a href="{c["slug"]}.html">{e(c["name"])}</a> ({sum(c["slug"] in i["cities"] for i in INS)} inspectors)</li>' for c in cities)}</ul>
+<p class="muted">Coming soon: Riviera Beach, Royal Palm Beach, Greenacres, Lantana, North Palm Beach, Tequesta.</p>''',[("Cities","cities/index.html")])
+
+# ---------- Guides ----------
+def faq(qs): return {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in qs]}
+def guide(slug,title,desc,body,qs):
+    t=dict(GUIDES)[slug]
+    faqhtml="<h2>FAQ</h2>"+"".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q,a in qs)
+    layout(f"{G}{slug}.html",title,desc,f'<article class="prose"><h1>{e(t)}</h1><p class="notice"><strong>Not insurance advice.</strong> General information only. Your insurer or agent decides what it needs.</p>{body}{faqhtml}</article>',
+      [("Guides","guides/index.html"),(t,f"{G}{slug}.html")],[faq(qs)])
+SRC_CIT='<li>Citizens Property Insurance, Inspections: <a href="https://www.citizensfla.com/web/public/inspections">citizensfla.com/web/public/inspections</a> (checked 2026-10-21)</li>'
+SRC_OIR='<li>Florida OIR, Wind Mitigation Resources: <a href="https://floir.gov/consumers/wind-mitigation-resources/">floir.gov</a> (checked 2026-10-21)</li>'
+SRC_DFS='<li>Florida DFS, Mitigation Notices, Inspections and Forms: <a href="https://www.myfloridacfo.com/division/consumers/storm/mitigation-notices-inspections-and-forms">myfloridacfo.com</a> (checked 2026-10-21)</li>'
+onevisit=", ".join(f'<a href="../cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in cities)
+guide("4-point-vs-wind-mitigation-vs-roof-certification","4-Point vs. Wind Mitigation vs. Roof Certification: Which One Your Florida Insurer Wants",
 "What a 4-point inspection, a wind mitigation report (OIR-B1-1802), and a roof certification are, and when Florida insurers like Citizens ask for each.",
-'''<article class="prose"><h1>4-point vs. wind mitigation vs. roof certification: which one your insurer wants</h1>
-<p class="notice"><strong>Not insurance advice.</strong> This page is general information. Your insurer or agent decides which inspections it needs. Ask them first.</p>
-<table><thead><tr><th></th><th>4-point</th><th>Wind mitigation</th><th>Roof certification</th></tr></thead><tbody>
+f'''<table><thead><tr><th></th><th>4-point</th><th>Wind mitigation</th><th>Roof certification</th></tr></thead><tbody>
 <tr><td>What it covers</td><td>Roof, electrical, plumbing, HVAC: age, type, condition</td><td>Wind-resistant features: roof covering, deck attachment, roof-to-wall connection, roof shape, secondary water resistance, opening protection</td><td>Roof condition and remaining useful life</td></tr>
 <tr><td>Why insurers want it</td><td>To decide if they'll insure an older home</td><td>Can qualify you for <em>discounts</em> on the wind part of your premium</td><td>To decide if they'll insure a home with an older roof</td></tr>
 <tr><td>Typical trigger (Citizens)</td><td>Home more than 20 years old</td><td>Optional. You order it to get discounts</td><td>Shingle-type roof older than 25 years, or tile/metal roof older than 50 years</td></tr>
 <tr><td>Official form</td><td>Insurer's 4-point form (Citizens publishes one)</td><td>OIR-B1-1802 (Rev. 04/26), required for inspections on or after April 1, 2026</td><td>Insurer's roof inspection form (Citizens publishes one)</td></tr></tbody></table>
 <h2>4-point inspection</h2><p>Citizens Property Insurance says it "requires a four-point inspection for all property owner, dwelling and mobile home applications for properties more than 20 years old." A Florida-licensed inspector reports the age, type, and condition of the electrical, plumbing, HVAC, and roof. Citizens says serious hazards should be fixed before you apply. Private insurers set their own age cutoffs.</p>
-<h2>Wind mitigation (OIR-B1-1802)</h2><p>The Uniform Mitigation Verification Inspection Form, OIR-B1-1802, is adopted under Rule 69O-170.0155, F.A.C. and section 627.0629, Florida Statutes. Florida OIR revised it effective April 1, 2026 (Rev. 04/26). According to OIR, a completed form "is valid for up to five (5) years provided no material changes are made to the structure or inaccuracies are found on the form." Citizens says wind mitigation inspections document features that may qualify a home for premium discounts.</p>
+<h2>Wind mitigation (OIR-B1-1802)</h2><p>The Uniform Mitigation Verification Inspection Form, OIR-B1-1802, is adopted under Rule 69O-170.0155, F.A.C. and section 627.0629, Florida Statutes. OIR revised it effective April 1, 2026 (Rev. 04/26); see <a href="oir-b1-1802-rev-04-26-changes.html">what changed</a>. According to OIR, a completed form "is valid for up to five (5) years provided no material changes are made to the structure or inaccuracies are found on the form."</p>
 <h2>Roof certification</h2><p>Citizens says roofs older than 25 years (soft, such as shingle) or 50 years (hard, such as tile, slate, clay, concrete, or metal) need documentation showing at least five years of remaining useful life. A Florida-licensed inspector completes Citizens' Roof Inspection Form. Other insurers may use different ages and forms.</p>
-<h2>Can I get them in one visit?</h2><p>Often, yes. Many Palm Beach County inspectors sell a 4-point + wind mitigation bundle. See the <a href="../cities/boca-raton.html">Boca Raton listings</a>.</p>
-<h2>Sources</h2><ul><li>Citizens Property Insurance, Inspections: <a href="https://www.citizensfla.com/web/public/inspections">citizensfla.com/web/public/inspections</a> (checked 2026-10-21)</li>
-<li>Florida OIR, Wind Mitigation Resources: <a href="https://floir.gov/consumers/wind-mitigation-resources/">floir.gov/consumers/wind-mitigation-resources</a> (checked 2026-10-21)</li>
-<li>OIR-B1-1802 (Rev. 04/26) form PDF: <a href="https://www.floir.gov/docs-sf/property-casualty-libraries/product-review/all-forms/form-oir-1802-adopted-version-(no-watermark).pdf">floir.gov</a></li>
-<li>Florida DFS, Mitigation Notices, Inspections and Forms: <a href="https://www.myfloridacfo.com/division/consumers/storm/mitigation-notices-inspections-and-forms">myfloridacfo.com</a></li></ul></article>''')
+<h2>Can I get them in one visit?</h2><p>Often, yes. Many Palm Beach County inspectors sell a 4-point + wind mitigation bundle. See listings for {onevisit}.</p>
+<h2>Sources</h2><ul>{SRC_CIT}{SRC_OIR}<li>OIR-B1-1802 (Rev. 04/26) form PDF: <a href="https://www.floir.gov/docs-sf/property-casualty-libraries/product-review/all-forms/form-oir-1802-adopted-version-(no-watermark).pdf">floir.gov</a></li>{SRC_DFS}</ul>''',
+[("When does Citizens require a 4-point inspection?","Citizens says it requires a four-point inspection for property owner, dwelling and mobile home applications for properties more than 20 years old. Other insurers set their own rules."),
+ ("Is a wind mitigation inspection required?","No. It is optional, but documented wind-resistant features can qualify you for premium discounts."),
+ ("Can one inspector do both a 4-point and a wind mitigation?","Yes. Many Palm Beach County inspectors offer both in one visit, often as a bundle.")])
 
-# About
-layout("about.html",f"About & Disclaimer | {SITE}","About this directory, the no-advice disclaimer, and the affiliate disclosure.",
-f'''<article class="prose"><h1>About &amp; disclaimer</h1><p>{SITE} is an independent directory of Palm Beach County, Florida inspectors who do wind mitigation, 4-point, and roof certification reports. It is owned by Leonard Ponce.</p>
-<h2>How listings work</h2><p>Each listing comes from the inspector's own public website. Each one shows a source link and the date we checked it. If an inspector doesn't publish a price, we show "call for price". Listings are not endorsements. Check that an inspector's Florida license is active before you hire them.</p>
-<h2>Not insurance, legal, or engineering advice</h2><p>Everything on this site is general information. We are not an insurance agent, insurer, or inspector. Your insurer decides which inspections it accepts and what discounts apply. Ask your agent or insurer.</p>
+guide("oir-b1-1802-rev-04-26-changes","OIR-B1-1802 Rev. 04/26: What Changed on Florida's Wind Mitigation Form",
+"The revised Uniform Mitigation Verification Inspection Form (OIR-B1-1802 Rev. 04/26) took effect April 1, 2026. What's new, and whether an older form still counts.",
+'''<p>Florida's Office of Insurance Regulation (OIR) updated the Uniform Mitigation Verification Inspection Form, OIR-B1-1802, effective <strong>April 1, 2026</strong>. OIR says the update follows a June 2024 Residential Wind-Loss Mitigation Study by Applied Research Associates, done under section 627.0629, Florida Statutes. Inspections on or after April 1, 2026 must use the new form, Rev. 04/26.</p>
+<h2>What's new</h2><ul>
+<li><strong>Region:</strong> a new section for the home's design wind-speed region (Citizens).</li>
+<li><strong>Roof slope:</strong> homes with more than one slope must be indicated (Citizens).</li>
+<li><strong>FORTIFIED Home certificates:</strong> FORTIFIED Roof, Silver and Gold certificates can validate some features and replace some photos (Citizens).</li>
+<li><strong>Updated categories</strong> for building code, roof covering, roof deck attachment, roof-to-wall attachment, secondary water resistance and opening protection (Citizens).</li>
+<li><strong>More documentation:</strong> the Florida DFS says the new form "is more comprehensive with additional categories and specifies the documentation that must be used to verify entries." Citizens' guide says attributes 2-9 need at least one photo unless other compliance documentation is provided.</li></ul>
+<h2>Does it change my discount?</h2><p>Citizens told agents on March 19, 2026 that the changes and new features "will not result in any difference to the credits available and applied at this time." Other insurers may differ.</p>
+<h2>Is my old form still good?</h2><p>Citizens says it will keep accepting the previous version, OIR-B1-1802 (Rev. 01/12), if it was completed within five years before April 1, 2026 and no changes have been made to the structure.</p>
+<h2>Sources</h2><ul>'''+SRC_OIR+SRC_DFS+'''<li>Citizens, "Uniform Mitigation Verification Inspection Form Changes" (03.19.26): <a href="https://www.citizensfla.com/-/20260319-uniform-mitigation-verification-inspection-form-changes">citizensfla.com</a></li>
+<li>Citizens Wind Loss Mitigation Guide (Rev. 04/26): <a href="https://training.citizensfla.com/lms/courses/core/CIS_Resources/Job_Aids/PolicyCenter/Wind_Loss_Mitigation_Guide_Rev0426.pdf">PDF</a></li></ul>''',
+[("When did the new OIR-B1-1802 take effect?","April 1, 2026. Inspections on or after that date must use OIR-B1-1802 (Rev. 04/26)."),
+ ("Will the new form change my Citizens discount?","Citizens said in March 2026 that the changes will not result in any difference to the credits available and applied at this time."),
+ ("Is my 2012-version wind mitigation form still valid?","Citizens says it accepts a Rev. 01/12 form completed within five years before April 1, 2026 if the structure has not changed.")])
+
+guide("how-long-inspection-reports-are-valid","How Long Is a Wind Mitigation, 4-Point or Roof Inspection Valid in Florida?",
+"Wind mitigation reports last up to five years; Citizens wants 4-point reports dated within 12 months. What official sources say about each report's shelf life.",
+'''<table><thead><tr><th>Report</th><th>How long it's accepted</th><th>Source</th></tr></thead><tbody>
+<tr><td>Wind mitigation (OIR-B1-1802)</td><td>Up to 5 years, if no material changes to the structure and no inaccuracies on the form</td><td>Florida OIR; Florida DFS</td></tr>
+<tr><td>4-point</td><td>Citizens: dated within 12 months before a new-business application (shorter for some lender-placed and prior-sinkhole cases)</td><td>Citizens</td></tr>
+<tr><td>Roof inspection / roof certification</td><td>We did not find a separate published age limit from Citizens. Insurers generally want a recent report; ask your agent</td><td>Citizens (checked)</td></tr></tbody></table>
+<h2>Wind mitigation: up to five years</h2><p>OIR: the form "is valid for up to five (5) years provided no material changes are made to the structure or inaccuracies are found on the form." The DFS says the same. If you replace the roof or add impact windows or shutters, a new inspection can record the new features.</p>
+<h2>4-point: 12 months for Citizens</h2><p>Citizens' support center: "The four-point inspection report must be dated within the last 12 months prior to the new-business application submission date." Exceptions: lender-placed coverage in effect within 45 days of the effective date needs an inspection within 10 days before it; risks with a prior sinkhole claim need one within 90 days. Private insurers set their own rules.</p>
+<h2>Roof certification</h2><p>Citizens requires roof documentation for shingle roofs over 25 years and tile/metal roofs over 50 years, showing at least five years of remaining useful life. Citizens also accepts a 4-point form in place of the Roof Inspection Form if it includes photos of each side of the roof and is signed by a verifiable Florida-licensed professional, subject to the same 12-month 4-point rule.</p>
+<h2>Sources</h2><ul>'''+SRC_OIR+SRC_DFS+SRC_CIT+'''<li>Citizens, "What is the acceptable age of a four-point inspection report?" (updated 05/20/2026): <a href="https://securesupport.citizensfla.com/app/answers/detail/a_id/3251/">securesupport.citizensfla.com</a></li>
+<li>Citizens, "Can an agent submit the Citizens Four-Point Inspection form to meet the roof condition requirements?": <a href="https://securesupport.citizensfla.com/app/answers/detail/a_id/2868/">securesupport.citizensfla.com</a></li></ul>''',
+[("How long is a Florida wind mitigation report valid?","Up to five years, if there are no material changes to the structure and no inaccuracies on the form, according to the Florida Office of Insurance Regulation."),
+ ("How old can a 4-point inspection be for Citizens?","Citizens says it must be dated within the last 12 months before the new-business application submission date, with shorter windows in some cases."),
+ ("How long is a roof certification good for?","We did not find a separate published age limit from Citizens. Ask your agent what your insurer accepts.")])
+
+guide("look-up-inspector-license-dbpr","How to Look Up a Florida Home Inspector's License on DBPR",
+"Step-by-step: check a Florida home inspector's or contractor's license on the DBPR license search before you book a wind mitigation or 4-point inspection.",
+'''<p>Florida home inspectors are licensed by the Department of Business and Professional Regulation (DBPR). Contractors, building code inspectors, engineers and architects can also sign some insurance forms. Citizens says a form may not be accepted if the professional's Florida license "is not active or cannot be verified."</p>
+<h2>Steps</h2><ol>
+<li>Go to the DBPR license search: <a href="https://www.myfloridalicense.com/wl11.asp">myfloridalicense.com/wl11.asp</a>.</li>
+<li>Choose <strong>Search by License Number</strong> if the inspector gives you one (home inspector numbers start with <strong>HI</strong>, for example HI12345). Otherwise choose <strong>Search by Name</strong> and enter the inspector's last and first name. Company names often don't return results, because home inspector licenses are issued to people.</li>
+<li>Check the <strong>License Type</strong> (e.g., Home Inspector, Certified General/Building/Residential Contractor) and the <strong>Status</strong>: you want "Current, Active".</li>
+<li>Check the name matches the person coming to your home, and look at the expiration date.</li></ol>
+<h2>What our listings show</h2><p>Each listing has a badge: <strong>Verified</strong> (we matched a named inspector or the license number shown on the site to an active DBPR record), <strong>See note</strong> (partial match; details in the card) or <strong>Not verified</strong> (we could not match a record; this does not mean the business is unlicensed).</p>
+<h2>Sources</h2><ul><li>Florida DBPR license search: <a href="https://www.myfloridalicense.com/wl11.asp">myfloridalicense.com</a> (used 2026-10-21)</li>'''+SRC_CIT+'''</ul>''',
+[("Where do I check a Florida home inspector's license?","On the Florida DBPR license search at myfloridalicense.com. Search by license number (home inspector licenses start with HI) or by the inspector's name."),
+ ("What status should the license show?","Current, Active."),
+ ("Who can sign a Florida wind mitigation form?","Florida allows licensed home inspectors, building code inspectors, general, building or residential contractors, professional engineers and architects, among others listed on the form.")])
+
+guide("my-safe-florida-home-vs-private-wind-mitigation","My Safe Florida Home Free Inspection vs. a Private Wind Mitigation Inspection",
+"How the state's My Safe Florida Home free wind mitigation inspection differs from paying a private inspector for an OIR-B1-1802 report, and the program's status as of October 2026.",
+'''<p><strong>Status checked 2026-10-21:</strong> the My Safe Florida Home (MSFH) program's website says it offers free wind mitigation inspections and grants of up to $10,000, and asks homeowners to create an account and complete a Prioritization Questionnaire. Applicants are then placed in inspection groups (1-5) and can apply when their group's window opens. Funding is set by the Legislature, so check <a href="https://mysafeflhome.com/">mysafeflhome.com</a> before you plan around it.</p>
+<table><thead><tr><th></th><th>My Safe Florida Home inspection</th><th>Private wind mitigation</th></tr></thead><tbody>
+<tr><td>Cost</td><td>Free to eligible homeowners</td><td>You pay (see <a href="../prices/index.html">local prices</a>)</td></tr>
+<tr><td>Who's assigned</td><td>An authorized inspector assigned by the program</td><td>Anyone qualified you choose</td></tr>
+<tr><td>Timing</td><td>Depends on your inspection group and program funding</td><td>Usually days</td></tr>
+<tr><td>What you get</td><td>A report with recommended improvements and possible grant eligibility</td><td>A completed OIR-B1-1802 for your insurer</td></tr>
+<tr><td>Leads to grants?</td><td>Yes. Program grants require the program's inspection first</td><td>No</td></tr></tbody></table>
+<h2>Which should you choose?</h2><p>If you need a form for your insurer soon, a private inspection is usually faster. If you plan to strengthen your home and may qualify for a grant, the MSFH route is how you get there. Ask the program whether its report can also go to your insurer.</p>
+<h2>Sources</h2><ul><li>My Safe Florida Home: <a href="https://mysafeflhome.com/">mysafeflhome.com</a> (checked 2026-10-21)</li>
+<li>MSFH Support Center, "How-To: Submit an Inspection Application": <a href="https://support.mysafeflhome.com/en/support/solutions/articles/156000372561-how-to-submit-an-inspection-application">support.mysafeflhome.com</a></li></ul>''',
+[("Is My Safe Florida Home accepting applications?","When we checked on 2026-10-21, the program's site asked homeowners to create an account and complete a Prioritization Questionnaire to be placed in an inspection group. Funding depends on the Legislature; check mysafeflhome.com."),
+ ("Is the My Safe Florida Home inspection free?","Yes, for eligible homeowners, according to the program."),
+ ("Do I need the program inspection to get an MSFH grant?","Yes. Grant applications follow the program's own initial inspection.")])
+layout("guides/index.html","Guides: Florida Wind Mitigation, 4-Point & Roof Inspections | PBC Inspections","Plain-English guides to Florida insurance inspections.",
+ f'<h1>Guides</h1><ul class="list">{"".join(f"<li><a href=\"{s}.html\">{e(t)}</a></li>" for s,t in GUIDES)}</ul>',[("Guides","guides/index.html")])
+
+# ---------- About ----------
+layout("about.html",f"About, Listing Criteria & Disclosures | {SITE}","About this directory, listing and removal criteria, the no-advice disclaimer, and the referral-fee disclosure.",
+f'''<article class="prose"><h1>About &amp; disclaimer</h1><p>{LONG} is an independent directory of Palm Beach County, Florida inspectors who do wind mitigation, 4-point, and roof certification reports. It is owned by Leonard Ponce.</p>
+<h2>How listings work</h2><p>Each listing comes from the inspector's own public website. Each one shows a source link and the date we checked it. If an inspector doesn't publish a price, we show "call for price". Listings are not endorsements.</p>
+<h2>Who we include</h2><ul><li>The business offers wind mitigation, 4-point, or roof certification inspections.</li><li>Its own website says it serves the city it is listed under (or all of Palm Beach County or Florida).</li><li>It has a working public website we can cite.</li><li>Listing is free. Nobody pays to be included or to be ranked; listings appear in no particular order.</li></ul>
+<h2>Removal and corrections</h2><ul><li>We remove a listing if the business asks us to, if its website stops working, or if it stops offering these inspections.</li><li>We correct prices, phone numbers, service areas or license details when the business or a reader shows us a public source. Email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</li><li>"Local (PBC-based)" means the business states a Palm Beach County address on its site. "Address not stated" means we did not find one.</li></ul>
+<h2>Licenses</h2><p>Where shown, license types and numbers come from the Florida DBPR license search on the date listed. "Not verified" means we could not confirm a license from official sources, not that the business is unlicensed. <a href="guides/look-up-inspector-license-dbpr.html">Check one yourself</a>.</p>
 <h2>Affiliate &amp; referral disclosure</h2><p class="notice">Right now we have <strong>no paid relationships</strong> with any inspector, insurer, insurance agency, or lead-generation company. No listing is paid for, and nothing on this site is an affiliate link. In the future the site may earn referral fees, for example from an insurance-quote tool or from featured listings. If that happens we will update this page first, name the type of relationship, and clearly label any paid or affiliate link or placement where it appears. Payment will never change the prices or license information we show.</p>
 <h2>Not insurance advice</h2><p>Nothing here is a recommendation to buy, change, or cancel an insurance policy. We do not sell insurance and we are not licensed as an insurance agent. Whether an inspection earns a discount, and how much, depends on your insurer's filed rates and on what the inspector verifies. Talk to a licensed insurance agent or your insurer before you make coverage decisions.</p>
-<h2>Licenses</h2><p>Where shown, license types and numbers come from the Florida Department of Business and Professional Regulation license search on the date listed. "Not verified" means we could not confirm a license from official sources, not that the business is unlicensed. Check <a href="https://www.myfloridalicense.com/wl11.asp">myfloridalicense.com</a> yourself before you hire.</p>
-<h2>Corrections &amp; listing requests</h2><p>Email <a href="mailto:{CONTACT}">{CONTACT}</a>. Self-serve listings are coming soon.</p></article>''')
+<h2>Contact</h2><p>Listing requests: <a href="mailto:{CONTACT}">{CONTACT}</a>. Corrections: <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p></article>''',[("About","about.html")])
 
-# CSS, sitemap, robots, csv
+# ---------- static ----------
 open(f"{OUT}/style.css","w").write(open(f"{ROOT}/src/style.css").read())
+open(f"{OUT}/site.js","w").write(open(f"{ROOT}/src/site.js").read())
 open(f"{OUT}/.nojekyll","w").write("")
 open(f"{OUT}/CNAME","w").write("pbcinspections.com\n")
-today=data["checked"]
-open(f"{OUT}/sitemap.xml","w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+"".join(f'  <url><loc>{BASE_URL}/{p}</loc><lastmod>{today}</lastmod></url>\n'.replace("/index.html","/") for p in pages)+"</urlset>\n")
+open(f"{OUT}/sitemap.xml","w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+"".join(f'  <url><loc>{url(p)}</loc><lastmod>{CHECKED}</lastmod></url>\n' for p in pages)+"</urlset>\n")
 open(f"{OUT}/robots.txt","w").write(f"User-agent: *\nAllow: /\nSitemap: {BASE_URL}/sitemap.xml\n")
-keys=list(data["inspectors"][0].keys())
+keys=["slug","name","firm","cities","base","base_note","phone","phone_src","email","booking","wind_mit","four_point","roof_cert","bundle","lic_status","license","service_area","website","source","checked"]
 with open(f"{ROOT}/data/inspectors.csv","w",newline="") as f:
-    w=csv.DictWriter(f,fieldnames=keys); w.writeheader()
-    for i in data["inspectors"]: w.writerow({**i,"cities":";".join(i["cities"])})
+    w=csv.DictWriter(f,fieldnames=keys,extrasaction="ignore"); w.writeheader()
+    for i in INS: w.writerow({**i,"cities":";".join(i["cities"])})
 print("built",len(pages),"pages ->",OUT)
