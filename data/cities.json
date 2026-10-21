@@ -8,7 +8,8 @@
    "pct_pre1980": 43,
    "release": "ACS 2024 1-year",
    "url": "https://censusreporter.org/profiles/16000US1207300/"
-  }
+  },
+  "region": "South"
  },
  {
   "slug": "west-palm-beach",
@@ -19,7 +20,14 @@
    "pct_pre1980": 34,
    "release": "ACS 2024 1-year",
    "url": "https://censusreporter.org/profiles/16000US1276600/"
-  }
+  },
+  "region": "Central",
+  "also": [
+   "Mangonia Park",
+   "Haverhill",
+   "Cloud Lake",
+   "Glen Ridge"
+  ]
  },
  {
   "slug": "delray-beach",
@@ -30,7 +38,11 @@
    "pct_pre1980": 42,
    "release": "ACS 2024 1-year",
    "url": "https://censusreporter.org/profiles/16000US1217100/"
-  }
+  },
+  "region": "South",
+  "also": [
+   "Gulf Stream"
+  ]
  },
  {
   "slug": "boynton-beach",
@@ -41,7 +53,13 @@
    "pct_pre1980": 43,
    "release": "ACS 2024 1-year",
    "url": "https://censusreporter.org/profiles/16000US1207875/"
-  }
+  },
+  "region": "South",
+  "also": [
+   "Ocean Ridge",
+   "Briny Breezes",
+   "Golf"
+  ]
  },
  {
   "slug": "jupiter",
@@ -52,7 +70,11 @@
    "pct_pre1980": 15,
    "release": "ACS 2024 5-year",
    "url": "https://censusreporter.org/profiles/16000US1235875/"
-  }
+  },
+  "region": "North",
+  "also": [
+   "Jupiter Inlet Colony"
+  ]
  },
  {
   "slug": "wellington",
@@ -63,7 +85,8 @@
    "pct_pre1980": 12,
    "release": "ACS 2024 5-year",
    "url": "https://censusreporter.org/profiles/16000US1275812/"
-  }
+  },
+  "region": "Central"
  },
  {
   "slug": "palm-beach-gardens",
@@ -74,7 +97,8 @@
    "pct_pre1980": 18,
    "release": "ACS 2024 5-year",
    "url": "https://censusreporter.org/profiles/16000US1254075/"
-  }
+  },
+  "region": "North"
  },
  {
   "slug": "lake-worth-beach",
@@ -85,6 +109,277 @@
    "pct_pre1980": 75,
    "release": "ACS 2024 5-year",
    "url": "https://censusreporter.org/profiles/16000US1239081/"
-  }
+  },
+  "region": "Central"
+ },
+ {
+  "slug": "riviera-beach",
+  "name": "Riviera Beach",
+  "housing": {
+   "median_year": 1981,
+   "units": 18039,
+   "pct_pre1980": 48,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1260975/",
+   "pct_2000plus": 30,
+   "pct_detached": 41,
+   "pct_20plus": 23,
+   "pct_mobile": 4,
+   "pct_owner": 62
+  },
+  "region": "North",
+  "also": [
+   "Palm Beach Shores"
+  ]
+ },
+ {
+  "slug": "royal-palm-beach",
+  "name": "Royal Palm Beach",
+  "housing": {
+   "median_year": 1990,
+   "units": 14705,
+   "pct_pre1980": 16,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1262100/",
+   "pct_2000plus": 38,
+   "pct_detached": 65,
+   "pct_20plus": 4,
+   "pct_mobile": 1,
+   "pct_owner": 82
+  },
+  "region": "Central",
+  "also": [
+   "Loxahatchee Groves",
+   "Westlake"
+  ]
+ },
+ {
+  "slug": "greenacres",
+  "name": "Greenacres",
+  "housing": {
+   "median_year": 1987,
+   "units": 17482,
+   "pct_pre1980": 21,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1227322/",
+   "pct_2000plus": 21,
+   "pct_detached": 31,
+   "pct_20plus": 5,
+   "pct_mobile": 5,
+   "pct_owner": 67
+  },
+  "region": "Central",
+  "also": [
+   "Atlantis"
+  ]
+ },
+ {
+  "slug": "lantana",
+  "name": "Lantana",
+  "housing": {
+   "median_year": 1975,
+   "units": 6032,
+   "pct_pre1980": 56,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1239375/",
+   "pct_2000plus": 20,
+   "pct_detached": 43,
+   "pct_20plus": 23,
+   "pct_mobile": 1,
+   "pct_owner": 53
+  },
+  "region": "Central",
+  "also": [
+   "Hypoluxo",
+   "Manalapan",
+   "South Palm Beach"
+  ]
+ },
+ {
+  "slug": "north-palm-beach",
+  "name": "North Palm Beach",
+  "housing": {
+   "median_year": 1972,
+   "units": 8427,
+   "pct_pre1980": 73,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1249600/",
+   "pct_2000plus": 9,
+   "pct_detached": 32,
+   "pct_20plus": 45,
+   "pct_mobile": 0,
+   "pct_owner": 75
+  },
+  "region": "North"
+ },
+ {
+  "slug": "tequesta",
+  "name": "Tequesta",
+  "housing": {
+   "median_year": 1977,
+   "units": 3424,
+   "pct_pre1980": 59,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1271525/",
+   "pct_2000plus": 14,
+   "pct_detached": 47,
+   "pct_20plus": 18,
+   "pct_mobile": 0,
+   "pct_owner": 80
+  },
+  "region": "North"
+ },
+ {
+  "slug": "juno-beach",
+  "name": "Juno Beach",
+  "housing": {
+   "median_year": 1989,
+   "units": 3658,
+   "pct_pre1980": 27,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1235850/",
+   "pct_2000plus": 28,
+   "pct_detached": 11,
+   "pct_20plus": 55,
+   "pct_mobile": 7,
+   "pct_owner": 69
+  },
+  "region": "North"
+ },
+ {
+  "slug": "lake-park",
+  "name": "Lake Park",
+  "housing": {
+   "median_year": 1977,
+   "units": 3390,
+   "pct_pre1980": 57,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1238600/",
+   "pct_2000plus": 18,
+   "pct_detached": 43,
+   "pct_20plus": 16,
+   "pct_mobile": 0,
+   "pct_owner": 47
+  },
+  "region": "North"
+ },
+ {
+  "slug": "palm-beach",
+  "name": "Palm Beach",
+  "housing": {
+   "median_year": 1970,
+   "units": 10507,
+   "pct_pre1980": 70,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1254025/",
+   "pct_2000plus": 9,
+   "pct_detached": 26,
+   "pct_20plus": 60,
+   "pct_mobile": 0,
+   "pct_owner": 84
+  },
+  "region": "Central"
+ },
+ {
+  "slug": "palm-springs",
+  "name": "Palm Springs",
+  "housing": {
+   "median_year": 1978,
+   "units": 10037,
+   "pct_pre1980": 56,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1254450/",
+   "pct_2000plus": 14,
+   "pct_detached": 30,
+   "pct_20plus": 28,
+   "pct_mobile": 3,
+   "pct_owner": 48
+  },
+  "region": "Central",
+  "also": [
+   "Lake Clarke Shores"
+  ]
+ },
+ {
+  "slug": "highland-beach",
+  "name": "Highland Beach",
+  "housing": {
+   "median_year": 1983,
+   "units": 4613,
+   "pct_pre1980": 39,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1230200/",
+   "pct_2000plus": 14,
+   "pct_detached": 8,
+   "pct_20plus": 83,
+   "pct_mobile": 0,
+   "pct_owner": 93
+  },
+  "region": "South"
+ },
+ {
+  "slug": "the-glades",
+  "name": "The Glades",
+  "group": [
+   {
+    "name": "Belle Glade",
+    "housing": {
+     "median_year": 1979,
+     "units": 6340,
+     "pct_pre1980": 51,
+     "release": "ACS 2024 5-year",
+     "url": "https://censusreporter.org/profiles/16000US1205200/",
+     "pct_2000plus": 20,
+     "pct_detached": 39,
+     "pct_20plus": 10,
+     "pct_mobile": 13,
+     "pct_owner": 43
+    }
+   },
+   {
+    "name": "Pahokee",
+    "housing": {
+     "median_year": 1970,
+     "units": 1782,
+     "pct_pre1980": 56,
+     "release": "ACS 2024 5-year",
+     "url": "https://censusreporter.org/profiles/16000US1253800/",
+     "pct_2000plus": 22,
+     "pct_detached": 56,
+     "pct_20plus": 6,
+     "pct_mobile": 24,
+     "pct_owner": 63
+    }
+   },
+   {
+    "name": "South Bay",
+    "housing": {
+     "median_year": 1974,
+     "units": 935,
+     "pct_pre1980": 68,
+     "release": "ACS 2024 5-year",
+     "url": "https://censusreporter.org/profiles/16000US1267175/",
+     "pct_2000plus": 10,
+     "pct_detached": 66,
+     "pct_20plus": 2,
+     "pct_mobile": 13,
+     "pct_owner": 60
+    }
+   }
+  ],
+  "housing": {
+   "median_year": 1979,
+   "units": 6340,
+   "pct_pre1980": 51,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1205200/",
+   "pct_2000plus": 20,
+   "pct_detached": 39,
+   "pct_20plus": 10,
+   "pct_mobile": 13,
+   "pct_owner": 43
+  },
+  "region": "Glades",
+  "towns": "Belle Glade, Pahokee and South Bay"
  }
 ]

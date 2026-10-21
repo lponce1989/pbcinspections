@@ -37,12 +37,16 @@ def city_stat(c):
     recs=[i for i in INS if c["slug"] in i["cities"]]; byf={}
     for i in recs: byf.setdefault(i["firm"],[]).append(i)
     return len(recs),stats(byf,"wind")
-def city_grid(pre=""):
+FEATURED=["boca-raton","west-palm-beach","delray-beach","boynton-beach","jupiter","wellington","palm-beach-gardens","lake-worth-beach"]
+FEAT=[c for c in cities if c["slug"] in FEATURED]
+REGIONS=[("North","North county"),("Central","Central county"),("South","South county"),("Glades","The Glades")]
+ALLCHIP=lambda pre: f'<a class="chip chip-all" href="{pre}cities/index.html">All {len(cities)} city pages <span aria-hidden="true">&rarr;</span></a>'
+def city_grid(pre="",subset=None):
     out=""
-    for c in cities:
+    for c in (subset if subset is not None else cities):
         n,w=city_stat(c); h=c["housing"]
         out+=(f'<a class="ccard" href="{pre}{c["slug"]}.html"><span class="c-n">{e(c["name"])}</span><span class="c-k">{n} inspectors</span>'
-              f'<span class="c-s">Median wind mit. <b>{money(w["med"])}</b></span><span class="c-s">Median home built <b>{h["median_year"]}</b></span></a>')
+              f'<span class="c-s">Median wind mit. <b>{money(w["med"])}</b></span>'+(f'<span class="c-s">{e(c["towns"])}</span>' if "group" in c else f'<span class="c-s">Median home built <b>{h["median_year"]}</b></span>')+'</a>')
     return f'<div class="cgrid">{out}</div>'
 GUIDES=[("4-point-vs-wind-mitigation-vs-roof-certification","4-point vs. wind mitigation vs. roof certification"),
  ("oir-b1-1802-rev-04-26-changes","What changed on the OIR-B1-1802 (Rev. 04/26) wind mitigation form"),
@@ -217,7 +221,7 @@ which='''<table class="which"><thead><tr><th>Your situation</th><th>Report usual
 <tr><td>Buying an older home</td><td>Often a 4-point + wind mitigation bundle</td></tr></tbody></table>
 <p class="muted small">Thresholds are Citizens' published rules (checked Oct 21, 2026). Other insurers set their own. Ask your agent. <a href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Full comparison</a>.</p>'''
 city_links="".join(f'<li><a href="cities/{c["slug"]}.html">{e(c["name"])}</a> ({sum(c["slug"] in i["cities"] for i in INS)} listed)</li>' for c in cities)
-chips="".join(f'<a class="chip" href="cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in cities)+'<a class="chip chip-all" href="cities/index.html">All cities <span aria-hidden="true">&rarr;</span></a>'
+chips="".join(f'<a class="chip" href="cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in FEAT)+ALLCHIP("")
 LIC_FIRMS=sum(any(i["lic_status"]=="verified" for i in r) for r in FIRMS.values())
 layout("index.html","Wind Mitigation & 4-Point Inspectors | PBC Inspections",
 "Compare Palm Beach County wind mitigation (OIR-B1-1802), 4-point and roof certification inspectors: published prices, size caps, phone, booking and Florida license checks.",
@@ -225,10 +229,10 @@ f'''<section class="hero"><h1>Compare Palm Beach County home insurance inspector
 <p class="lead">Wind mitigation, 4-point and roof certification: published prices, phone and booking, and a license check for each inspector.</p>
 <p class="hero-actions"><a class="btn btn-book" href="request/index.html">Request quotes</a><a class="arrow-link" href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Which report do I need? <span aria-hidden="true">&rarr;</span></a></p>
 <nav class="chips" aria-label="Cities">{chips}</nav>
-<ul class="trust"><li>{len(FIRMS)} companies</li><li>{len(cities)} cities</li><li>Prices sourced and dated</li><li>Licenses checked on DBPR</li></ul></section>
+<ul class="trust"><li>{len(FIRMS)} companies</li><li>{len(cities)} city pages</li><li>Prices sourced and dated</li><li>Licenses checked on DBPR</li></ul></section>
 <section><h2>What inspections cost in Palm Beach County</h2>{stat_tiles(FIRMS,False)}<p class="small">Each company counted once; checked {nice_date(CHECKED)}. <a href="prices/index.html">Prices by city and how we counted &rarr;</a></p></section>
 <section><h2>Which report do you need?</h2>{which}</section>
-<section><h2>Browse by city</h2>{city_grid("cities/")}</section>
+<section><h2>Browse by city</h2>{city_grid("cities/",FEAT)}<p class="small"><a class="arrow-link" href="cities/index.html">All {len(cities)} city pages, by region <span aria-hidden="true">&rarr;</span></a></p></section>
 <section><h2>Guides</h2>{guide_list(G,more=True)}</section>
 <!-- QUOTE-WIDGET-HOOK: future insurance-quote widget goes here. Hidden from public view; no widget, partner or affiliate link is connected yet. -->
 <section id="list" class="card prose"><h2>List your inspection business</h2><p>Do you do wind mitigation, 4-point, or roof certification inspections in Palm Beach County? Self-serve listings are coming soon. Until then, email your business name, website, service area, pricing page and Florida license number to <a href="mailto:{CONTACT}">{CONTACT}</a>. Listings are free. Already listed and something's wrong? Email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p></section>''',[],[{"@context":"https://schema.org","@type":"WebSite","name":"PBC Inspections","alternateName":"pbcinspections.com","url":BASE_URL+"/"}])
@@ -258,8 +262,45 @@ f'''<h1>Palm Beach County wind mitigation, 4-point &amp; roof cert prices, 2026<
 WBDR=("Palm Beach County's Building Division says all of unincorporated Palm Beach County is within the wind-borne debris region, and its product-approval guidance notes that all of Palm Beach County is classified a wind-borne debris region. "
       "That is the zone where the building code requires protected openings, one of the features a wind mitigation report records. Ask your city's building department to confirm for your address.")
 WBDR_SRC=[("Palm Beach County PZB, Wind Speeds","https://discover.pbc.gov/pzb/Maps/Wind-Speeds.aspx"),("Palm Beach County PBO-118 (product approval)","https://discover.pbc.gov/pzb/building/PDF/ProductApproval/PBO-118.pdf")]
+def _sentences(name,h):
+    """Housing facts for one place, ordered by what stands out there (ACS 5-year tables B25024/B25034/B25003)."""
+    age=2026-h["median_year"]; v=sum(map(ord,name))%3; units=f'{round(h["units"],-2):,}'
+    lead=[f'{name} has about {units} housing units, and the median one was built in {h["median_year"]}.',
+          f'The median home in {name} was built in {h["median_year"]}, out of about {units} housing units.',
+          f'Of {name}\'s roughly {units} homes, the median was built in {h["median_year"]}.'][v]
+    rent=100-h["pct_owner"]; facts=[]
+    if h["pct_20plus"]>=40: facts.append((h["pct_20plus"],f'{h["pct_20plus"]}% of homes are in buildings with 20 or more units, so many owners here live in condos; ask your agent which inspection reports a condo unit policy needs before you book one.'))
+    if h["pct_mobile"]>=10: facts.append((h["pct_mobile"]+30,f'About {h["pct_mobile"]}% of homes are mobile homes; ask your insurer which inspection forms it accepts for a manufactured home before booking.'))
+    if h["pct_2000plus"]>=30: facts.append((h["pct_2000plus"],f'{h["pct_2000plus"]}% of the housing was built in 2000 or later.'))
+    if h["pct_detached"]>=60: facts.append((h["pct_detached"],f'Most homes ({h["pct_detached"]}%) are single-family detached houses, where the owner usually orders the wind mitigation report for the whole house.'))
+    elif h["pct_detached"]<35 and h["pct_20plus"]<40: facts.append((50-h["pct_detached"],f'Only {h["pct_detached"]}% are single-family detached houses; most homes are attached or in multi-unit buildings.'))
+    if rent>=45: facts.append((rent,f'{rent}% of occupied homes are rented; a landlord policy on an older rental can ask for the same reports.'))
+    if h["pct_owner"]>=80 and h["pct_20plus"]<40: facts.append((h["pct_owner"]-30,f'{h["pct_owner"]}% of occupied homes are owner-occupied.'))
+    facts.sort(key=lambda x:-x[0])
+    if h["pct_pre1980"]>=50:
+        agep=[f'{h["pct_pre1980"]}% of homes were built before 1980. With most of the stock more than 45 years old, expect Citizens to ask for a 4-point inspection (it requires one for homes over 20 years old), and check the roof\'s age too: Citizens asks for a roof inspection once a shingle roof passes 25 years or a tile or metal roof passes 50.',
+              f'More than half the homes ({h["pct_pre1980"]}%) predate 1980, well past the 20-year age at which Citizens requires a 4-point inspection. Roof age matters separately: Citizens asks for a roof inspection once shingles pass 25 years, or tile or metal passes 50.',
+              f'With {h["pct_pre1980"]}% of homes built before 1980, a 4-point inspection is a near-certain ask for Citizens applicants (it requires one for homes over 20 years old); a roof inspection follows if a shingle roof is over 25 years old, or tile or metal over 50.'][v]
+    elif h["pct_pre1980"]<=20:
+        agep=f'Only {h["pct_pre1980"]}% of homes predate 1980. Even so, the median home is {age} years old, past Citizens\' 20-year 4-point threshold; the inspection most likely to lower your premium is a wind mitigation report.'
+    else:
+        agep=[f'{h["pct_pre1980"]}% were built before 1980, and the median home is {age} years old, past the 20-year age at which Citizens requires a 4-point inspection; a wind mitigation report is the one that can lower the premium.',
+              f'At {age} years, the median home is past the 20-year mark at which Citizens requires a 4-point inspection ({h["pct_pre1980"]}% were built before 1980). The report that can lower the premium is a wind mitigation inspection.',
+              f'The median home is {age} years old and {h["pct_pre1980"]}% predate 1980, so most owners applying to Citizens should expect a 4-point request (it requires one for homes over 20); a wind mitigation report is the one that can lower the premium.'][v]
+    return [lead]+[f for _,f in facts[:2]]+[agep]
 def intro(c):
     h=c["housing"]
+    if "group" in c:
+        towns=c["group"]
+        p1=(f'{c["towns"]} are the three cities along the southeastern shore of Lake Okeechobee, about 35 miles west of West Palm Beach, according to Palm Beach County\'s Glades Region Master Plan. '
+            +" ".join(f'{t["name"]}: about {round(t["housing"]["units"],-1):,} homes, median built {t["housing"]["median_year"]}, {t["housing"]["pct_pre1980"]}% before 1980, {t["housing"]["pct_mobile"]}% mobile homes.' for t in towns)
+            +' With most homes more than 45 years old, expect Citizens to ask for a 4-point inspection (it requires one for homes over 20 years old).')
+        srcs=[(f'U.S. Census Bureau ACS 2024 5-year, tables B25034/B25035/B25024, via Census Reporter: {t["name"]}',t["housing"]["url"]) for t in towns]+[("Palm Beach County, Glades Region Master Plan","https://discover.pbcgov.org/HED/Pages/Glades-Region-Master-Plan.aspx")]+WBDR_SRC
+        return (f'<div class="prose intro"><p>{e(p1)}</p><details class="disc"><summary>Wind-borne debris region &amp; sources</summary><p>{e(WBDR)}</p><p class="small muted">Sources: '+"; ".join(f'<a href="{e(u)}" rel="noopener" target="_blank">{e(n)}</a>' for n,u in srcs)+' (checked Oct 21, 2026).</p></details></div>')
+    if "pct_20plus" in h:
+        p1=" ".join(_sentences(c["name"],h))
+        srcs=[('U.S. Census Bureau ACS 2024 5-year, tables B25034/B25035/B25024/B25003, via Census Reporter',h["url"])]+WBDR_SRC
+        return (f'<div class="prose intro"><p>{e(p1)}</p><details class="disc"><summary>Wind-borne debris region &amp; sources</summary><p>{e(WBDR)}</p><p class="small muted">Sources: '+"; ".join(f'<a href="{e(u)}" rel="noopener" target="_blank">{e(n)}</a>' for n,u in srcs)+' (checked Oct 21, 2026).</p></details></div>')
     age=2026-h["median_year"]; pct=h["pct_pre1980"]
     p1=(f'{c["name"]} has roughly {round(h["units"],-3):,} housing units. The median home was built in {h["median_year"]}, and {pct}% were built before 1980 ({h["release"]} estimates). ')
     if pct>=40:
@@ -273,6 +314,13 @@ def intro(c):
              f'a wind mitigation report is the inspection that can lower the premium.')
     srcs=[(f'U.S. Census Bureau {h["release"]}, tables B25034/B25035, via Census Reporter',h["url"])]+WBDR_SRC
     return (f'<div class="prose intro"><p>{e(p1)}</p><details class="disc"><summary>Wind-borne debris region &amp; sources</summary><p>{e(WBDR)}</p><p class="small muted">Sources: '+"; ".join(f'<a href="{e(u)}" rel="noopener" target="_blank">{e(n)}</a>' for n,u in srcs)+' (checked Oct 21, 2026).</p></details></div>')
+def also_note(c):
+    if not c.get("also"): return ""
+    t=c["also"]; lst=t[0] if len(t)==1 else ", ".join(t[:-1])+" and "+t[-1]
+    return f'<p class="also small muted prose">Also the nearest page for {e(lst)}, which {"has no page of its own" if len(t)==1 else "have no pages of their own"}. Confirm the inspector serves your address.</p>'
+GLADES_NOTE=('<p class="small">Only companies that name a Glades city on their own site, or say they work statewide, are listed. '
+  'Several coastal companies say they cover all of Palm Beach County but list no Glades town, so they are left off; you can still ask them. '
+  'Ask any inspector whether a travel fee applies out here.</p>')
 HOWCHECK=('<details class="disc"><summary>How we check</summary><p>Listed in no particular order. None are paid placements. Licenses were checked on the Florida DBPR license search (<a href="https://www.myfloridalicense.com/wl11.asp" rel="nofollow noopener" target="_blank">myfloridalicense.com</a>). '
   '"Not verified" means we could not match the business to a license record, not that it is unlicensed. Prices are copied from each inspector\'s own site on the date shown. Always confirm price and license before you book.</p></details>')
 for c in cities:
@@ -281,8 +329,8 @@ for c in cities:
         "itemListElement":[{"@type":"ListItem","position":n+1,"item":{"@type":"LocalBusiness","name":i["name"],"url":i["website"],"telephone":i["phone"]}} for n,i in enumerate(rows)]}
     layout(f'cities/{c["slug"]}.html',f'{c["name"]} Wind Mitigation & 4-Point Inspectors ({len(rows)} compared)',
     f'{len(rows)} inspectors serving {c["name"]}, FL: published wind mitigation, 4-point and roof certification prices, size caps, phone and Florida license checks.',
-    f'''<h1>{e(c["name"])} wind mitigation, 4-point &amp; roof certification inspectors</h1><p class="qprompt">Want quotes without calling around? <a href="../request/index.html?city={c["slug"]}">Request quotes from up to 3 local inspectors <span aria-hidden="true">&rarr;</span></a></p>{intro(c)}
-<section class="listing"><h2>{len(rows)} inspectors serving {e(c["name"])}</h2><div class="prose">{HOWCHECK}</div>
+    f'''<h1>{e(c["name"])} wind mitigation, 4-point &amp; roof certification inspectors</h1><p class="qprompt">Want quotes without calling around? <a href="../request/index.html?city={c["slug"]}">Request quotes from up to 3 local inspectors <span aria-hidden="true">&rarr;</span></a></p>{intro(c)}{also_note(c)}
+<section class="listing"><h2>{len(rows)} inspectors serving {e(c["name"])}</h2><div class="prose">{GLADES_NOTE if "group" in c else ""}{HOWCHECK}</div>
 {FILTERS}
 {table(rows)}
 <h2 class="details-h">Details</h2><div class="cards">{"".join(card(i) for i in rows)}</div>{cta("../",c)}
@@ -292,8 +340,9 @@ for c in cities:
 # ---------- Cities index ----------
 layout("cities/index.html","Palm Beach County Cities: Wind Mitigation & 4-Point Inspectors | PBC Inspections",
 "Browse wind mitigation, 4-point and roof certification inspectors by Palm Beach County city.",
-f'''<h1>Cities</h1><p class="lead">Pick a city to compare inspectors, published prices and license checks. Median home age from Census ACS 2024; median wind mitigation price counts each company once.</p>{city_grid()}
-<p class="muted soon">Coming soon: Riviera Beach, Royal Palm Beach, Greenacres, Lantana, North Palm Beach, Tequesta.</p>''',[("Cities","cities/index.html")])
+f'''<h1>Cities</h1><p class="lead">Pick a city to compare inspectors, published prices and license checks. Grouped by region; smaller towns are listed below with their nearest page. Median home age from Census ACS 2024; median wind mitigation price counts each company once.</p>{"".join(f'<section class="region" id="{r.lower()}"><h2>{lbl}</h2>{city_grid("",[c for c in cities if c["region"]==r])}</section>' for r,lbl in REGIONS)}
+<section id="smaller-towns"><h2>Smaller towns</h2><p class="prose">These towns don't have their own page yet. Each links to the nearest city page. Not every inspector there serves every town, so confirm your address when you call.</p>
+<ul class="towns">{"".join(f'<li>{e(t)} <span class="muted">&rarr;</span> <a href="{c["slug"]}.html">{e(c["name"])}</a></li>' for c in cities for t in c.get("also",[]))}</ul></section>''',[("Cities","cities/index.html")])
 
 # ---------- Guides ----------
 def faq(qs): return {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in qs]}
@@ -309,7 +358,7 @@ def cmp_tables(h):
 def side(pre,toc=(),current=None):
     out=""
     if toc: out+='<nav class="side-box toc" aria-label="On this page"><p class="side-h">On this page</p><ul>'+"".join(f'<li><a href="#{i}">{t}</a></li>' for i,t in toc)+'</ul></nav>'
-    out+=('<div class="side-box"><p class="side-h">Find an inspector</p><div class="chips chips-sm">'+"".join(f'<a class="chip" href="{pre}cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in cities)+'</div>'
+    out+=('<div class="side-box"><p class="side-h">Find an inspector</p><div class="chips chips-sm">'+"".join(f'<a class="chip" href="{pre}cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in FEAT)+ALLCHIP(pre)+'</div>'
           f'<p class="small"><a class="arrow-link" href="{pre}request/index.html">Or request quotes <span aria-hidden="true">&rarr;</span></a></p></div>')
     rel=[(s,t) for s,t in GUIDES if s!=current]
     out+='<div class="side-box"><p class="side-h">Related guides</p><ul>'+"".join(f'<li><a href="{pre}{G}{s}.html">{e(t)}</a></li>' for s,t in rel)+'</ul></div>'
@@ -337,7 +386,7 @@ def guide(slug,title,desc,body,qs):
 SRC_CIT='<li>Citizens Property Insurance, Inspections: <a href="https://www.citizensfla.com/web/public/inspections">citizensfla.com/web/public/inspections</a> (checked Oct 21, 2026)</li>'
 SRC_OIR='<li>Florida OIR, Wind Mitigation Resources: <a href="https://floir.gov/consumers/wind-mitigation-resources/">floir.gov</a> (checked Oct 21, 2026)</li>'
 SRC_DFS='<li>Florida DFS, Mitigation Notices, Inspections and Forms: <a href="https://www.myfloridacfo.com/division/consumers/storm/mitigation-notices-inspections-and-forms">myfloridacfo.com</a> (checked Oct 21, 2026)</li>'
-onevisit='<span class="chips chips-sm">'+"".join(f'<a class="chip" href="../cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in cities)+'</span>'
+onevisit='<span class="chips chips-sm">'+"".join(f'<a class="chip" href="../cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in FEAT)+ALLCHIP("../")+'</span>'
 guide("4-point-vs-wind-mitigation-vs-roof-certification","4-Point vs. Wind Mitigation vs. Roof Certification: Which One Your Florida Insurer Wants",
 "What a 4-point inspection, a wind mitigation report (OIR-B1-1802), and a roof certification are, and when Florida insurers like Citizens ask for each.",
 f'''<table><thead><tr><th></th><th>4-point</th><th>Wind mitigation</th><th>Roof certification</th></tr></thead><tbody>
