@@ -2,41 +2,89 @@
  {
   "slug": "boca-raton",
   "name": "Boca Raton",
-  "intro": "Inspectors who state on their own websites that they serve Boca Raton. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
+  "housing": {
+   "median_year": 1983,
+   "units": 48859,
+   "pct_pre1980": 43,
+   "release": "ACS 2024 1-year",
+   "url": "https://censusreporter.org/profiles/16000US1207300/"
+  }
  },
  {
   "slug": "west-palm-beach",
   "name": "West Palm Beach",
-  "intro": "Inspectors who state on their own websites that they serve West Palm Beach. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
+  "housing": {
+   "median_year": 1988,
+   "units": 64847,
+   "pct_pre1980": 34,
+   "release": "ACS 2024 1-year",
+   "url": "https://censusreporter.org/profiles/16000US1276600/"
+  }
  },
  {
   "slug": "delray-beach",
   "name": "Delray Beach",
-  "intro": "Inspectors who state on their own websites that they serve Delray Beach. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
+  "housing": {
+   "median_year": 1984,
+   "units": 42298,
+   "pct_pre1980": 42,
+   "release": "ACS 2024 1-year",
+   "url": "https://censusreporter.org/profiles/16000US1217100/"
+  }
  },
  {
   "slug": "boynton-beach",
   "name": "Boynton Beach",
-  "intro": "Inspectors who state on their own websites that they serve Boynton Beach. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
+  "housing": {
+   "median_year": 1983,
+   "units": 41454,
+   "pct_pre1980": 43,
+   "release": "ACS 2024 1-year",
+   "url": "https://censusreporter.org/profiles/16000US1207875/"
+  }
  },
  {
   "slug": "jupiter",
   "name": "Jupiter",
-  "intro": "Inspectors who state on their own websites that they serve Jupiter. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
+  "housing": {
+   "median_year": 1989,
+   "units": 31257,
+   "pct_pre1980": 15,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1235875/"
+  }
  },
  {
   "slug": "wellington",
   "name": "Wellington",
-  "intro": "Inspectors who state on their own websites that they serve Wellington. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
+  "housing": {
+   "median_year": 1995,
+   "units": 24497,
+   "pct_pre1980": 12,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1275812/"
+  }
  },
  {
   "slug": "palm-beach-gardens",
   "name": "Palm Beach Gardens",
-  "intro": "Inspectors who state on their own websites that they serve Palm Beach Gardens. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
+  "housing": {
+   "median_year": 1995,
+   "units": 31400,
+   "pct_pre1980": 18,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1254075/"
+  }
  },
  {
   "slug": "lake-worth-beach",
   "name": "Lake Worth Beach",
-  "intro": "Inspectors who state on their own websites that they serve Lake Worth Beach. We list what each one publishes: prices, size caps, phone, booking link and license details, with the source and date checked."
+  "housing": {
+   "median_year": 1969,
+   "units": 17949,
+   "pct_pre1980": 75,
+   "release": "ACS 2024 5-year",
+   "url": "https://censusreporter.org/profiles/16000US1239081/"
+  }
  }
 ]

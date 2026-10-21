@@ -24,7 +24,8 @@ th{background:#f0f4f6}
 th[data-sort] button{font:inherit;font-weight:700;background:none;border:0;padding:0;cursor:pointer;color:inherit;text-align:left}
 th[data-sort] button::after{content:" \2195";color:#8aa}th[aria-sort=ascending] button::after{content:" \2191"}th[aria-sort=descending] button::after{content:" \2193"}
 .fix{font-size:.9rem}.cols{columns:2 220px}
-@media(max-width:760px){
+@media(max-width:700px){
+ table.compare .c-bundle{display:none!important}
  table.compare,table.compare tbody,table.compare tr,table.compare td{display:block;width:100%}
  table.compare thead{display:none}
  table.compare tr{border:1px solid #dde5e9;border-radius:8px;margin:0 0 10px;background:#fff;padding:6px 8px}
@@ -34,3 +35,8 @@ th[data-sort] button::after{content:" \2195";color:#8aa}th[aria-sort=ascending] 
  table.stats,table.which{font-size:.85rem}
 }
 .crumbs a{color:#0b6e8a;margin:0}
+sup.mk{font-size:.7rem;color:#5b6b73;margin-left:1px}
+.legend{color:#45555d;margin:6px 0 14px}
+.insp dd .badge{margin:0 8px 4px 0;vertical-align:baseline}
+.licnote{display:inline}
+.badge{border:1px solid rgba(0,0,0,.08);line-height:1.5}
