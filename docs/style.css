@@ -142,3 +142,4 @@ details.more summary{cursor:pointer;color:var(--teal);font-size:.85rem;font-weig
 @media(min-width:701px){details.more>summary{display:none}details.more::details-content{content-visibility:visible;display:block}}
 @media(max-width:700px){.trust{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px}.trust li::before,.trust li+li::before{margin:0;content:"\2713\00a0";color:var(--teal)}}
 .which-link a{text-decoration:none}
+.soon{margin-top:var(--s4)}

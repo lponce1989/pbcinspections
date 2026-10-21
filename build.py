@@ -7,6 +7,8 @@ BASE_URL=os.environ.get("BASE_URL","https://pbcinspections.com").rstrip("/")
 CONTACT="listings@pbcinspections.com"      # Porkbun email forwarding
 CORRECTIONS="corrections@pbcinspections.com"
 e=html.escape
+import hashlib
+ASSET_V=hashlib.sha1((open(f"{ROOT}/src/style.css").read()+open(f"{ROOT}/src/site.js").read()).encode()).hexdigest()[:8]
 import base64
 _svg=open(f"{ROOT}/src/favicon.svg").read().strip()
 LOGO=_svg.replace('<svg ','<svg class="logo" aria-hidden="true" width="28" height="28" ',1)
@@ -62,11 +64,11 @@ def layout(path,title,desc,body,crumbs,extra_ld=()):
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{e(title)}</title><meta name="description" content="{e(desc)}">
 <link rel="canonical" href="{canon}"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="website"><meta property="og:url" content="{canon}"><meta name="twitter:card" content="summary">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"><link rel="icon" href="{pre}favicon.svg" type="image/svg+xml"><link rel="icon" type="image/png" sizes="32x32" href="{FAV_PNG}"><link rel="apple-touch-icon" href="{TOUCH_PNG}"><meta name="theme-color" content="#0b3d4f"><link rel="stylesheet" href="{pre}style.css">{ld(bc)}{"".join(ld(x) for x in extra_ld)}</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"><link rel="icon" href="{pre}favicon.svg" type="image/svg+xml"><link rel="icon" type="image/png" sizes="32x32" href="{FAV_PNG}"><link rel="apple-touch-icon" href="{TOUCH_PNG}"><meta name="theme-color" content="#0b3d4f"><link rel="stylesheet" href="{pre}style.css?v={ASSET_V}">{ld(bc)}{"".join(ld(x) for x in extra_ld)}</head><body>
 <a class="skip" href="#main">Skip to content</a><header><div class="wrap"><a class="brand" href="{pre}index.html">{LOGO}<span>{LONG}</span></a><nav>{nav}</nav></div></header>
 <main class="wrap" id="main" tabindex="-1">{crumb_html}{body}</main>
 <footer><div class="wrap"><p>Informational directory only, not insurance advice. Listings and prices are copied from inspectors' own websites on the date shown and may have changed; always confirm with the inspector. <a href="{pre}about.html">Disclaimer, disclosures &amp; listing criteria</a>. Corrections: <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p><p>&copy; {datetime.date.today().year} {LONG} &middot; Owner: Leonard Ponce</p></div></footer>
-<script src="{pre}site.js" defer></script></body></html>'''
+<script src="{pre}site.js?v={ASSET_V}" defer></script></body></html>'''
     doc=canon_links(doc,path)
     fp=os.path.join(OUT,path); os.makedirs(os.path.dirname(fp),exist_ok=True); open(fp,"w").write(doc); pages.append(path)
 def canon_links(doc,path):
@@ -262,7 +264,7 @@ for c in cities:
 layout("cities/index.html","Palm Beach County Cities: Wind Mitigation & 4-Point Inspectors | PBC Inspections",
 "Browse wind mitigation, 4-point and roof certification inspectors by Palm Beach County city.",
 f'''<h1>Cities</h1><p class="lead">Pick a city to compare inspectors, published prices and license checks. Median home age from Census ACS 2024; median wind mitigation price counts each company once.</p>{city_grid()}
-<p class="muted">Coming soon: Riviera Beach, Royal Palm Beach, Greenacres, Lantana, North Palm Beach, Tequesta.</p>''',[("Cities","cities/index.html")])
+<p class="muted soon">Coming soon: Riviera Beach, Royal Palm Beach, Greenacres, Lantana, North Palm Beach, Tequesta.</p>''',[("Cities","cities/index.html")])
 
 # ---------- Guides ----------
 def faq(qs): return {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in qs]}
