@@ -24,8 +24,9 @@ Commit everything and push. In the repo, go to Settings > Pages > Deploy from a 
 ## Add a guide
 Add a `layout("guides/<slug>.html", title, description, body_html)` call in `build.py`, link it from the homepage block, then rebuild.
 
-## Status / TODOs
-- Contact: listings@pbcinspections.com (set up Porkbun email forwarding before relying on it)
-- Insurance-quote widget: hidden; hook is the `QUOTE-WIDGET-HOOK` HTML comment in build.py
-- Affiliate disclosure: written on about.html (no paid relationships yet)
+## Status / notes
+- Contacts: listings@pbcinspections.com and corrections@pbcinspections.com (Porkbun email forwarding)
+- Quote widget hidden; hook is the `QUOTE-WIDGET-HOOK` HTML comment in build.py
+- `scripts/recheck.py` refetches every source URL and diffs the dollar amounts against `data/price_snapshots.json` (`--init` to refresh the snapshot). Writes `reports/recheck-DATE.md`.
+- Price stats: one value per company (median of its per-city prices where they differ); see /prices/.
 - Custom domain: docs/CNAME = pbcinspections.com
