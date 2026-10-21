@@ -24,18 +24,21 @@
         rows.forEach(function(r){body.appendChild(r)});
       });
     });
-    var f=tb.previousElementSibling;
-    if(f&&f.classList.contains('filters')){
-      f.hidden=false;var cnt=f.querySelector('.count');
-      var apply=function(){
-        var on=Array.prototype.filter.call(f.querySelectorAll('input'),function(i){return i.checked}).map(function(i){return i.getAttribute('data-f')});
-        var shown=0;
-        Array.prototype.forEach.call(body.rows,function(r){
-          var ok=on.every(function(k){return r.getAttribute('data-'+k)==='1'});
-          r.hidden=!ok;if(ok)shown++;});
-        cnt.textContent=shown+' of '+body.rows.length+' shown';
-      };
-      f.addEventListener('change',apply);apply();
-    }
+  });
+  // Filters apply to the table rows and the listing cards (cards are the only list on phones).
+  document.querySelectorAll('.filters').forEach(function(f){
+    var scope=f.closest('section')||document;
+    var items=Array.prototype.slice.call(scope.querySelectorAll('table.city-table tbody tr, .cards .insp'));
+    var cards=scope.querySelectorAll('.cards .insp').length;
+    f.hidden=false;var cnt=f.querySelector('.count');
+    var apply=function(){
+      var on=Array.prototype.filter.call(f.querySelectorAll('input'),function(i){return i.checked}).map(function(i){return i.getAttribute('data-f')});
+      var shown=0;
+      items.forEach(function(r){
+        var ok=on.every(function(k){return r.getAttribute('data-'+k)==='1'});
+        r.hidden=!ok;if(ok&&r.classList.contains('insp'))shown++;});
+      cnt.textContent=shown+' of '+cards+' shown';
+    };
+    f.addEventListener('change',apply);apply();
   });
 })();
