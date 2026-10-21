@@ -56,4 +56,15 @@
     var sub=function(){fs.value='Quote request: '+(fc.value||'(city not chosen)')};
     fc.addEventListener('change',sub);sub();
   }
+  // GoatCounter events: outbound clicks and quote form submits (counts only, no form contents)
+  var gc=function(path){if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:path,event:true})};
+  document.addEventListener('click',function(ev){
+    var a=ev.target.closest&&ev.target.closest('a[href]');if(!a)return;
+    var h=a.getAttribute('href');
+    if(h.indexOf('tel:')===0)gc('click-tel');
+    else if(a.classList.contains('btn-book')&&a.closest('.insp'))gc('click-book-online');
+    else if(a.closest('.insp')&&/^https?:/.test(h)&&a.hostname!==location.hostname)gc('click-inspector-site');
+  });
+  var qf=document.querySelector('form.qform');
+  if(qf)qf.addEventListener('submit',function(){gc('click-quote-submit')});
 })();
