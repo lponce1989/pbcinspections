@@ -31,6 +31,8 @@
     var items=Array.prototype.slice.call(scope.querySelectorAll('table.city-table tbody tr, .cards .insp'));
     var cards=scope.querySelectorAll('.cards .insp').length;
     f.hidden=false;var cnt=f.querySelector('.count');
+    var q=new URLSearchParams(location.search),on0=(q.get('show')||'').split(',');
+    f.querySelectorAll('input').forEach(function(i){if(on0.indexOf(i.getAttribute('data-f'))>-1)i.checked=true});
     var apply=function(){
       var on=Array.prototype.filter.call(f.querySelectorAll('input'),function(i){return i.checked}).map(function(i){return i.getAttribute('data-f')});
       var shown=0;
@@ -38,7 +40,11 @@
         var ok=on.every(function(k){return r.getAttribute('data-'+k)==='1'});
         r.hidden=!ok;if(ok&&r.classList.contains('insp'))shown++;});
       cnt.textContent=shown+' of '+cards+' shown';
+      var u=new URL(location.href);if(on.length)u.searchParams.set('show',on.join(','));else u.searchParams.delete('show');
+      history.replaceState(null,'',u.pathname+u.search+u.hash);
     };
     f.addEventListener('change',apply);apply();
   });
+  // Card details: always open on wide screens (CSS handles browsers with ::details-content)
+  if(window.matchMedia('(min-width:701px)').matches)document.querySelectorAll('details.more').forEach(function(d){d.open=true});
 })();

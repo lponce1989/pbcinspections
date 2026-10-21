@@ -17,6 +17,24 @@ data=json.load(open(f"{ROOT}/data/inspectors.json")); cities=json.load(open(f"{R
 INS=data["inspectors"]; CHECKED=data["checked"]
 pages=[]
 G="guides/"
+GUIDE_LINE={"4-point-vs-wind-mitigation-vs-roof-certification":"What each report covers and when Citizens asks for it.",
+ "oir-b1-1802-rev-04-26-changes":"What's new on the wind mitigation form effective April 1, 2026.",
+ "how-long-inspection-reports-are-valid":"Wind mitigation reports last up to five years; Citizens wants 4-point reports within 12 months.",
+ "look-up-inspector-license-dbpr":"Check an inspector's Florida license yourself on the DBPR search.",
+ "my-safe-florida-home-vs-private-wind-mitigation":"The free program inspection includes the OIR-B1-1802 form; when a private one is faster."}
+def guide_list(pre=""):
+    return '<div class="glist">'+"".join(f'<a class="gitem" href="{pre}{s}.html"><span class="g-t">{e(t)}</span><span class="g-d">{e(GUIDE_LINE[s])}</span><span class="g-c">Checked {nice_date(CHECKED)}</span></a>' for s,t in GUIDES)+'</div>'
+def city_stat(c):
+    recs=[i for i in INS if c["slug"] in i["cities"]]; byf={}
+    for i in recs: byf.setdefault(i["firm"],[]).append(i)
+    return len(recs),stats(byf,"wind")
+def city_grid(pre=""):
+    out=""
+    for c in cities:
+        n,w=city_stat(c); h=c["housing"]
+        out+=(f'<a class="ccard" href="{pre}{c["slug"]}.html"><span class="c-n">{e(c["name"])}</span><span class="c-k">{n} inspectors</span>'
+              f'<span class="c-s">Median wind mit. <b>{money(w["med"])}</b></span><span class="c-s">Median home built <b>{h["median_year"]}</b></span></a>')
+    return f'<div class="cgrid">{out}</div>'
 GUIDES=[("4-point-vs-wind-mitigation-vs-roof-certification","4-point vs. wind mitigation vs. roof certification"),
  ("oir-b1-1802-rev-04-26-changes","What changed on the OIR-B1-1802 (Rev. 04/26) wind mitigation form"),
  ("how-long-inspection-reports-are-valid","How long a wind mitigation, 4-point or roof report stays valid"),
@@ -45,8 +63,8 @@ def layout(path,title,desc,body,crumbs,extra_ld=()):
 <title>{e(title)}</title><meta name="description" content="{e(desc)}">
 <link rel="canonical" href="{canon}"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="website"><meta property="og:url" content="{canon}"><meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"><link rel="icon" href="{pre}favicon.svg" type="image/svg+xml"><link rel="icon" type="image/png" sizes="32x32" href="{FAV_PNG}"><link rel="apple-touch-icon" href="{TOUCH_PNG}"><meta name="theme-color" content="#0b3d4f"><link rel="stylesheet" href="{pre}style.css">{ld(bc)}{"".join(ld(x) for x in extra_ld)}</head><body>
-<header><div class="wrap"><a class="brand" href="{pre}index.html">{LOGO}<span>{LONG}</span></a><nav>{nav}</nav></div></header>
-<main class="wrap">{crumb_html}{body}</main>
+<a class="skip" href="#main">Skip to content</a><header><div class="wrap"><a class="brand" href="{pre}index.html">{LOGO}<span>{LONG}</span></a><nav>{nav}</nav></div></header>
+<main class="wrap" id="main" tabindex="-1">{crumb_html}{body}</main>
 <footer><div class="wrap"><p>Informational directory only, not insurance advice. Listings and prices are copied from inspectors' own websites on the date shown and may have changed; always confirm with the inspector. <a href="{pre}about.html">Disclaimer, disclosures &amp; listing criteria</a>. Corrections: <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p><p>&copy; {datetime.date.today().year} {LONG} &middot; Owner: Leonard Ponce</p></div></footer>
 <script src="{pre}site.js" defer></script></body></html>'''
     doc=canon_links(doc,path)
@@ -74,10 +92,11 @@ def mark_html(i,t):
         if txt.startswith(("Free","Included","Wind Mit +")): return 'Incl.<sup class="mk">&#9674;</sup>'
         if t=="bundle": return "Yes" if txt.startswith("Yes") else "&ndash;"
         return '<span class="muted">Call</span>'
-    m=CAPMARK.get(p["cap"],"&dagger;" if not p["cap"] else "")
+    m="" if p["cap"] else "&dagger;"
     if p["note"]: m+="*"
-    return f'${p["amt"]}<sup class="mk">{m}</sup>'
-LEGEND=('<p class="legend small"><strong>Key:</strong> <sup>&dagger;</sup> no size cap stated &middot; <sup>a</sup> homes up to 2,000 sq ft &middot; <sup>b</sup> up to 2,500 sq ft &middot; <sup>c</sup> up to 3,000 sq ft &middot; '
+    capt=f'<span class="capi">&le;{e(re.sub(r"^(homes )?up to ","",p["cap"]))}</span>' if p["cap"] else ""
+    return f'${p["amt"]}'+(f'<sup class="mk">{m}</sup>' if m else '')+capt
+LEGEND=('<p class="legend small"><strong>Key:</strong> <sup>&dagger;</sup> no size cap stated &middot; &le; sq ft = largest home the price covers &middot; '
         '<sup>*</sup> see note in the listing card &middot; <sup>&#9674;</sup> included free with a full home inspection &middot; Call = no published price. '
         '"From" prices can rise with size, age and travel.</p>')
 def price_html(i,t):
@@ -110,10 +129,10 @@ def stats_table(byfirm,caption=""):
     rows="".join(f'<tr><td>{lbl}</td><td class="num">{money(s["lo"])}&ndash;{money(s["hi"])}</td><td class="num">{money(s["med"])}</td><td class="num">{s["n"]} of {s["total"]}</td></tr>' for t,lbl in TYPES for s in [stats(byfirm,t)])
     return f'<table class="stats"><thead><tr><th>Inspection</th><th>Published price range</th><th>Median (per company)</th><th>Companies publishing a price</th></tr></thead><tbody>{rows}</tbody></table>'+STATNOTE
 TILE_LBL={"wind":"Wind mitigation","four":"4-point","roof":"Roof certification","bundle":"4-point + wind bundle"}
-def stat_tiles(byfirm):
+def stat_tiles(byfirm,note=True):
     t="".join(f'<div class="tile"><div class="t-lbl">{TILE_LBL[k]}</div><div class="t-med">{money(s["med"])}<span class="sr-only"> median</span></div>'
-      f'<div class="t-sub">median &middot; range {money(s["lo"])}&ndash;{money(s["hi"])}</div><div class="t-sub">{s["n"]} of {s["total"]} publish a price</div></div>' for k,_ in TYPES for s in [stats(byfirm,k)])
-    return f'<div class="tiles">{t}</div>'+STATNOTE
+      f'<div class="t-sub">median &middot; <span class="nw">range {money(s["lo"])}&ndash;{money(s["hi"])}</span></div><div class="t-sub">{s["n"]} of {s["total"]} publish a price</div></div>' for k,_ in TYPES for s in [stats(byfirm,k)])
+    return f'<div class="tiles">{t}</div>'+(STATNOTE if note else "")
 
 # ---------- city table + cards ----------
 def flt(i):
@@ -156,7 +175,7 @@ def card(i):
     return f'''<article class="card insp" id="{e(i["slug"])}" {flt(i)}><div class="insp-head"><h3><a href="{e(i["website"])}" rel="nofollow noopener" target="_blank">{e(i["name"])}</a></h3><div class="badges"><span class="tag tag-{i["base"]}">{BASE_LABEL[i["base"]]}</span>{lic}</div></div>
 <div class="actions"><a class="btn btn-phone" href="tel:{e(tel)}">{PHONE_SVG}<span>{e(i["phone"])}</span></a>{book}</div>
 <div class="prices">{card_price(i,"wind","Wind mitigation")}{card_price(i,"four","4-point")}{card_price(i,"roof","Roof cert")}{bundle_row}</div>
-<dl class="meta"><dt>License</dt><dd>{e(i["license"])}</dd><dt>Area</dt><dd>{e(i["service_area"])}</dd><dt>Based</dt><dd>{e(i["base_note"])}</dd></dl>
+<details class="more"><summary>Details</summary><dl class="meta"><dt>License</dt><dd>{e(i["license"])}</dd><dt>Area</dt><dd>{e(i["service_area"])}</dd><dt>Based</dt><dd>{e(i["base_note"])}</dd></dl></details>
 <p class="src"><a href="{e(i["source"])}" rel="nofollow noopener" target="_blank">{e(dom(i["source"]))} &#8599;</a> &middot; checked <time datetime="{e(i["checked"])}">{nice_date(i["checked"])}</time> &middot; <a href="{e(i["phone_src"])}" rel="nofollow noopener" target="_blank">phone source</a></p>
 <p class="fix small">Is this your business? <a href="mailto:{CORRECTIONS}?subject={urllib.parse.quote("Fix my listing: "+i["name"])}">Fix your listing</a>.</p></article>'''
 
@@ -174,12 +193,12 @@ layout("index.html","Wind Mitigation & 4-Point Inspectors | PBC Inspections",
 "Compare Palm Beach County wind mitigation (OIR-B1-1802), 4-point and roof certification inspectors: published prices, size caps, phone, booking and Florida license checks.",
 f'''<section class="hero"><h1>Compare Palm Beach County home insurance inspectors</h1>
 <p class="lead">Wind mitigation, 4-point and roof certification: published prices, phone and booking, and a license check for each inspector.</p>
-<nav class="chips" aria-label="Cities">{chips}<a class="chip chip-alt" href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Which report do I need? &rarr;</a></nav>
+<nav class="chips" aria-label="Cities">{chips}</nav><p class="which-link"><a class="chip chip-alt" href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Which report do I need? &rarr;</a></p>
 <ul class="trust"><li>{len(FIRMS)} companies</li><li>{len(cities)} cities</li><li>Prices sourced and dated</li><li>Licenses checked on DBPR</li></ul></section>
-<section><h2>What inspections cost in Palm Beach County</h2>{stat_tiles(FIRMS)}<p class="small"><a href="prices/index.html">Prices by city and how we counted &rarr;</a> &middot; checked {ago(CHECKED)}</p></section>
+<section><h2>What inspections cost in Palm Beach County</h2>{stat_tiles(FIRMS,False)}<p class="small">Each company counted once; checked {nice_date(CHECKED)}. <a href="prices/index.html">Prices by city and how we counted &rarr;</a></p></section>
 <section><h2>Which report do you need?</h2>{which}</section>
-<section><h2>Browse by city</h2><ul class="list cols">{city_links}</ul></section>
-<section><h2>Guides</h2><ul class="list">{"".join(f'<li><a href="{G}{s}.html">{e(t)}</a></li>' for s,t in GUIDES)}</ul></section>
+<section><h2>Browse by city</h2>{city_grid("cities/")}</section>
+<section><h2>Guides</h2>{guide_list(G)}</section>
 <!-- QUOTE-WIDGET-HOOK: future insurance-quote widget goes here. Hidden from public view; no widget, partner or affiliate link is connected yet. -->
 <section id="list" class="card prose"><h2>List your inspection business</h2><p>Do you do wind mitigation, 4-point, or roof certification inspections in Palm Beach County? Self-serve listings are coming soon. Until then, email your business name, website, service area, pricing page and Florida license number to <a href="mailto:{CONTACT}">{CONTACT}</a>. Listings are free. Already listed and something's wrong? Email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p></section>''',[],[{"@context":"https://schema.org","@type":"WebSite","name":"PBC Inspections","alternateName":"pbcinspections.com","url":BASE_URL+"/"}])
 
@@ -188,7 +207,7 @@ city_rows=""
 for c in cities:
     recs=[i for i in INS if c["slug"] in i["cities"]]; byf={}
     for i in recs: byf.setdefault(i["firm"],[]).append(i)
-    cells="".join(f'<td data-label="{lbl}"><div>{money(s["lo"])}&ndash;{money(s["hi"])} <span class="muted small">(median {money(s["med"])}, {s["n"]}/{s["total"]})</span></div></td>' if s["n"] else f'<td data-label="{lbl}">—</td>' for t,lbl in TYPES for s in [stats(byf,t)])
+    cells="".join(f'<td data-label="{lbl}"><div class="rng"><span class="nw">{money(s["lo"])}&ndash;{money(s["hi"])}</span><span class="rsub">median {money(s["med"])} &middot; {s["n"]} of {s["total"]}</span></div></td>' if s["n"] else f'<td data-label="{lbl}">—</td>' for t,lbl in TYPES for s in [stats(byf,t)])
     city_rows+=f'<tr><td data-label="City"><a href="../cities/{c["slug"]}.html">{e(c["name"])}</a></td>{cells}</tr>'
 layout("prices/index.html","Palm Beach County Wind Mitigation, 4-Point & Roof Cert Prices, 2026",
 "Published 2026 prices for wind mitigation, 4-point, roof certification and bundles from Palm Beach County inspectors: ranges, medians and how we counted.",
@@ -210,8 +229,17 @@ WBDR=("Palm Beach County's Building Division says all of unincorporated Palm Bea
 WBDR_SRC=[("Palm Beach County PZB, Wind Speeds","https://discover.pbc.gov/pzb/Maps/Wind-Speeds.aspx"),("Palm Beach County PBO-118 (product approval)","https://discover.pbc.gov/pzb/building/PDF/ProductApproval/PBO-118.pdf")]
 def intro(c):
     h=c["housing"]
-    p1=(f'{c["name"]} has about {h["units"]:,} housing units. Their median year built is {h["median_year"]}, and about {h["pct_pre1980"]}% were built before 1980 '
-        f'({h["release"]} estimates). A home built in {h["median_year"]} is {2026-h["median_year"]} years old in 2026, past the 20-year age at which Citizens requires a 4-point inspection.')
+    age=2026-h["median_year"]; pct=h["pct_pre1980"]
+    p1=(f'{c["name"]} has roughly {round(h["units"],-3):,} housing units. The median home was built in {h["median_year"]}, and {pct}% were built before 1980 ({h["release"]} estimates). ')
+    if pct>=40:
+        p1+=(f'With {pct}% of homes now over 45 years old, a 4-point inspection is a near-certain ask for owners applying to Citizens, which requires one for homes over 20 years old. '
+             f'Citizens also asks for a roof inspection once a shingle roof passes 25 years or a tile or metal roof passes 50; roof age, not house age, decides that one.')
+    elif pct<=20:
+        p1+=(f'Only {pct}% of homes predate 1980, so the stock here is newer than most of the county. Even so, the median home is {age} years old, over Citizens\' 20-year 4-point threshold; '
+             f'the inspection that can actually lower your premium is a wind mitigation report documenting the home\'s wind-resistant features.')
+    else:
+        p1+=(f'The median home is {age} years old, past the 20-year age at which Citizens requires a 4-point inspection, so most owners here should expect that ask; '
+             f'a wind mitigation report is the inspection that can lower the premium.')
     srcs=[(f'U.S. Census Bureau {h["release"]}, tables B25034/B25035, via Census Reporter',h["url"])]+WBDR_SRC
     return (f'<div class="prose intro"><p>{e(p1)}</p><details class="disc"><summary>Wind-borne debris region &amp; sources</summary><p>{e(WBDR)}</p><p class="small muted">Sources: '+"; ".join(f'<a href="{e(u)}" rel="noopener" target="_blank">{e(n)}</a>' for n,u in srcs)+' (checked 2026-10-21).</p></details></div>')
 HOWCHECK=('<details class="disc"><summary>How we check</summary><p>Listed in no particular order. None are paid placements. Licenses were checked on the Florida DBPR license search (<a href="https://www.myfloridalicense.com/wl11.asp" rel="nofollow noopener" target="_blank">myfloridalicense.com</a>). '
@@ -233,7 +261,7 @@ for c in cities:
 # ---------- Cities index ----------
 layout("cities/index.html","Palm Beach County Cities: Wind Mitigation & 4-Point Inspectors | PBC Inspections",
 "Browse wind mitigation, 4-point and roof certification inspectors by Palm Beach County city.",
-f'''<h1>Cities</h1><ul class="list cols">{"".join(f'<li><a href="{c["slug"]}.html">{e(c["name"])}</a> ({sum(c["slug"] in i["cities"] for i in INS)} inspectors)</li>' for c in cities)}</ul>
+f'''<h1>Cities</h1><p class="lead">Pick a city to compare inspectors, published prices and license checks. Median home age from Census ACS 2024; median wind mitigation price counts each company once.</p>{city_grid()}
 <p class="muted">Coming soon: Riviera Beach, Royal Palm Beach, Greenacres, Lantana, North Palm Beach, Tequesta.</p>''',[("Cities","cities/index.html")])
 
 # ---------- Guides ----------
@@ -340,7 +368,7 @@ guide("my-safe-florida-home-vs-private-wind-mitigation","My Safe Florida Home Fr
  ("Must my insurer accept a form signed by a program inspector?","Florida Statutes s. 627.711 says an insurer shall accept as valid a uniform mitigation verification form signed by listed authorized inspectors, and s. 215.5586 requires program inspectors to hold those same license types and training."),
  ("Is My Safe Florida Home accepting applications?","When we checked on 2026-10-21, the program's site asked homeowners to create an account and complete a Prioritization Questionnaire to be placed in an inspection group. Funding depends on the Legislature; check mysafeflhome.com.")])
 layout("guides/index.html","Guides: Florida Wind Mitigation, 4-Point & Roof Inspections | PBC Inspections","Plain-English guides to Florida insurance inspections.",
- f'<h1>Guides</h1><ul class="list">{"".join(f"<li><a href=\"{s}.html\">{e(t)}</a></li>" for s,t in GUIDES)}</ul>',[("Guides","guides/index.html")])
+ f'<h1>Guides</h1>{guide_list()}',[("Guides","guides/index.html")])
 
 # ---------- About ----------
 layout("about.html",f"About, Listing Criteria & Disclosures | {SITE}","About this directory, listing and removal criteria, the no-advice disclaimer, and the referral-fee disclosure.",
