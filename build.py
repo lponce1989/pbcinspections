@@ -51,6 +51,14 @@ def url(path): return f"{BASE_URL}/{path}".replace("index.html","")
 def ld(obj): return '<script type="application/ld+json">'+json.dumps(obj,ensure_ascii=False)+'</script>'
 def ago(d): return f'<time class="ago" datetime="{e(d)}">{e(d)}</time>'
 
+# Social image: GitHub MCP can only push text, so og-image.png must be uploaded another way.
+# Set OG_IMAGE_PUBLISHED=1 (env) once docs/og-image.png is in the repo; until then pages get twitter:card=summary and no og:image.
+OG_IMAGE_PUBLISHED=os.environ.get("OG_IMAGE_PUBLISHED","0")=="1"
+def og_image_tags():
+    if not OG_IMAGE_PUBLISHED: return '<meta name="twitter:card" content="summary">'
+    u=f"{BASE_URL}/og-image.png"
+    return (f'<meta property="og:image" content="{u}"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">'
+            f'<meta property="og:image:alt" content="PBC Inspections: Palm Beach County inspection prices, 2026"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{u}">')
 def layout(path,title,desc,body,crumbs,extra_ld=()):
     pre="../"*path.count("/")
     if "PBC Inspections" not in title: title=f"{title} | PBC Inspections"
@@ -63,7 +71,7 @@ def layout(path,title,desc,body,crumbs,extra_ld=()):
     doc=f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{e(title)}</title><meta name="description" content="{e(desc)}">
-<link rel="canonical" href="{canon}"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="website"><meta property="og:url" content="{canon}"><meta name="twitter:card" content="summary">
+<link rel="canonical" href="{canon}"><meta property="og:site_name" content="PBC Inspections"><meta property="og:locale" content="en_US"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="{"article" if path.startswith("guides/") and not path.endswith("index.html") else "website"}"><meta property="og:url" content="{canon}">{og_image_tags()}<meta name="twitter:title" content="{e(title)}"><meta name="twitter:description" content="{e(desc)}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"><link rel="icon" href="{pre}favicon.svg" type="image/svg+xml"><link rel="icon" type="image/png" sizes="32x32" href="{FAV_PNG}"><link rel="apple-touch-icon" href="{TOUCH_PNG}"><meta name="theme-color" content="#0b3d4f"><link rel="stylesheet" href="{pre}style.css?v={ASSET_V}">{ld(bc)}{"".join(ld(x) for x in extra_ld)}</head><body>
 <a class="skip" href="#main">Skip to content</a><header><div class="wrap"><a class="brand" href="{pre}index.html" aria-label="PBC Inspections, home"{' aria-current="page"' if path=="index.html" else ""}>{LOGO}<span>{LONG}</span></a><nav>{nav}</nav></div></header>
 <main class="wrap" id="main" tabindex="-1">{crumb_html}{body}</main>
@@ -207,9 +215,9 @@ layout("index.html","Wind Mitigation & 4-Point Inspectors | PBC Inspections",
 "Compare Palm Beach County wind mitigation (OIR-B1-1802), 4-point and roof certification inspectors: published prices, size caps, phone, booking and Florida license checks.",
 f'''<section class="hero"><h1>Compare Palm Beach County home insurance inspectors</h1>
 <p class="lead">Wind mitigation, 4-point and roof certification: published prices, phone and booking, and a license check for each inspector.</p>
-<nav class="chips" aria-label="Cities">{chips}</nav><p class="which-link"><a class="chip chip-alt" href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Which report do I need? &rarr;</a></p>
+<p class="hero-actions"><a class="btn btn-book" href="request/index.html">Request quotes</a><a class="arrow-link" href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Which report do I need? <span aria-hidden="true">&rarr;</span></a></p>
+<nav class="chips" aria-label="Cities">{chips}</nav>
 <ul class="trust"><li>{len(FIRMS)} companies</li><li>{len(cities)} cities</li><li>Prices sourced and dated</li><li>Licenses checked on DBPR</li></ul></section>
-{cta('')}
 <section><h2>What inspections cost in Palm Beach County</h2>{stat_tiles(FIRMS,False)}<p class="small">Each company counted once; checked {nice_date(CHECKED)}. <a href="prices/index.html">Prices by city and how we counted &rarr;</a></p></section>
 <section><h2>Which report do you need?</h2>{which}</section>
 <section><h2>Browse by city</h2>{city_grid("cities/")}</section>
@@ -265,11 +273,11 @@ for c in cities:
         "itemListElement":[{"@type":"ListItem","position":n+1,"item":{"@type":"LocalBusiness","name":i["name"],"url":i["website"],"telephone":i["phone"]}} for n,i in enumerate(rows)]}
     layout(f'cities/{c["slug"]}.html',f'{c["name"]} Wind Mitigation & 4-Point Inspectors ({len(rows)} compared)',
     f'{len(rows)} inspectors serving {c["name"]}, FL: published wind mitigation, 4-point and roof certification prices, size caps, phone and Florida license checks.',
-    f'''<h1>{e(c["name"])} wind mitigation, 4-point &amp; roof certification inspectors</h1>{intro(c)}
-<section class="listing"><h2>{len(rows)} inspectors serving {e(c["name"])}</h2><div class="prose">{HOWCHECK}</div>{cta("../",c)}
+    f'''<h1>{e(c["name"])} wind mitigation, 4-point &amp; roof certification inspectors</h1><p class="qprompt">Want quotes without calling around? <a href="../request/index.html?city={c["slug"]}">Request quotes from up to 3 local inspectors <span aria-hidden="true">&rarr;</span></a></p>{intro(c)}
+<section class="listing"><h2>{len(rows)} inspectors serving {e(c["name"])}</h2><div class="prose">{HOWCHECK}</div>
 {FILTERS}
 {table(rows)}
-<h2 class="details-h">Details</h2><div class="cards">{"".join(card(i) for i in rows)}</div>
+<h2 class="details-h">Details</h2><div class="cards">{"".join(card(i) for i in rows)}</div>{cta("../",c)}
 <p class="fix">Listed here and something is wrong or out of date? <a href="mailto:{CORRECTIONS}?subject={urllib.parse.quote("Fix a listing on the "+c["name"]+" page")}">Fix your listing</a> at {CORRECTIONS}. Not sure which report you need? Read the <a href="../{G}4-point-vs-wind-mitigation-vs-roof-certification.html">guide</a>.</p></section>''',
     [("Cities","cities/index.html"),(c["name"],f'cities/{c["slug"]}.html')],[il])
 
@@ -281,15 +289,39 @@ f'''<h1>Cities</h1><p class="lead">Pick a city to compare inspectors, published 
 
 # ---------- Guides ----------
 def faq(qs): return {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in qs]}
+def slugify(x): return re.sub(r"[^a-z0-9]+","-",re.sub(r"<[^>]+>","",html.unescape(x)).lower()).strip("-")
+def add_ids(h): return re.sub(r"<h2>(.*?)</h2>",lambda m:f'<h2 id="{slugify(m.group(1))}">{m.group(1)}</h2>',h)
+def cmp_tables(h):
+    def fix(m):
+        t=m.group(0); n=len(re.findall(r"<th",t.split("</thead>")[0]))
+        t=t.replace("<table>",'<div class="tablewrap"><table class="cmp"><colgroup><col class="c-lbl">'+'<col>'*(n-1)+'</colgroup>',1)+"</div>"
+        t=t.replace("<th></th>",'<td class="corner"></td>',1)
+        return re.sub(r"<tr><td>(.*?)</td>",r'<tr><th scope="row">\1</th>',t)
+    return re.sub(r"<table><thead><tr><th></th>.*?</table>",fix,h,flags=re.S)
+def side(pre,toc=(),current=None):
+    out=""
+    if toc: out+='<nav class="side-box toc" aria-label="On this page"><p class="side-h">On this page</p><ul>'+"".join(f'<li><a href="#{i}">{t}</a></li>' for i,t in toc)+'</ul></nav>'
+    out+=('<div class="side-box"><p class="side-h">Find an inspector</p><div class="chips chips-sm">'+"".join(f'<a class="chip" href="{pre}cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in cities)+'</div>'
+          f'<p class="small"><a class="arrow-link" href="{pre}request/index.html">Or request quotes <span aria-hidden="true">&rarr;</span></a></p></div>')
+    rel=[(s,t) for s,t in GUIDES if s!=current]
+    out+='<div class="side-box"><p class="side-h">Related guides</p><ul>'+"".join(f'<li><a href="{pre}{G}{s}.html">{e(t)}</a></li>' for s,t in rel)+'</ul></div>'
+    return f'<aside class="side" aria-label="More">{out}</aside>'
+def with_aside(article,aside): return f'<div class="with-aside">{article}{aside}</div>'
 def guide(slug,title,desc,body,qs):
     t=dict(GUIDES)[slug]
-    faqhtml="<h2>FAQ</h2>"+"".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q,a in qs)
-    layout(f"{G}{slug}.html",title,desc,f'<article class="prose"><h1>{e(t)}</h1><p class="notice"><strong>Not insurance advice.</strong> General information only. Your insurer or agent decides what it needs.</p>{body}{cta("../")}{faqhtml}</article>',
+    content,_,sources=body.partition("<h2>Sources</h2>")
+    content=cmp_tables(add_ids(content))
+    faqhtml='<h2 id="faq">FAQ</h2>'+"".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q,a in qs)
+    srchtml=('<h2 id="sources">Sources</h2>'+sources) if sources else ""
+    toc=[(m.group(1),re.sub(r"<[^>]+>","",m.group(2))) for m in re.finditer(r'<h2 id="([^"]+)">(.*?)</h2>',content+faqhtml+srchtml)]
+    art=(f'<article class="prose"><h1>{e(t)}</h1><p class="dateline">Checked <time datetime="{CHECKED}">{nice_date(CHECKED)}</time></p>'
+         f'<p class="notice"><strong>Not insurance advice.</strong> General information only. Your insurer or agent decides what it needs.</p>{content}{faqhtml}{cta("../")}{srchtml}</article>')
+    layout(f"{G}{slug}.html",title,desc,with_aside(art,side("../",toc if len(toc)>=4 else (),slug)),
       [("Guides","guides/index.html"),(t,f"{G}{slug}.html")],[faq(qs)])
 SRC_CIT='<li>Citizens Property Insurance, Inspections: <a href="https://www.citizensfla.com/web/public/inspections">citizensfla.com/web/public/inspections</a> (checked 2026-10-21)</li>'
 SRC_OIR='<li>Florida OIR, Wind Mitigation Resources: <a href="https://floir.gov/consumers/wind-mitigation-resources/">floir.gov</a> (checked 2026-10-21)</li>'
 SRC_DFS='<li>Florida DFS, Mitigation Notices, Inspections and Forms: <a href="https://www.myfloridacfo.com/division/consumers/storm/mitigation-notices-inspections-and-forms">myfloridacfo.com</a> (checked 2026-10-21)</li>'
-onevisit=", ".join(f'<a href="../cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in cities)
+onevisit='<span class="chips chips-sm">'+"".join(f'<a class="chip" href="../cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in cities)+'</span>'
 guide("4-point-vs-wind-mitigation-vs-roof-certification","4-Point vs. Wind Mitigation vs. Roof Certification: Which One Your Florida Insurer Wants",
 "What a 4-point inspection, a wind mitigation report (OIR-B1-1802), and a roof certification are, and when Florida insurers like Citizens ask for each.",
 f'''<table><thead><tr><th></th><th>4-point</th><th>Wind mitigation</th><th>Roof certification</th></tr></thead><tbody>
@@ -300,7 +332,7 @@ f'''<table><thead><tr><th></th><th>4-point</th><th>Wind mitigation</th><th>Roof 
 <h2>4-point inspection</h2><p>Citizens Property Insurance says it "requires a four-point inspection for all property owner, dwelling and mobile home applications for properties more than 20 years old." A Florida-licensed inspector reports the age, type, and condition of the electrical, plumbing, HVAC, and roof. Citizens says serious hazards should be fixed before you apply. Private insurers set their own age cutoffs.</p>
 <h2>Wind mitigation (OIR-B1-1802)</h2><p>The Uniform Mitigation Verification Inspection Form, OIR-B1-1802, is adopted under Rule 69O-170.0155, F.A.C. and section 627.0629, Florida Statutes. OIR revised it effective April 1, 2026 (Rev. 04/26); see <a href="oir-b1-1802-rev-04-26-changes.html">what changed</a>. According to OIR, a completed form "is valid for up to five (5) years provided no material changes are made to the structure or inaccuracies are found on the form."</p>
 <h2>Roof certification</h2><p>Citizens says roofs older than 25 years (soft, such as shingle) or 50 years (hard, such as tile, slate, clay, concrete, or metal) need documentation showing at least five years of remaining useful life. A Florida-licensed inspector completes Citizens' Roof Inspection Form. Other insurers may use different ages and forms.</p>
-<h2>Can I get them in one visit?</h2><p>Often, yes. Many Palm Beach County inspectors sell a 4-point + wind mitigation bundle. See listings for {onevisit}.</p>
+<h2>Can I get them in one visit?</h2><p>Often, yes. Many Palm Beach County inspectors sell a 4-point + wind mitigation bundle. See listings by city:</p><p>{onevisit}</p>
 <h2>Sources</h2><ul>{SRC_CIT}{SRC_OIR}<li>OIR-B1-1802 (Rev. 04/26) form PDF: <a href="https://www.floir.gov/docs-sf/property-casualty-libraries/product-review/all-forms/form-oir-1802-adopted-version-(no-watermark).pdf">floir.gov</a></li>{SRC_DFS}</ul>''',
 [("When does Citizens require a 4-point inspection?","Citizens says it requires a four-point inspection for property owner, dwelling and mobile home applications for properties more than 20 years old. Other insurers set their own rules."),
  ("Is a wind mitigation inspection required?","No. It is optional, but documented wind-resistant features can qualify you for premium discounts."),
@@ -420,15 +452,21 @@ layout("thanks.html","Request Received | PBC Inspections","Your inspection quote
 <p>In the meantime you can compare <a href="prices/index.html">published prices</a> or read <a href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">which report you need</a>.</p></div>''',[])
 # ---------- About ----------
 layout("about.html",f"About, Listing Criteria & Disclosures | {SITE}","About this directory, listing and removal criteria, the no-advice disclaimer, and the referral-fee disclosure.",
-f'''<article class="prose"><h1>About &amp; disclaimer</h1><p>{LONG} is an independent directory of Palm Beach County, Florida inspectors who do wind mitigation, 4-point, and roof certification reports. It is owned by Leonard Ponce.</p>
+with_aside(add_ids(f'''<article class="prose about"><h1>About &amp; disclaimer</h1><p>{LONG} is an independent directory of Palm Beach County, Florida inspectors who do wind mitigation, 4-point, and roof certification reports. It is owned by Leonard Ponce.</p>
 <h2>How listings work</h2><p>Each listing comes from the inspector's own public website. Each one shows a source link and the date we checked it. If an inspector doesn't publish a price, we show "call for price". Listings are not endorsements.</p>
 <h2>Who we include</h2><ul><li>The business offers wind mitigation, 4-point, or roof certification inspections.</li><li>Its own website says it serves the city it is listed under (or all of Palm Beach County or Florida).</li><li>It has a working public website we can cite.</li><li>Listing is free. Nobody pays to be included or to be ranked; listings appear in no particular order.</li></ul>
-<h2>Removal and corrections</h2><ul><li>We remove a listing if the business asks us to, if its website stops working, or if it stops offering these inspections.</li><li>We correct prices, phone numbers, service areas or license details when the business or a reader shows us a public source. Email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</li><li>"Local (PBC-based)" means the business states a Palm Beach County address on its site. "Address not stated" means we did not find one.</li></ul>
-<h2>Licenses</h2><p>Where shown, license types and numbers come from the Florida DBPR license search on the date listed. "Not verified" means we could not confirm a license from official sources, not that the business is unlicensed. <a href="guides/look-up-inspector-license-dbpr.html">Check one yourself</a>.</p>
+<h2>Removal and corrections</h2><ul><li>We remove a listing if the business asks us to, if its website stops working, or if it stops offering these inspections.</li><li>We correct prices, phone numbers, service areas or license details when the business or a reader shows us a public source. Email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</li></ul><h2>What the labels mean</h2><dl class="legend-dl">
+<dt><span class="tag tag-pbc">Local (PBC-based)</span></dt><dd>The business states a Palm Beach County address on its site.</dd>
+<dt><span class="tag tag-bd">Serves area from Broward/Miami-Dade</span></dt><dd>Its stated address is in Broward or Miami-Dade County.</dd>
+<dt><span class="tag tag-other">Based elsewhere in Florida</span></dt><dd>Its stated address is elsewhere in Florida.</dd>
+<dt><span class="tag tag-unknown">Address not stated</span></dt><dd>We did not find a street address on its site.</dd>
+<dt><span class="badge b-verified">Verified</span></dt><dd>We matched the business to an active license on the Florida DBPR license search.</dd>
+<dt><span class="badge b-not_verified">Not verified</span></dt><dd>We could not match the business to a license record. This does not mean it is unlicensed.</dd></dl>
+<h2>Licenses</h2><p>Where shown, license types and numbers come from the Florida DBPR license search on the date listed. <a href="guides/look-up-inspector-license-dbpr.html">Check one yourself</a>.</p>
 <h2>Affiliate &amp; referral disclosure</h2><p class="notice">Right now we have <strong>no paid relationships</strong> with any inspector, insurer, insurance agency, or lead-generation company. No listing is paid for, and nothing on this site is an affiliate link. In the future the site may earn referral fees, for example from an insurance-quote tool or from featured listings. If that happens we will update this page first, name the type of relationship, and clearly label any paid or affiliate link or placement where it appears. Payment will never change the prices or license information we show.</p>
 <h2>Not insurance advice</h2><p>Nothing here is a recommendation to buy, change, or cancel an insurance policy. We do not sell insurance and we are not licensed as an insurance agent. Whether an inspection earns a discount, and how much, depends on your insurer's filed rates and on what the inspector verifies. Talk to a licensed insurance agent or your insurer before you make coverage decisions.</p>
 <h2 id="privacy">Privacy</h2><p>If you use our <a href="request/index.html">quote request form</a>, what you enter (name, phone, email, city, ZIP, inspections needed, timeframe and notes) is sent to us by email through FormSubmit (formsubmit.co), a third-party form service. We use it only to pass your request to up to 3 inspectors listed on this site who serve your area. We don't sell your information. To have a request deleted, email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>. The site sets no cookies and runs no ad trackers. We count visits with GoatCounter, a privacy-friendly analytics service that uses no cookies and does not collect personal data; it records things like the page viewed, the referring site, browser and screen size, and approximate country, and we also count clicks on phone, booking and inspector-website links and quote form submissions (as totals, without any details you type). Its font is loaded from Google Fonts.</p>
-<h2>Contact</h2><p>Listing requests: <a href="mailto:{CONTACT}">{CONTACT}</a>. Corrections: <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p></article>''',[("About","about.html")])
+<h2>Contact</h2><p>Listing requests: <a href="mailto:{CONTACT}">{CONTACT}</a>. Corrections: <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p></article>'''),side("",[("how-listings-work","How listings work"),("what-the-labels-mean","What the labels mean"),("affiliate-referral-disclosure","Disclosure"),("privacy","Privacy"),("contact","Contact")])),[("About","about.html")])
 
 # ---------- static ----------
 open(f"{OUT}/style.css","w").write(open(f"{ROOT}/src/style.css").read())
