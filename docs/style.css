@@ -68,7 +68,7 @@ sup.mk{font-size:.68rem;color:var(--muted);margin-left:1px;font-weight:500}
 .tag,.badge{display:inline-block;font-size:.72rem;font-weight:600;padding:1px 8px;border-radius:999px;white-space:nowrap;line-height:1.6;border:1px solid rgba(0,0,0,.06);vertical-align:middle}
 .tag{background:#eef2f4;color:#45555d;font-weight:500}
 .tag-pbc{background:#e3f4e8;color:#1d6b35}.tag-bd{background:#e8eefa;color:#2c4a8a}
-.b-verified{background:#dff3e4;color:#17602f}.b-not_verified{background:#f1f1f1;color:#555}.b-note{background:#fff1d6;color:#8a5a00}
+.b-verified{background:#dff3e4;color:#17602f}.b-not_verified,.b-none_shown{background:#f1f1f1;color:#555}.b-note{background:#fff1d6;color:#8a5a00}
 /* filters */
 .filters{background:#fff;border:1px solid var(--line);border-radius:10px;padding:var(--s2) var(--s3);margin:var(--s4) 0;display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);align-items:center;font-size:.92rem}
 .filters label{white-space:nowrap;display:inline-flex;align-items:center;gap:6px;min-height:32px}.count{color:var(--muted);font-size:.85rem}
@@ -228,7 +228,7 @@ table.cmp td{vertical-align:top}table.cmp .corner{background:#f8fafb}
  .cta{background:#0f3442;border-color:#1f5466}.cta strong{color:#d6eef5}
  .notice{background:#33270f;border-left-color:#e08a00;color:#f3e3c4}
  .tag{background:#1d3640;color:#c9d7dd;border-color:rgba(255,255,255,.08)}.tag-pbc{background:#143b25;color:#a6e4b9}.tag-bd{background:#1b2c4f;color:#b9cdf5}
- .b-verified{background:#143b25;color:#a6e4b9}.b-not_verified{background:#2a3439;color:#d0d8db}.b-note{background:#3a2c0d;color:#f0cf8a}
+ .b-verified{background:#143b25;color:#a6e4b9}.b-not_verified,.b-none_shown{background:#2a3439;color:#d0d8db}.b-note{background:#3a2c0d;color:#f0cf8a}
  .qform input[type=text],.qform input[type=tel],.qform input[type=email],.qform select,.qform textarea{background-color:#0c1f27;border-color:#3a5b69;color:var(--ink)}
  .qform select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23b7c6cd' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
  .skip{background:#112c37;color:#d6eef5}
