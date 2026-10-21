@@ -52,8 +52,8 @@ def ld(obj): return '<script type="application/ld+json">'+json.dumps(obj,ensure_
 def ago(d): return f'<time class="ago" datetime="{e(d)}">{e(d)}</time>'
 
 # Social image: GitHub MCP can only push text, so og-image.png must be uploaded another way.
-# Set OG_IMAGE_PUBLISHED=1 (env) once docs/og-image.png is in the repo; until then pages get twitter:card=summary and no og:image.
-OG_IMAGE_PUBLISHED=os.environ.get("OG_IMAGE_PUBLISHED","0")=="1"
+# og:image tags are on by default now that docs/og-image.png is in the repo; set OG_IMAGE_PUBLISHED=0 to disable.
+OG_IMAGE_PUBLISHED=os.environ.get("OG_IMAGE_PUBLISHED","1")=="1"
 def og_image_tags():
     if not OG_IMAGE_PUBLISHED: return '<meta name="twitter:card" content="summary">'
     u=f"{BASE_URL}/og-image.png"
