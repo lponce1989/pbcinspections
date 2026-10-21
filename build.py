@@ -7,6 +7,12 @@ BASE_URL=os.environ.get("BASE_URL","https://pbcinspections.com").rstrip("/")
 CONTACT="listings@pbcinspections.com"      # Porkbun email forwarding
 CORRECTIONS="corrections@pbcinspections.com"
 e=html.escape
+import base64
+_svg=open(f"{ROOT}/src/favicon.svg").read().strip()
+LOGO=_svg.replace('<svg ','<svg class="logo" aria-hidden="true" width="28" height="28" ',1)
+# PNG fallbacks are inlined as data URIs (generated from src/favicon.svg; see src/favicon-32.png.b64, src/apple-touch-icon.png.b64)
+FAV_PNG="data:image/png;base64,"+open(f"{ROOT}/src/favicon-32.png.b64").read().strip()
+TOUCH_PNG="data:image/png;base64,"+open(f"{ROOT}/src/apple-touch-icon.png.b64").read().strip()
 data=json.load(open(f"{ROOT}/data/inspectors.json")); cities=json.load(open(f"{ROOT}/data/cities.json"))
 INS=data["inspectors"]; CHECKED=data["checked"]
 pages=[]
@@ -38,8 +44,8 @@ def layout(path,title,desc,body,crumbs,extra_ld=()):
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{e(title)}</title><meta name="description" content="{e(desc)}">
 <link rel="canonical" href="{canon}"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="website"><meta property="og:url" content="{canon}"><meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="{pre}style.css">{ld(bc)}{"".join(ld(x) for x in extra_ld)}</head><body>
-<header><div class="wrap"><a class="brand" href="{pre}index.html">{LONG}</a><nav>{nav}</nav></div></header>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"><link rel="icon" href="{pre}favicon.svg" type="image/svg+xml"><link rel="icon" type="image/png" sizes="32x32" href="{FAV_PNG}"><link rel="apple-touch-icon" href="{TOUCH_PNG}"><meta name="theme-color" content="#0b3d4f"><link rel="stylesheet" href="{pre}style.css">{ld(bc)}{"".join(ld(x) for x in extra_ld)}</head><body>
+<header><div class="wrap"><a class="brand" href="{pre}index.html">{LOGO}<span>{LONG}</span></a><nav>{nav}</nav></div></header>
 <main class="wrap">{crumb_html}{body}</main>
 <footer><div class="wrap"><p>Informational directory only, not insurance advice. Listings and prices are copied from inspectors' own websites on the date shown and may have changed; always confirm with the inspector. <a href="{pre}about.html">Disclaimer, disclosures &amp; listing criteria</a>. Corrections: <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p><p>&copy; {datetime.date.today().year} {LONG} &middot; Owner: Leonard Ponce</p></div></footer>
 <script src="{pre}site.js" defer></script></body></html>'''
@@ -73,7 +79,7 @@ def mark_html(i,t):
     return f'${p["amt"]}<sup class="mk">{m}</sup>'
 LEGEND=('<p class="legend small"><strong>Key:</strong> <sup>&dagger;</sup> no size cap stated &middot; <sup>a</sup> homes up to 2,000 sq ft &middot; <sup>b</sup> up to 2,500 sq ft &middot; <sup>c</sup> up to 3,000 sq ft &middot; '
         '<sup>*</sup> see note in the listing card &middot; <sup>&#9674;</sup> included free with a full home inspection &middot; Call = no published price. '
-        '"From" prices can rise with size, age and travel. Bundle column is hidden on small screens; see the cards.</p>')
+        '"From" prices can rise with size, age and travel.</p>')
 def price_html(i,t):
     p=pr(i,t)
     if p["amt"] is None: return e(i[TXT[t]])
@@ -95,39 +101,63 @@ def stats(recs_by_firm,t):
     allp=[pr(i,t)["amt"] for r in recs_by_firm.values() for i in r if pr(i,t)["amt"] is not None]  # every listing, incl. per-city prices
     return dict(n=len(v),total=len(recs_by_firm),lo=min(allp) if allp else None,hi=max(allp) if allp else None,med=statistics.median(v) if v else None)
 STATNOTE=('<p class="legend small">Range = lowest and highest price published in any listing, including each per-city price a company publishes. '
-  'Median and "firms publishing a price" count each company once (a company with different city prices counts once, at the median of its city prices). '
+  'Median and "Companies publishing a price" count each company once (a company with different city prices counts once, at the median of its city prices). '
   'City figures use only the listings on that city page, so every city range falls inside the county range.</p>')
 def money(x): return "—" if x is None else (f"${x:,.0f}" if float(x).is_integer() else f"${x:,.2f}")
 FIRMS=firms()
 
 def stats_table(byfirm,caption=""):
-    rows="".join(f'<tr><td>{lbl}</td><td>{money(s["lo"])}&ndash;{money(s["hi"])}</td><td>{money(s["med"])}</td><td>{s["n"]} of {s["total"]}</td></tr>' for t,lbl in TYPES for s in [stats(byfirm,t)])
+    rows="".join(f'<tr><td>{lbl}</td><td class="num">{money(s["lo"])}&ndash;{money(s["hi"])}</td><td class="num">{money(s["med"])}</td><td class="num">{s["n"]} of {s["total"]}</td></tr>' for t,lbl in TYPES for s in [stats(byfirm,t)])
     return f'<table class="stats"><thead><tr><th>Inspection</th><th>Published price range</th><th>Median (per company)</th><th>Companies publishing a price</th></tr></thead><tbody>{rows}</tbody></table>'+STATNOTE
+TILE_LBL={"wind":"Wind mitigation","four":"4-point","roof":"Roof certification","bundle":"4-point + wind bundle"}
+def stat_tiles(byfirm):
+    t="".join(f'<div class="tile"><div class="t-lbl">{TILE_LBL[k]}</div><div class="t-med">{money(s["med"])}<span class="sr-only"> median</span></div>'
+      f'<div class="t-sub">median &middot; range {money(s["lo"])}&ndash;{money(s["hi"])}</div><div class="t-sub">{s["n"]} of {s["total"]} publish a price</div></div>' for k,_ in TYPES for s in [stats(byfirm,k)])
+    return f'<div class="tiles">{t}</div>'+STATNOTE
 
 # ---------- city table + cards ----------
-def row(i):
+def flt(i):
     p=lambda t: pr(i,t)["amt"]
     pub=any(p(t) is not None for t in ("wind","four","roof"))
     bundle=p("bundle") is not None or i["bundle"].startswith(("Yes","Included","Wind Mit"))
-    attrs=f'data-pub="{int(pub)}" data-bundle="{int(bundle)}" data-lic="{int(i["lic_status"]=="verified")}" data-local="{int(i["base"]=="pbc")}"'
-    cell=lambda t,lbl: f'<td class="c-{t}" data-label="{lbl}" data-v="{"" if p(t) is None else p(t)}"><div>{mark_html(i,t)}</div></td>'
-    return (f'<tr {attrs}><td data-label="Inspector"><a href="#{e(i["slug"])}">{e(i["name"])}</a><br><span class="tag tag-{i["base"]}">{BASE_LABEL[i["base"]]}</span></td>'
+    return f'data-pub="{int(pub)}" data-bundle="{int(bundle)}" data-lic="{int(i["lic_status"]=="verified")}" data-local="{int(i["base"]=="pbc")}"'
+def row(i):
+    p=lambda t: pr(i,t)["amt"]
+    cell=lambda t,lbl: f'<td class="c-{t} num" data-label="{lbl}" data-v="{"" if p(t) is None else p(t)}">{mark_html(i,t)}</td>'
+    lic="" if i["lic_status"]=="note" else f'<span class="badge b-{i["lic_status"]}">{LIC_LABEL[i["lic_status"]]}</span>'
+    return (f'<tr {flt(i)}><td class="c-name"><a href="#{e(i["slug"])}">{e(i["name"])}</a> <span class="tag tag-{i["base"]}">{BASE_LABEL[i["base"]]}</span></td>'
       +cell("wind","Wind mitigation")+cell("four","4-point")+cell("roof","Roof cert")+cell("bundle","Bundle")
-      +f'<td data-label="FL license"><div><span class="badge b-{i["lic_status"]}">{LIC_LABEL[i["lic_status"]]}</span> <a class="small" href="#{e(i["slug"])}">details</a></div></td></tr>')
+      +f'<td class="c-lic">{lic or "<a class=small href=#"+e(i["slug"])+">See card</a>"}</td></tr>')
+FILTERS=('<div class="filters" hidden><strong>Show only:</strong> <label><input type="checkbox" data-f="pub"> Publishes prices</label> <label><input type="checkbox" data-f="bundle"> Offers a bundle</label> '
+     '<label><input type="checkbox" data-f="lic"> License verified</label> <label><input type="checkbox" data-f="local"> Based in Palm Beach County</label> <span class="count" aria-live="polite"></span></div>')
 def table(rows):
-    return ('<div class="filters" hidden><strong>Show only:</strong> <label><input type="checkbox" data-f="pub"> Publishes prices</label> <label><input type="checkbox" data-f="bundle"> Offers a bundle</label> '
-     '<label><input type="checkbox" data-f="lic"> License verified</label> <label><input type="checkbox" data-f="local"> Based in Palm Beach County</label> <span class="count" aria-live="polite"></span></div>'
-     '<table class="compare sortable"><thead><tr><th>Inspector</th><th data-sort>Wind mitigation</th><th data-sort>4-point</th><th data-sort>Roof cert</th><th data-sort class="c-bundle">Bundle</th><th>FL license</th></tr></thead><tbody>'
-     +"".join(row(i) for i in rows)+'</tbody></table>'
-     +LEGEND)
+    return ('<div class="tablewrap"><table class="compare sortable city-table"><thead><tr><th>Inspector</th><th data-sort>Wind mit.</th><th data-sort>4-point</th><th data-sort>Roof cert</th><th data-sort class="c-bundle">Bundle</th><th>FL license</th></tr></thead><tbody>'
+     +"".join(row(i) for i in rows)+'</tbody></table>'+LEGEND+'</div>')
+def capline(p):
+    if not p["cap"]: c="no size cap stated"
+    else: c=p["cap"] if p["cap"].startswith("homes") else "homes "+p["cap"]
+    return c+(f'; {p["note"]}' if p["note"] else '')
+def card_price(i,t,lbl):
+    p=pr(i,t)
+    if p["amt"] is None:
+        v=f'<span class="pv muted">{e(i[TXT[t]])}</span>'
+    else:
+        sub=capline(p) if t!="bundle" else (e(i["bundle"]) if False else capline(p))
+        v=f'<span class="pv"><span class="amt">${p["amt"]}</span><span class="capl">{e(sub)}</span></span>'
+    return f'<div class="prow"><span class="pl">{lbl}</span>{v}</div>'
+PHONE_SVG='<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>'
+def nice_date(d): return datetime.date.fromisoformat(d).strftime("%b %-d, %Y")
+def dom(u): return urllib.parse.urlparse(u).netloc.removeprefix("www.")
 def card(i):
-    contact=f'<a href="tel:{e("".join(ch for ch in i["phone"] if ch.isdigit() or ch=="+"))}">{e(i["phone"])}</a> <span class="muted small">(from <a href="{e(i["phone_src"])}" rel="nofollow noopener" target="_blank">its site</a>)</span>'
-    book=f'<dt>Online booking</dt><dd><a href="{e(i["booking"])}" rel="nofollow noopener" target="_blank">Book on its site</a></dd>' if i.get("booking") else ''
-    return f'''<article class="card insp" id="{e(i["slug"])}"><h3><a href="{e(i["website"])}" rel="nofollow noopener" target="_blank">{e(i["name"])}</a></h3>
-<p><span class="tag tag-{i["base"]}">{BASE_LABEL[i["base"]]}</span> <span class="muted small">{e(i["base_note"])}</span></p>
-<p class="muted">{e(i["service_area"])}</p><dl><dt>Wind mitigation</dt><dd>{price_html(i,"wind")}</dd><dt>4-point</dt><dd>{price_html(i,"four")}</dd><dt>Roof certification</dt><dd>{price_html(i,"roof")}</dd><dt>Bundle</dt><dd>{e(i["bundle"])}</dd>
-<dt>Phone</dt><dd>{contact}</dd>{book}<dt>FL license</dt><dd>{"" if i["lic_status"]=="note" else f'<span class="badge b-{i["lic_status"]}">{LIC_LABEL[i["lic_status"]]}</span>'}<span class="licnote">{e(i["license"])}</span></dd></dl>
-<p class="src">Source: <a href="{e(i["source"])}" rel="nofollow noopener" target="_blank">{e(i["source"])}</a>, checked {ago(i["checked"])}</p>
+    tel="".join(ch for ch in i["phone"] if ch.isdigit() or ch=="+")
+    lic="" if i["lic_status"]=="note" else f'<span class="badge b-{i["lic_status"]}">{LIC_LABEL[i["lic_status"]]}</span>'
+    book=f'<a class="btn btn-book" href="{e(i["booking"])}" rel="nofollow noopener" target="_blank">Book online</a>' if i.get("booking") else ''
+    bundle_row=card_price(i,"bundle","Bundle") if pr(i,"bundle")["amt"] is None else f'<div class="prow"><span class="pl">Bundle</span><span class="pv"><span class="amt">${pr(i,"bundle")["amt"]}</span><span class="capl">{e(i["bundle"])}</span></span></div>'
+    return f'''<article class="card insp" id="{e(i["slug"])}" {flt(i)}><div class="insp-head"><h3><a href="{e(i["website"])}" rel="nofollow noopener" target="_blank">{e(i["name"])}</a></h3><div class="badges"><span class="tag tag-{i["base"]}">{BASE_LABEL[i["base"]]}</span>{lic}</div></div>
+<div class="actions"><a class="btn btn-phone" href="tel:{e(tel)}">{PHONE_SVG}<span>{e(i["phone"])}</span></a>{book}</div>
+<div class="prices">{card_price(i,"wind","Wind mitigation")}{card_price(i,"four","4-point")}{card_price(i,"roof","Roof cert")}{bundle_row}</div>
+<dl class="meta"><dt>License</dt><dd>{e(i["license"])}</dd><dt>Area</dt><dd>{e(i["service_area"])}</dd><dt>Based</dt><dd>{e(i["base_note"])}</dd></dl>
+<p class="src"><a href="{e(i["source"])}" rel="nofollow noopener" target="_blank">{e(dom(i["source"]))} &#8599;</a> &middot; checked <time datetime="{e(i["checked"])}">{nice_date(i["checked"])}</time> &middot; <a href="{e(i["phone_src"])}" rel="nofollow noopener" target="_blank">phone source</a></p>
 <p class="fix small">Is this your business? <a href="mailto:{CORRECTIONS}?subject={urllib.parse.quote("Fix my listing: "+i["name"])}">Fix your listing</a>.</p></article>'''
 
 # ---------- Home ----------
@@ -138,16 +168,20 @@ which='''<table class="which"><thead><tr><th>Your situation</th><th>Report usual
 <tr><td>Buying an older home</td><td>Often a 4-point + wind mitigation bundle</td></tr></tbody></table>
 <p class="muted small">Thresholds are Citizens' published rules (checked 2026-10-21). Other insurers set their own. Ask your agent. <a href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Full comparison</a>.</p>'''
 city_links="".join(f'<li><a href="cities/{c["slug"]}.html">{e(c["name"])}</a> ({sum(c["slug"] in i["cities"] for i in INS)} listed)</li>' for c in cities)
+chips="".join(f'<a class="chip" href="cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in cities)
+LIC_FIRMS=sum(any(i["lic_status"]=="verified" for i in r) for r in FIRMS.values())
 layout("index.html","Wind Mitigation & 4-Point Inspectors | PBC Inspections",
 "Compare Palm Beach County wind mitigation (OIR-B1-1802), 4-point and roof certification inspectors: published prices, size caps, phone, booking and Florida license checks.",
-f'''<section class="hero"><h1>Wind mitigation, 4-point &amp; roof certification inspectors in Palm Beach County</h1>
-<p>{len(FIRMS)} inspection companies across {len(cities)} cities. Where an inspector publishes prices we show them, with the size cap, a link to the source and the date we checked. If they don't, we say "call for price". We don't make numbers up.</p></section>
+f'''<section class="hero"><h1>Compare Palm Beach County home insurance inspectors</h1>
+<p class="lead">Wind mitigation, 4-point and roof certification: published prices, phone and booking, and a license check for each inspector.</p>
+<nav class="chips" aria-label="Cities">{chips}<a class="chip chip-alt" href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Which report do I need? &rarr;</a></nav>
+<ul class="trust"><li>{len(FIRMS)} companies</li><li>{len(cities)} cities</li><li>Prices sourced and dated</li><li>Licenses checked on DBPR</li></ul></section>
+<section><h2>What inspections cost in Palm Beach County</h2>{stat_tiles(FIRMS)}<p class="small"><a href="prices/index.html">Prices by city and how we counted &rarr;</a> &middot; checked {ago(CHECKED)}</p></section>
 <section><h2>Which report do you need?</h2>{which}</section>
-<section><h2>What inspections cost in Palm Beach County</h2>{stats_table(FIRMS)}<p class="muted small">Each company counted once. Prices checked {ago(CHECKED)}. <a href="prices/index.html">Prices by city and method</a>.</p></section>
-<section><h2>Browse by city</h2><ul class="list cols">{city_links}</ul><p><a href="cities/index.html">All cities</a></p></section>
+<section><h2>Browse by city</h2><ul class="list cols">{city_links}</ul></section>
 <section><h2>Guides</h2><ul class="list">{"".join(f'<li><a href="{G}{s}.html">{e(t)}</a></li>' for s,t in GUIDES)}</ul></section>
 <!-- QUOTE-WIDGET-HOOK: future insurance-quote widget goes here. Hidden from public view; no widget, partner or affiliate link is connected yet. -->
-<section id="list" class="card"><h2>List your inspection business</h2><p>Do you do wind mitigation, 4-point, or roof certification inspections in Palm Beach County? Self-serve listings are coming soon. Until then, email your business name, website, service area, pricing page and Florida license number to <a href="mailto:{CONTACT}">{CONTACT}</a>. Listings are free. Already listed and something's wrong? Email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p></section>''',[],[{"@context":"https://schema.org","@type":"WebSite","name":"PBC Inspections","alternateName":"pbcinspections.com","url":BASE_URL+"/"}])
+<section id="list" class="card prose"><h2>List your inspection business</h2><p>Do you do wind mitigation, 4-point, or roof certification inspections in Palm Beach County? Self-serve listings are coming soon. Until then, email your business name, website, service area, pricing page and Florida license number to <a href="mailto:{CONTACT}">{CONTACT}</a>. Listings are free. Already listed and something's wrong? Email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p></section>''',[],[{"@context":"https://schema.org","@type":"WebSite","name":"PBC Inspections","alternateName":"pbcinspections.com","url":BASE_URL+"/"}])
 
 # ---------- Prices ----------
 city_rows=""
@@ -160,15 +194,15 @@ layout("prices/index.html","Palm Beach County Wind Mitigation, 4-Point & Roof Ce
 "Published 2026 prices for wind mitigation, 4-point, roof certification and bundles from Palm Beach County inspectors: ranges, medians and how we counted.",
 f'''<h1>Palm Beach County wind mitigation, 4-point &amp; roof cert prices, 2026</h1>
 <p>These figures come only from prices inspectors publish on their own websites, checked {ago(CHECKED)}. They are "starting at" or listed prices, not quotes.</p>
-<h2>County-wide</h2>{stats_table(FIRMS)}
-<h2>By city</h2><table class="compare stack"><thead><tr><th>City</th>{"".join(f"<th>{l}</th>" for _,l in TYPES)}</tr></thead><tbody>{city_rows}</tbody></table>
+<h2>County-wide</h2>{stat_tiles(FIRMS)}
+<h2>By city</h2><div class="tablewrap"><table class="compare stack"><thead><tr><th>City</th>{"".join(f"<th>{l}</th>" for _,l in TYPES)}</tr></thead><tbody>{city_rows}</tbody></table></div>
 <h2>How we calculated this</h2><ul class="prose">
 <li><strong>One company, one vote.</strong> {len(FIRMS)} companies appear across our city pages, many on several pages. County-wide medians and company counts count each company once; the county price range uses every published listing price, including per-city prices.</li>
 <li><strong>Per-city prices.</strong> Sun Inspections publishes a different price for each city. For the county-wide figures we use the median of its city prices. On the by-city table we use the price that company publishes for that city.</li>
 <li><strong>Which number.</strong> We use the stand-alone price the inspector lists, or its lowest "from" price. Where one company shows two figures for the same service on different pages (Accurate Building Inspections lists wind mitigation at $150 on its package page and $125 on its wind mitigation page), we use the figure on the page cited as the listing's source and note the other.</li>
 <li><strong>Size caps differ.</strong> Some prices cover homes up to 2,000, 2,500 or 3,000 sq ft; others state no cap. Larger, older or more distant homes often cost more. Each listing shows the cap.</li>
 <li><strong>Not counted:</strong> companies that publish no price for that service, and reports included "free" with a full home inspection (TruView, InspectionNow), because there is no stand-alone price.</li>
-<li>"Firms publishing a price" = companies with a published price for that service / all listed companies.</li></ul>''',[("Prices","prices/index.html")])
+<li>"Companies publishing a price" = companies with a published price for that service / all listed companies.</li></ul>''',[("Prices","prices/index.html")])
 
 # ---------- City pages ----------
 WBDR=("Palm Beach County's Building Division says all of unincorporated Palm Beach County is within the wind-borne debris region, and its product-approval guidance notes that all of Palm Beach County is classified a wind-borne debris region. "
@@ -179,7 +213,9 @@ def intro(c):
     p1=(f'{c["name"]} has about {h["units"]:,} housing units. Their median year built is {h["median_year"]}, and about {h["pct_pre1980"]}% were built before 1980 '
         f'({h["release"]} estimates). A home built in {h["median_year"]} is {2026-h["median_year"]} years old in 2026, past the 20-year age at which Citizens requires a 4-point inspection.')
     srcs=[(f'U.S. Census Bureau {h["release"]}, tables B25034/B25035, via Census Reporter',h["url"])]+WBDR_SRC
-    return (f'<p>{e(p1)}</p><p>{e(WBDR)}</p><p class="small muted">Sources: '+"; ".join(f'<a href="{e(u)}" rel="noopener" target="_blank">{e(n)}</a>' for n,u in srcs)+' (checked 2026-10-21).</p>')
+    return (f'<div class="prose intro"><p>{e(p1)}</p><details class="disc"><summary>Wind-borne debris region &amp; sources</summary><p>{e(WBDR)}</p><p class="small muted">Sources: '+"; ".join(f'<a href="{e(u)}" rel="noopener" target="_blank">{e(n)}</a>' for n,u in srcs)+' (checked 2026-10-21).</p></details></div>')
+HOWCHECK=('<details class="disc"><summary>How we check</summary><p>Listed in no particular order. None are paid placements. Licenses were checked on the Florida DBPR license search (<a href="https://www.myfloridalicense.com/wl11.asp" rel="nofollow noopener" target="_blank">myfloridalicense.com</a>). '
+  '"Not verified" means we could not match the business to a license record, not that it is unlicensed. Prices are copied from each inspector\'s own site on the date shown. Always confirm price and license before you book.</p></details>')
 for c in cities:
     rows=[i for i in INS if c["slug"] in i["cities"]]
     il={"@context":"https://schema.org","@type":"ItemList","name":f'Wind mitigation and 4-point inspectors serving {c["name"]}, FL',"numberOfItems":len(rows),
@@ -187,11 +223,11 @@ for c in cities:
     layout(f'cities/{c["slug"]}.html',f'{c["name"]} Wind Mitigation & 4-Point Inspectors ({len(rows)} compared)',
     f'{len(rows)} inspectors serving {c["name"]}, FL: published wind mitigation, 4-point and roof certification prices, size caps, phone and Florida license checks.',
     f'''<h1>{e(c["name"])} wind mitigation, 4-point &amp; roof certification inspectors</h1>{intro(c)}
-<p class="muted">{len(rows)} inspectors, listed in no particular order. None are paid placements. Licenses were checked on the Florida DBPR license search (<a href="https://www.myfloridalicense.com/wl11.asp" rel="nofollow noopener" target="_blank">myfloridalicense.com</a>). "Not verified" means we could not match the business to a license record, not that it is unlicensed. Always confirm price and license before you book.</p>
+<section class="listing"><h2>{len(rows)} inspectors serving {e(c["name"])}</h2><div class="prose">{HOWCHECK}</div>
+{FILTERS}
 {table(rows)}
-<p class="fix">Listed here and something is wrong or out of date? <a href="mailto:{CORRECTIONS}?subject={urllib.parse.quote("Fix a listing on the "+c["name"]+" page")}">Fix your listing</a> at {CORRECTIONS}.</p>
-<h2>Details</h2><div class="cards">{"".join(card(i) for i in rows)}</div>
-<p class="fix">Fix your listing: <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>. Not sure which report you need? Read the <a href="../{G}4-point-vs-wind-mitigation-vs-roof-certification.html">guide</a>.</p>''',
+<h2 class="details-h">Details</h2><div class="cards">{"".join(card(i) for i in rows)}</div>
+<p class="fix">Listed here and something is wrong or out of date? <a href="mailto:{CORRECTIONS}?subject={urllib.parse.quote("Fix a listing on the "+c["name"]+" page")}">Fix your listing</a> at {CORRECTIONS}. Not sure which report you need? Read the <a href="../{G}4-point-vs-wind-mitigation-vs-roof-certification.html">guide</a>.</p></section>''',
     [("Cities","cities/index.html"),(c["name"],f'cities/{c["slug"]}.html')],[il])
 
 # ---------- Cities index ----------
@@ -319,6 +355,7 @@ f'''<article class="prose"><h1>About &amp; disclaimer</h1><p>{LONG} is an indepe
 
 # ---------- static ----------
 open(f"{OUT}/style.css","w").write(open(f"{ROOT}/src/style.css").read())
+open(f"{OUT}/favicon.svg","w").write(_svg+"\n")
 open(f"{OUT}/site.js","w").write(open(f"{ROOT}/src/site.js").read())
 open(f"{OUT}/.nojekyll","w").write("")
 open(f"{OUT}/CNAME","w").write("pbcinspections.com\n")
