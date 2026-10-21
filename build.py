@@ -182,7 +182,7 @@ def card(i):
 <p class="fix small">Is this your business? <a href="mailto:{CORRECTIONS}?subject={urllib.parse.quote("Fix my listing: "+i["name"])}">Fix your listing</a>.</p></article>'''
 
 # ---------- Quote request ----------
-FORM_ACTION="https://formsubmit.co/"+CONTACT
+FORM_ACTION="https://formsubmit.co/265503c53f1018daa54443a7cbfc6097"  # alias for listings@, from activation email
 CONSENT=("When you send this, we share your request (name, contact details, city, ZIP and what you need) with up to 3 inspectors listed on this site who serve your area, so they can contact you with a quote. "
          "We don't sell your information. Inspectors set their own prices; we don't guarantee a reply or a price.")
 def cta(pre,city=None):
