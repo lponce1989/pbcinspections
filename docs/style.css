@@ -258,3 +258,7 @@ main .side li a,main .side p a:not(.arrow-link),.crumbs a,main .list li a,main .
 @media (prefers-color-scheme:dark){.g-more{background:#143644;border-color:#24505f}.form-alt{border-color:#24414d}}
 @media print{.guide-wide .side{display:none}}
 .cmp-wide .tablewrap,.cmp-wide table{max-width:none;width:100%}
+/* r9 city expansion */
+.region h2{margin-top:var(--s6)}
+.towns{columns:3 220px;column-gap:var(--s5);padding-left:1.1em;margin:var(--s3) 0 0}.towns li{margin:4px 0;break-inside:avoid}
+.also{margin:var(--s3) 0 0}
