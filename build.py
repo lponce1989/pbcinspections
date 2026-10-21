@@ -65,11 +65,11 @@ def layout(path,title,desc,body,crumbs,extra_ld=()):
 <title>{e(title)}</title><meta name="description" content="{e(desc)}">
 <link rel="canonical" href="{canon}"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="website"><meta property="og:url" content="{canon}"><meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"><link rel="icon" href="{pre}favicon.svg" type="image/svg+xml"><link rel="icon" type="image/png" sizes="32x32" href="{FAV_PNG}"><link rel="apple-touch-icon" href="{TOUCH_PNG}"><meta name="theme-color" content="#0b3d4f"><link rel="stylesheet" href="{pre}style.css?v={ASSET_V}">{ld(bc)}{"".join(ld(x) for x in extra_ld)}</head><body>
-<a class="skip" href="#main">Skip to content</a><header><div class="wrap"><a class="brand" href="{pre}index.html">{LOGO}<span>{LONG}</span></a><nav>{nav}</nav></div></header>
+<a class="skip" href="#main">Skip to content</a><header><div class="wrap"><a class="brand" href="{pre}index.html" aria-label="PBC Inspections, home"{' aria-current="page"' if path=="index.html" else ""}>{LOGO}<span>{LONG}</span></a><nav>{nav}</nav></div></header>
 <main class="wrap" id="main" tabindex="-1">{crumb_html}{body}</main>
 <footer><div class="wrap"><p>Informational directory only, not insurance advice. Listings and prices are copied from inspectors' own websites on the date shown and may have changed; always confirm with the inspector. <a href="{pre}about.html">Disclaimer, disclosures &amp; listing criteria</a>. Corrections: <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p><p>&copy; {datetime.date.today().year} {LONG} &middot; Owner: Leonard Ponce</p></div></footer>
 <script src="{pre}site.js?v={ASSET_V}" defer></script>
-<script data-goatcounter="https://pbcinspections.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script></body></html>'''
+<script data-goatcounter="https://pbcinspections.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script></body></html>'''
     doc=canon_links(doc,path)
     fp=os.path.join(OUT,path); os.makedirs(os.path.dirname(fp),exist_ok=True); open(fp,"w").write(doc); pages.append(path)
 def canon_links(doc,path):
@@ -79,6 +79,7 @@ def canon_links(doc,path):
         if re.match(r"^(?:[a-z]+:|#|/)",u): return m.group(0)
         frag=""
         if "#" in u: u,frag=u.split("#",1); frag="#"+frag
+        if "?" in u: u,q=u.split("?",1); frag="?"+q+frag
         p=posixpath.normpath(posixpath.join(base,u))
         p="/"+("" if p in (".","index.html") else p)
         if p.endswith("/index.html"): p=p[:-10]

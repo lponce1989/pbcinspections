@@ -56,7 +56,7 @@ table{border-collapse:collapse;width:100%;background:#fff;font-size:.93rem;font-
 th,td{border:0;border-bottom:1px solid var(--line);padding:var(--s3);text-align:left;vertical-align:middle}
 th{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2);background:#f8fafb;white-space:nowrap}
 tbody tr:last-child td{border-bottom:0}
-tbody tr:hover{background:#f3f8fa}
+
 td.num{white-space:nowrap;font-weight:600}
 .c-name a{font-weight:600}
 th[data-sort] button{font:inherit;text-transform:inherit;letter-spacing:inherit;font-weight:600;background:none;border:0;padding:0;cursor:pointer;color:inherit;text-align:left}
@@ -159,3 +159,8 @@ fieldset.field{border:0;padding:0;margin-top:var(--s4)}fieldset legend{font-weig
 .qform button{cursor:pointer;font:inherit;font-weight:600}
 @media(max-width:700px){.fgrid{grid-template-columns:1fr}.qform{padding:var(--s4)}.cta{padding:var(--s4)}}
 fieldset.field{display:block}
+/* header brand: keep text visible on hover/focus/active (global a:hover made it dark-on-dark) */
+.brand:hover,.brand:focus,.brand:active,.brand:visited{color:#fff}
+.brand:hover span{text-decoration:underline;text-underline-offset:3px}
+.brand:focus-visible{outline:3px solid #f2b705;outline-offset:3px;border-radius:6px}
+.brand .logo{pointer-events:none}
