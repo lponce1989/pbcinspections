@@ -224,7 +224,7 @@ def card(i):
 
 # ---------- Quote request ----------
 FORM_ACTION="https://formsubmit.co/265503c53f1018daa54443a7cbfc6097"  # alias for listings@, from activation email
-CONSENT=("When you send this, we share your request (name, contact details, city, ZIP and what you need) with up to 3 inspectors listed on this site who serve your area, so they can contact you with a quote. "
+CONSENT=("When you send this, we share your request (name, contact details, city, ZIP and what you need) with up to 3 inspectors listed on this site who serve your area, so they can contact you with a quote. Inspectors don't pay us for requests, and we don't sell insurance or work for any insurer. "
          "We don't sell your information. Inspectors set their own prices; we don't guarantee a reply or a price.")
 def cta(pre,city=None):
     q=f'?city={city["slug"]}' if city else ''
@@ -254,7 +254,7 @@ f'''<section class="hero"><h1>Compare Palm Beach County home insurance inspector
 <section><h2>Browse by city</h2>{city_grid("cities/",FEAT)}<p class="small"><a class="arrow-link" href="cities/index.html">All {len(cities)} city pages, by region <span aria-hidden="true">&rarr;</span></a></p></section>
 <section><h2>Guides</h2>{guide_list(G,more=True)}</section>
 <!-- QUOTE-WIDGET-HOOK: future insurance-quote widget goes here. Hidden from public view; no widget, partner or affiliate link is connected yet. -->
-<section id="list" class="card prose"><h2>List your inspection business</h2><p>Do you do wind mitigation, 4-point, or roof certification inspections in Palm Beach County? Self-serve listings are coming soon. Until then, email your business name, website, service area, pricing page and Florida license number to <a href="mailto:{CONTACT}">{CONTACT}</a>. Listings are free. Already listed and something's wrong? Email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p></section>''',[],[{"@context":"https://schema.org","@type":"WebSite","name":"PBC Inspections","alternateName":"pbcinspections.com","url":BASE_URL+"/"}])
+<section id="list" class="card prose"><h2>List your inspection business</h2><p>Do you do wind mitigation, 4-point, or roof certification inspections in Palm Beach County? To be listed, email your business name, website, service area, pricing page and Florida license number to <a href="mailto:{CONTACT}">{CONTACT}</a>. Listings are free. Already listed and something's wrong? Email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p></section>''',[],[{"@context":"https://schema.org","@type":"WebSite","name":"PBC Inspections","alternateName":"pbcinspections.com","url":BASE_URL+"/"}])
 
 # ---------- Prices ----------
 city_rows=""
