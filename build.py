@@ -6,6 +6,11 @@ SITE="PBC Inspections"; LONG="PBC Inspections"
 BASE_URL=os.environ.get("BASE_URL","https://pbcinspections.com").rstrip("/")
 CONTACT="listings@pbcinspections.com"      # Porkbun email forwarding
 CORRECTIONS="corrections@pbcinspections.com"
+# Quote form: off by default. QUOTE_FORM=1 re-enables a form that goes ONLY to PBC Inspections (no sharing with inspectors).
+QUOTE_FORM=os.environ.get("QUOTE_FORM","0")=="1"
+# Affiliate links: off. When AFFILIATE_LINKS=1, use aff_link() for any paid link; pages that contain one get AFF_NOTE at the top.
+AFFILIATE_LINKS=os.environ.get("AFFILIATE_LINKS","0")=="1"
+EFFECTIVE="2026-10-21"
 e=html.escape
 import hashlib
 ASSET_V=hashlib.sha1((open(f"{ROOT}/src/style.css").read()+open(f"{ROOT}/src/site.js").read()).encode()).hexdigest()[:8]
@@ -17,7 +22,7 @@ FAV_PNG="data:image/png;base64,"+open(f"{ROOT}/src/favicon-32.png.b64").read().s
 TOUCH_PNG="data:image/png;base64,"+open(f"{ROOT}/src/apple-touch-icon.png.b64").read().strip()
 data=json.load(open(f"{ROOT}/data/inspectors.json")); cities=json.load(open(f"{ROOT}/data/cities.json"))
 INS=data["inspectors"]; CHECKED=data["checked"]
-pages=[]
+pages=[]; NOINDEX=set()
 G="guides/"
 GUIDE_LINE={"4-point-vs-wind-mitigation-vs-roof-certification":"What each report covers and when Citizens asks for it.",
  "oir-b1-1802-rev-04-26-changes":"What's new on the wind mitigation form effective April 1, 2026.",
@@ -73,7 +78,7 @@ RELATED={"4-point-vs-wind-mitigation-vs-roof-certification":["4-point-inspection
  "4-point-inspection-common-problems":["4-point-vs-wind-mitigation-vs-roof-certification","florida-roof-age-insurance-rules","how-long-inspection-reports-are-valid","look-up-inspector-license-dbpr","wind-mitigation-discount-how-much-you-save"],
  "oir-b1-1802-wind-mitigation-form-explained":["oir-b1-1802-rev-04-26-changes","wind-mitigation-discount-how-much-you-save","how-long-inspection-reports-are-valid","my-safe-florida-home-vs-private-wind-mitigation","look-up-inspector-license-dbpr"]}
 BASE_LABEL={"pbc":"Local (PBC-based)","bd":"Serves area from Broward/Miami-Dade","other":"Based elsewhere in Florida","unknown":"Address not stated"}
-LIC_LABEL={"verified":"Verified","not_verified":"Not verified","note":"See note"}
+LIC_LABEL={"verified":"Verified","not_verified":"Not found on DBPR","none_shown":"No license # on site","note":"See note"}
 TYPES=[("wind","Wind mitigation"),("four","4-point"),("roof","Roof certification"),("bundle","4-point + wind bundle")]
 TXT={"wind":"wind_mit","four":"four_point","roof":"roof_cert","bundle":"bundle"}
 
@@ -89,7 +94,8 @@ def og_image_tags():
     u=f"{BASE_URL}/og-image.png"
     return (f'<meta property="og:image" content="{u}"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">'
             f'<meta property="og:image:alt" content="PBC Inspections: Palm Beach County inspection prices, 2026"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{u}">')
-def layout(path,title,desc,body,crumbs,extra_ld=()):
+def layout(path,title,desc,body,crumbs,extra_ld=(),noindex=False):
+    if AFFILIATE_LINKS and 'rel="sponsored' in body: body=AFF_NOTE.replace("{pre}","../"*path.count("/"))+body
     pre="../"*path.count("/")
     if "PBC Inspections" not in title: title=f"{title} | PBC Inspections"
     nav=(f'<a href="{pre}index.html">Home</a><a href="{pre}cities/index.html">Cities</a><a href="{pre}prices/index.html">Prices</a>'
@@ -100,17 +106,18 @@ def layout(path,title,desc,body,crumbs,extra_ld=()):
     crumb_html='' if not crumbs else '<nav class="crumbs" aria-label="Breadcrumb"><a href="'+pre+'index.html">Home</a>'+"".join(f' &rsaquo; <a href="{pre}{p}">{e(nm)}</a>' for nm,p in crumbs)+'</nav>'
     doc=f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{e(title)}</title><meta name="description" content="{e(desc)}">
+<title>{e(title)}</title>{'<meta name="robots" content="noindex">' if noindex else ""}<meta name="description" content="{e(desc)}">
 <link rel="canonical" href="{canon}"><meta property="og:site_name" content="PBC Inspections"><meta property="og:locale" content="en_US"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="{"article" if path.startswith("guides/") and not path.endswith("index.html") else "website"}"><meta property="og:url" content="{canon}">{og_image_tags()}<meta name="twitter:title" content="{e(title)}"><meta name="twitter:description" content="{e(desc)}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"><link rel="icon" href="{pre}favicon.svg" type="image/svg+xml"><link rel="icon" type="image/png" sizes="32x32" href="{FAV_PNG}"><link rel="apple-touch-icon" href="{TOUCH_PNG}"><meta name="theme-color" content="#0b3d4f"><link rel="stylesheet" href="{pre}style.css?v={ASSET_V}">{ld(bc)}{"".join(ld(x) for x in extra_ld)}</head><body>
 <a class="skip" href="#main">Skip to content</a><header><div class="wrap"><a class="brand" href="{pre}index.html" aria-label="PBC Inspections, home"{' aria-current="page"' if path=="index.html" else ""}>{LOGO}<span>{LONG}</span></a><nav>{nav}</nav></div></header>
 <main class="wrap" id="main" tabindex="-1">{crumb_html}{body}</main>
-<footer><div class="wrap"><p>Informational directory only, not insurance advice. Listings and prices are copied from inspectors' own websites on the date shown and may have changed; always confirm with the inspector. <a href="{pre}about.html">Disclaimer, disclosures &amp; listing criteria</a>. Corrections: <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p><p>&copy; {datetime.date.today().year} {LONG} &middot; Owner: Leonard Ponce</p></div></footer>
+<footer><div class="wrap"><p>Informational directory only, not insurance advice. Listings and prices are copied from inspectors' own websites on the date shown and may have changed; always confirm with the inspector. <a href="{pre}about.html">About &amp; listing criteria</a>. Corrections: <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p><p>&copy; {datetime.date.today().year} {LONG} &middot; Owner: Leonard Ponce &middot; <a href="{pre}terms.html">Terms &amp; disclaimer</a> &middot; <a href="{pre}privacy.html">Privacy</a> &middot; <a href="{pre}about.html#accessibility">Accessibility</a></p></div></footer>
 <script src="{pre}site.js?v={ASSET_V}" defer></script>
 <script data-goatcounter="https://pbcinspections.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script></body></html>'''
     doc=canon_links(doc,path)
     doc=re.sub(r"(?<![\"=\d-])2026-10-21(?![\"\d])","Oct 21, 2026",doc)
     fp=os.path.join(OUT,path); os.makedirs(os.path.dirname(fp),exist_ok=True); open(fp,"w").write(doc); pages.append(path)
+    if noindex: NOINDEX.add(path)
 def canon_links(doc,path):
     base=posixpath.dirname(path)
     def fix(m):
@@ -222,16 +229,31 @@ def card(i):
 <p class="src"><a href="{e(i["source"])}" rel="nofollow noopener" target="_blank">{e(dom(i["source"]))} &#8599;</a> &middot; checked <time datetime="{e(i["checked"])}">{nice_date(i["checked"])}</time> &middot; <a href="{e(i["phone_src"])}" rel="nofollow noopener" target="_blank">phone source</a></p>
 <p class="fix small">Is this your business? <a href="mailto:{CORRECTIONS}?subject={urllib.parse.quote("Fix my listing: "+i["name"])}">Fix your listing</a>.</p></article>'''
 
+# ---------- Affiliate (build-ready, off) ----------
+AFF_NOTE=('<p class="notice aff-note"><strong>Disclosure:</strong> this page contains affiliate links, marked "(affiliate link)". '
+          'If you click one and buy, PBC Inspections may earn a commission at no extra cost to you. It never changes the prices or license information we show. '
+          '<a href="{pre}about.html#affiliate-referral-disclosure">How we make money</a>.</p>')
+def aff_link(href,text):
+    if not AFFILIATE_LINKS: raise RuntimeError("aff_link used while AFFILIATE_LINKS is off")
+    return f'<a href="{e(href)}" rel="sponsored nofollow noopener" target="_blank">{e(text)}</a> <span class="small muted">(affiliate link)</span>'
 # ---------- Quote request ----------
 FORM_ACTION="https://formsubmit.co/265503c53f1018daa54443a7cbfc6097"  # alias for listings@, from activation email
-CONSENT=("When you send this, we share your request (name, contact details, city, ZIP and what you need) with up to 3 inspectors listed on this site who serve your area, so they can contact you with a quote. Inspectors don't pay us for requests, and we don't sell insurance or work for any insurer. "
-         "We don't sell your information. Inspectors set their own prices; we don't guarantee a reply or a price.")
+CONSENT=("Your request goes only to PBC Inspections (Leonard Ponce) by email, through the FormSubmit form service. We don't pass it to inspectors, insurers or anyone else, and we don't sell your information. "
+         "We don't sell insurance or work for any insurer, and inspectors don't pay us. We'll use your details only to reply to you.")
 def cta(pre,city=None):
     q=f'?city={city["slug"]}' if city else ''
     where=f' in {e(city["name"])}' if city else ''
-    return (f'<aside class="cta" aria-label="Request quotes"><div><strong>Want quotes without calling around?</strong> '
-            f'<span>Tell us what you need{where} and we\'ll pass it to up to 3 local inspectors.</span></div>'
-            f'<a class="btn btn-book" href="{pre}request/index.html{q}">Request quotes</a></aside>')
+    if QUOTE_FORM:
+        return (f'<aside class="cta" aria-label="Ask a question"><div><strong>Not sure who to call?</strong> '
+                f'<span>Send us what you need{where}; it goes only to us, not to inspectors.</span></div>'
+                f'<a class="btn btn-book" href="{pre}request/index.html{q}">Contact us</a></aside>')
+    if city:
+        return (f'<aside class="cta" aria-label="Contact inspectors"><div><strong>Ready to book?</strong> '
+                f'<span>Call or book with an inspector directly. Every listing above has a phone number, website and published prices.</span></div>'
+                f'<a class="btn btn-book" href="#inspectors">Back to the list</a></aside>')
+    return (f'<aside class="cta" aria-label="Find an inspector"><div><strong>Ready to book?</strong> '
+            f'<span>Compare inspectors in your city and contact them directly. Each listing has a phone number, website and published prices.</span></div>'
+            f'<a class="btn btn-book" href="{pre}cities/index.html">Find an inspector</a></aside>')
 # ---------- Home ----------
 which='''<table class="which"><thead><tr><th>Your situation</th><th>Report usually asked for</th></tr></thead><tbody>
 <tr><td>Home more than 20 years old, applying to Citizens</td><td>4-point</td></tr>
@@ -246,7 +268,7 @@ layout("index.html","Wind Mitigation & 4-Point Inspectors | PBC Inspections",
 "Compare Palm Beach County wind mitigation (OIR-B1-1802), 4-point and roof certification inspectors: published prices, size caps, phone, booking and Florida license checks.",
 f'''<section class="hero"><h1>Compare Palm Beach County home insurance inspectors</h1>
 <p class="lead">Wind mitigation, 4-point and roof certification: published prices, phone and booking, and a license check for each inspector.</p>
-<p class="hero-actions"><a class="btn btn-book" href="request/index.html">Request quotes</a><a class="arrow-link" href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Which report do I need? <span aria-hidden="true">&rarr;</span></a></p>
+<p class="hero-actions"><a class="btn btn-book" href="cities/index.html">Find an inspector</a><a class="arrow-link" href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Which report do I need? <span aria-hidden="true">&rarr;</span></a></p>
 <nav class="chips" aria-label="Cities">{chips}</nav>
 <ul class="trust"><li>{len(FIRMS)} companies</li><li>{len(cities)} city pages</li><li>Prices sourced and dated</li><li>Licenses checked on DBPR</li></ul></section>
 <section><h2>What inspections cost in Palm Beach County</h2>{stat_tiles(FIRMS,False)}<p class="small">Each company counted once; checked {nice_date(CHECKED)}. <a href="prices/index.html">Prices by city and how we counted &rarr;</a></p></section>
@@ -356,15 +378,15 @@ GLADES_NOTE=('<p class="small">Only companies that name a Glades city on their o
   'Several coastal companies say they cover all of Palm Beach County but list no Glades town, so they are left off; you can still ask them. '
   'Ask any inspector whether a travel fee applies out here.</p>')
 HOWCHECK=('<details class="disc"><summary>How we check</summary><p>Listed in no particular order. None are paid placements. Licenses were checked on the Florida DBPR license search (<a href="https://www.myfloridalicense.com/wl11.asp" rel="nofollow noopener" target="_blank">myfloridalicense.com</a>). '
-  '"Not verified" means we could not match the business to a license record, not that it is unlicensed. Prices are copied from each inspector\'s own site on the date shown. Always confirm price and license before you book.</p></details>')
+  '"Not found on DBPR" means our search on the date shown found no matching license; "No license # on site" means the business publishes no name or number we could search. Neither means the business is unlicensed (engineers and architects, for example, are licensed outside DBPR). Prices are copied from each inspector\'s own site on the date shown. Always confirm price and license before you book.</p></details>')
 for c in cities:
     rows=[i for i in INS if c["slug"] in i["cities"]]
     il={"@context":"https://schema.org","@type":"ItemList","name":f'Wind mitigation and 4-point inspectors serving {c["name"]}, FL',"numberOfItems":len(rows),
         "itemListElement":[{"@type":"ListItem","position":n+1,"item":{"@type":"LocalBusiness","name":i["name"],"url":i["website"],"telephone":i["phone"]}} for n,i in enumerate(rows)]}
     layout(f'cities/{c["slug"]}.html',f'{c["name"]} Wind Mitigation & 4-Point Inspectors ({len(rows)} compared)',
     f'{len(rows)} inspectors serving {c["name"]}, FL: published wind mitigation, 4-point and roof certification prices, size caps, phone and Florida license checks.',
-    f'''<h1>{e(c["name"])} wind mitigation, 4-point &amp; roof certification inspectors</h1><p class="qprompt">Want quotes without calling around? <a href="../request/index.html?city={c["slug"]}">Request quotes from up to 3 local inspectors <span aria-hidden="true">&rarr;</span></a></p>{intro(c)}{also_note(c)}
-<section class="listing"><h2>{len(rows)} inspectors serving {e(c["name"])}</h2><div class="prose">{GLADES_NOTE if "group" in c else ""}{HOWCHECK}</div>
+    f'''<h1>{e(c["name"])} wind mitigation, 4-point &amp; roof certification inspectors</h1><p class="qprompt">Contact inspectors directly: each listing below has a phone number, website and published prices. <a href="#inspectors">Jump to the list <span aria-hidden="true">&rarr;</span></a></p>{intro(c)}{also_note(c)}
+<section class="listing" id="inspectors"><h2>{len(rows)} inspectors serving {e(c["name"])}</h2><div class="prose">{GLADES_NOTE if "group" in c else ""}{HOWCHECK}</div>
 {FILTERS}
 {table(rows)}
 <h2 class="details-h">Details</h2><div class="cards">{"".join(card(i) for i in rows)}</div>{cta("../",c)}
@@ -393,7 +415,7 @@ def side(pre,toc=(),current=None):
     out=""
     if toc: out+='<nav class="side-box toc" aria-label="On this page"><p class="side-h">On this page</p><ul>'+"".join(f'<li><a href="#{i}">{t}</a></li>' for i,t in toc)+'</ul></nav>'
     out+=('<div class="side-box"><p class="side-h">Find an inspector</p><div class="chips chips-sm">'+"".join(f'<a class="chip" href="{pre}cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in FEAT)+ALLCHIP(pre)+'</div>'
-          f'<p class="small"><a class="arrow-link" href="{pre}request/index.html">Or request quotes <span aria-hidden="true">&rarr;</span></a></p></div>')
+          f'<p class="small"><a class="arrow-link" href="{pre}prices/index.html">Or compare prices <span aria-hidden="true">&rarr;</span></a></p></div>')
     rel=[(s,t) for r in RELATED.get(current,[]) for s,t in GUIDES if s==r] or [(s,t) for s,t in GUIDES if s!=current][:5]
     out+='<div class="side-box"><p class="side-h">Related guides</p><ul>'+"".join(f'<li><a href="{pre}{G}{s}.html">{e(t)}</a></li>' for s,t in rel)+'</ul></div>'
     return f'<aside class="side" aria-label="More">{out}</aside>'
@@ -477,7 +499,7 @@ guide("look-up-inspector-license-dbpr","How to Look Up a Florida Home Inspector'
 <li>Choose <strong>Search by License Number</strong> if the inspector gives you one (home inspector numbers start with <strong>HI</strong>, for example HI12345). Otherwise choose <strong>Search by Name</strong> and enter the inspector's last and first name. Company names often don't return results, because home inspector licenses are issued to people.</li>
 <li>Check the <strong>License Type</strong> (e.g., Home Inspector, Certified General/Building/Residential Contractor) and the <strong>Status</strong>: you want "Current, Active".</li>
 <li>Check the name matches the person coming to your home, and look at the expiration date.</li></ol>
-<h2>What our listings show</h2><p>Each listing has a badge: <strong>Verified</strong> (we matched a named inspector or the license number shown on the site to an active DBPR record), <strong>See note</strong> (partial match; details in the card) or <strong>Not verified</strong> (we could not match a record; this does not mean the business is unlicensed).</p>
+<h2>What our listings show</h2><p>Each listing has a badge: <strong>Verified</strong> (we matched a named inspector or the license number shown on the site to an active DBPR record), <strong>See note</strong> (partial match; details in the card) <strong>Not found on DBPR</strong> (our search found no matching record) or <strong>No license # on site</strong> (nothing published to search). Neither means the business is unlicensed.</p>
 <h2>Sources</h2><ul><li>Florida DBPR license search: <a href="https://www.myfloridalicense.com/wl11.asp">myfloridalicense.com</a> (used 2026-10-21)</li>'''+SRC_CIT+'''</ul>''',
 [("Where do I check a Florida home inspector's license?","On the Florida DBPR license search at myfloridalicense.com. Search by license number (home inspector licenses start with HI) or by the inspector's name."),
  ("What status should the license show?","Current, Active."),
@@ -626,10 +648,11 @@ layout("guides/index.html","Guides: Florida Wind Mitigation, 4-Point & Roof Insp
  f'<h1>Guides</h1>{guide_list()}',[("Guides","guides/index.html")])
 
 opts="".join(f'<option value="{e(c["name"])}" data-slug="{c["slug"]}">{e(c["name"])}</option>' for c in cities)
-layout("request/index.html","Request Inspection Quotes in Palm Beach County | PBC Inspections",
-"Request quotes for a wind mitigation, 4-point or roof certification inspection from local Palm Beach County inspectors.",
-f'''<div class="prose"><h1>Request quotes from local inspectors</h1>
-<p class="lead">Tell us what you need. We'll pass your request to up to 3 inspectors listed on this site who serve your area.</p></div>
+if QUOTE_FORM:
+    layout("request/index.html","Contact PBC Inspections | PBC Inspections",
+    "Send PBC Inspections a question about wind mitigation, 4-point or roof certification inspections in Palm Beach County.",
+    f'''<div class="prose"><h1>Contact us</h1>
+<p class="lead">Tell us what you need. Your message comes only to us; we don't pass it to inspectors. To get a quote, contact inspectors directly from the <a href="../cities/index.html">city pages</a>.</p></div>
 <form class="qform card" action="{FORM_ACTION}" method="POST">
 <input type="hidden" name="_subject" value="Quote request: (city not chosen)" id="f-subject">
 <input type="hidden" name="_next" value="{BASE_URL}/thanks.html">
@@ -650,30 +673,83 @@ f'''<div class="prose"><h1>Request quotes from local inspectors</h1>
 <label class="chk"><input type="checkbox" name="inspections" value="Roof certification"> Roof certification</label>
 <label class="chk"><input type="checkbox" name="inspections" value="Not sure"> Not sure</label></fieldset>
 <div class="field"><label for="f-notes">Notes <span class="opt">(optional)</span></label><textarea id="f-notes" name="notes" rows="4" placeholder="Year built, roof type, insurer deadline, anything else"></textarea></div>
-<p class="consent small">{CONSENT} See our <a href="../about.html#privacy">privacy note</a>.</p>
+<p class="consent small">{CONSENT} See our <a href="../privacy.html">privacy policy</a>.</p>
 <button class="btn btn-book" type="submit">Send request</button>
-<p class="form-alt small muted">Prefer to call? Every inspector's phone number is on the <a href="../cities/index.html">city pages</a>.</p>
-</form>''',[("Request quotes","request/index.html")])
-layout("thanks.html","Request Received | PBC Inspections","Your inspection quote request was sent.",
-'''<div class="prose"><h1>Thanks, your request was sent</h1><p class="lead">We'll pass it to up to 3 local inspectors who serve your area. They'll contact you directly by phone or email.</p>
-<p>In the meantime you can compare <a href="prices/index.html">published prices</a> or read <a href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">which report you need</a>.</p></div>''',[])
+<p class="form-alt small muted">Want a quote now? Every inspector's phone number is on the <a href="../cities/index.html">city pages</a>.</p>
+</form>''',[("Contact","request/index.html")])
+    layout("thanks.html","Message Received | PBC Inspections","Your message was sent.",
+    '''<div class="prose"><h1>Thanks, your message was sent</h1><p class="lead">It came only to us. We don't share it with inspectors.</p>
+<p>To get a quote, contact an inspector directly from the <a href="cities/index.html">city pages</a>, or compare <a href="prices/index.html">published prices</a>.</p></div>''',[],noindex=True)
+else:
+    chips="".join(f'<a class="chip" href="../cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in cities)
+    layout("request/index.html","Get Inspection Quotes in Palm Beach County | PBC Inspections",
+    "How to get a wind mitigation, 4-point or roof certification quote: contact Palm Beach County inspectors directly.",
+    f'''<div class="prose"><h1>Get quotes directly from inspectors</h1>
+<p class="lead">We don't take quote requests or pass your details to anyone. Contact inspectors directly: every listing has a phone number, website and published prices, with the date we checked them.</p>
+<h2>Pick your city</h2></div><div class="chips">{chips}</div>
+<div class="prose"><h2>What to tell the inspector</h2><ul><li>Which report you need: wind mitigation, 4-point, roof certification, or a bundle. Ask your insurance agent if you're unsure (<a href="../guides/4-point-vs-wind-mitigation-vs-roof-certification.html">which report do I need?</a>).</li><li>Year built, approximate square footage and roof type.</li><li>Any insurer deadline.</li><li>Ask the price for your home's size, how soon they can come, when you'll get the report, and their Florida license number.</li></ul>
+<p class="small muted">Prices on this site are copied from inspectors' own websites and may have changed. See our <a href="../terms.html">terms</a>.</p></div>''',[("Get quotes","request/index.html")])
+    layout("thanks.html","Quote Requests Paused | PBC Inspections","Quote requests are paused.",
+    '''<div class="prose"><h1>Quote requests are paused</h1><p class="lead">We're not taking quote requests right now. Contact inspectors directly from the <a href="cities/index.html">city pages</a>.</p>
+<p>You can also compare <a href="prices/index.html">published prices</a> or read <a href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">which report you need</a>.</p></div>''',[],noindex=True)
 # ---------- About ----------
-layout("about.html",f"About, Listing Criteria & Disclosures | {SITE}","About this directory, listing and removal criteria, the no-advice disclaimer, and the referral-fee disclosure.",
-with_aside(add_ids(f'''<article class="prose about"><h1>About &amp; disclaimer</h1><p>{LONG} is an independent directory of Palm Beach County, Florida inspectors who do wind mitigation, 4-point, and roof certification reports. It is owned by Leonard Ponce.</p>
-<h2>How listings work</h2><p>Each listing comes from the inspector's own public website. Each one shows a source link and the date we checked it. If an inspector doesn't publish a price, we show "call for price". Listings are not endorsements.</p>
+AFF_ABOUT=("Some links on this site are affiliate links. They are labelled \"(affiliate link)\" where they appear, and pages that contain them say so at the top. "
+           "If you use one, we may earn a commission at no extra cost to you. Listings are still free, nobody pays to be included or ranked, and payment never changes the prices or license information we show."
+           if AFFILIATE_LINKS else
+           "Right now we have <strong>no paid relationships</strong> with any inspector, insurer, insurance agency, or lead-generation company. No listing is paid for, and nothing on this site is an affiliate link. "
+           "In the future the site may earn referral fees, for example from an insurance-quote tool or from featured listings. If that happens we will update this page first, name the type of relationship, and clearly label any paid or affiliate link or placement where it appears. Payment will never change the prices or license information we show.")
+layout("about.html",f"About, Listing Criteria & Disclosures | {SITE}","About this directory, where listing information comes from, removal and correction policy, and the referral-fee disclosure.",
+with_aside(add_ids(f'''<article class="prose about"><h1>About this directory</h1><p>{LONG} is an independent directory of Palm Beach County, Florida inspectors who do wind mitigation, 4-point, and roof certification reports. It is owned by Leonard Ponce.</p>
+<h2>How listings work</h2><p>Each listing is built from facts the business publishes on its own public website (services, service area, prices, phone number, address) and from the public Florida DBPR license search. Each one shows a source link and the date we checked it. If an inspector doesn't publish a price, we show "call for price". Listings are factual information, not endorsements, reviews or recommendations.</p>
 <h2>Who we include</h2><ul><li>The business offers wind mitigation, 4-point, or roof certification inspections.</li><li>Its own website says it serves the city it is listed under (or all of Palm Beach County or Florida).</li><li>It has a working public website we can cite.</li><li>Listing is free. Nobody pays to be included or to be ranked; listings appear in no particular order.</li></ul>
-<h2>Removal and corrections</h2><ul><li>We remove a listing if the business asks us to, if its website stops working, or if it stops offering these inspections.</li><li>We correct prices, phone numbers, service areas or license details when the business or a reader shows us a public source. Email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</li></ul><h2>What the labels mean</h2><dl class="legend-dl">
+<h2>Removal and corrections</h2><ul><li>Any listed business can ask us to remove or correct its listing by emailing <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a> from an address or phone number connected to the business. We remove listings on request, usually within 7 days.</li><li>We also remove a listing if its website stops working or it stops offering these inspections.</li><li>We correct prices, phone numbers, service areas or license details when the business or a reader shows us a public source.</li></ul><h2>What the labels mean</h2><dl class="legend-dl">
 <dt><span class="tag tag-pbc">Local (PBC-based)</span></dt><dd>The business states a Palm Beach County address on its site.</dd>
 <dt><span class="tag tag-bd">Serves area from Broward/Miami-Dade</span></dt><dd>Its stated address is in Broward or Miami-Dade County.</dd>
 <dt><span class="tag tag-other">Based elsewhere in Florida</span></dt><dd>Its stated address is elsewhere in Florida.</dd>
 <dt><span class="tag tag-unknown">Address not stated</span></dt><dd>We did not find a street address on its site.</dd>
-<dt><span class="badge b-verified">Verified</span></dt><dd>We matched the business to an active license on the Florida DBPR license search.</dd>
-<dt><span class="badge b-not_verified">Not verified</span></dt><dd>We could not match the business to a license record. This does not mean it is unlicensed.</dd></dl>
+<dt><span class="badge b-verified">Verified</span></dt><dd>We matched a named inspector, or a license number shown on the business's site, to an active license on the Florida DBPR search. Form OIR-B1-1802 can be signed by licensed home inspectors and by certain contractors, building code inspectors, engineers and architects, so the license may be any of those types; the card says which.</dd>
+<dt><span class="badge b-not_verified">Not found on DBPR</span></dt><dd>Our DBPR search on the date shown found no matching license. This does not mean the business is unlicensed: engineers and architects are licensed by other boards, and names can differ.</dd>
+<dt><span class="badge b-none_shown">No license # on site</span></dt><dd>The business publishes no inspector name or license number we could search.</dd></dl>
 <h2>Licenses</h2><p>Where shown, license types and numbers come from the Florida DBPR license search on the date listed. <a href="guides/look-up-inspector-license-dbpr.html">Check one yourself</a>.</p>
-<h2>Affiliate &amp; referral disclosure</h2><p class="notice">Right now we have <strong>no paid relationships</strong> with any inspector, insurer, insurance agency, or lead-generation company. No listing is paid for, and nothing on this site is an affiliate link. In the future the site may earn referral fees, for example from an insurance-quote tool or from featured listings. If that happens we will update this page first, name the type of relationship, and clearly label any paid or affiliate link or placement where it appears. Payment will never change the prices or license information we show.</p>
-<h2>Not insurance advice</h2><p>Nothing here is a recommendation to buy, change, or cancel an insurance policy. We do not sell insurance and we are not licensed as an insurance agent. Whether an inspection earns a discount, and how much, depends on your insurer's filed rates and on what the inspector verifies. Talk to a licensed insurance agent or your insurer before you make coverage decisions.</p>
-<h2 id="privacy">Privacy</h2><p>If you use our <a href="request/index.html">quote request form</a>, what you enter (name, phone, email, city, ZIP, inspections needed, timeframe and notes) is sent to us by email through FormSubmit (formsubmit.co), a third-party form service. We use it only to pass your request to up to 3 inspectors listed on this site who serve your area. We don't sell your information. To have a request deleted, email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>. The site sets no cookies and runs no ad trackers. We count visits with GoatCounter, a privacy-friendly analytics service that uses no cookies and does not collect personal data; it records things like the page viewed, the referring site, browser and screen size, and approximate country, and we also count clicks on phone, booking and inspector-website links and quote form submissions (as totals, without any details you type). Its font is loaded from Google Fonts.</p>
-<h2>Contact</h2><p>Listing requests: <a href="mailto:{CONTACT}">{CONTACT}</a>. Corrections: <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p></article>'''),side("",[("how-listings-work","How listings work"),("what-the-labels-mean","What the labels mean"),("affiliate-referral-disclosure","Disclosure"),("privacy","Privacy"),("contact","Contact")])),[("About","about.html")])
+<h2 id="affiliate-referral-disclosure">Affiliate &amp; referral disclosure</h2><p class="notice">{AFF_ABOUT}</p>
+<h2>Not insurance advice</h2><p>Nothing here is a recommendation to buy, change, or cancel an insurance policy. We do not sell insurance and we are not licensed as an insurance agent. Whether an inspection earns a discount, and how much, depends on your insurer's filed rates and on what the inspector verifies. Talk to a licensed insurance agent or your insurer before you make coverage decisions. Full <a href="terms.html">terms &amp; disclaimer</a>.</p>
+<h2>Privacy</h2><p>We set no cookies, run no ad trackers, and don't collect personal information through the site. See our <a href="privacy.html">privacy policy</a>.</p>
+<h2 id="accessibility">Accessibility</h2><p>We aim for this site to meet WCAG 2.1 AA: it works with a keyboard and screen readers, supports dark mode and zoom, and we test pages automatically for contrast and structure. If something is hard to use, email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a> and we'll fix it or get you the information another way.</p>
+<h2>Contact</h2><p>Listing requests: <a href="mailto:{CONTACT}">{CONTACT}</a>. Corrections and removals: <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p></article>'''),side("",[("how-listings-work","How listings work"),("removal-and-corrections","Removal &amp; corrections"),("what-the-labels-mean","What the labels mean"),("affiliate-referral-disclosure","Disclosure"),("accessibility","Accessibility"),("contact","Contact")])),[("About","about.html")])
+
+# ---------- Privacy ----------
+FORM_PRIV=(f'<p>When the form is on, what you enter (name, phone, email, city, ZIP, inspections needed, timeframe and notes) is sent by email to PBC Inspections through <a href="https://formsubmit.co/privacy.html" rel="nofollow noopener" target="_blank">FormSubmit</a>, a third-party form service. It comes only to us. We use it to reply to you and do not share it with inspectors or anyone else.</p>'
+           if QUOTE_FORM else
+           '<p>Our quote request form is currently switched off, so the site does not collect names, phone numbers or other details through a form. If we turn a form back on, we will update this policy first and describe exactly where your information goes.</p>')
+layout("privacy.html",f"Privacy Policy | {SITE}","What PBC Inspections collects (very little), the services the site uses, and how to contact us.",
+add_ids(f'''<article class="prose about"><h1>Privacy policy</h1><p class="muted">Effective {EFFECTIVE}. Last updated {EFFECTIVE}.</p>
+<p>This policy covers pbcinspections.com, run by Leonard Ponce as {LONG}. The short version: we set no cookies, run no ads or ad trackers, and do not sell or rent anyone's information.</p>
+<h2>Analytics</h2><p>We count visits with <a href="https://www.goatcounter.com/help/privacy" rel="nofollow noopener" target="_blank">GoatCounter</a>, a privacy-friendly analytics service that uses no cookies and does not collect personal data. It records things like the page viewed, the referring site, browser, screen size and approximate country. We also count clicks on phone, booking and inspector-website links as totals, without anything you type.</p>
+<h2>Forms</h2>{FORM_PRIV}
+<h2>Email</h2><p>If you email listings@ or corrections@pbcinspections.com, the message is forwarded by our domain provider, Porkbun, to Leonard Ponce's inbox. We use what you send only to answer you, handle a listing, correction or removal, and keep a record of that request. Ask us and we'll delete your messages unless we need to keep a record of a removal request.</p>
+<h2>Hosting and fonts</h2><p>The site is hosted on <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="nofollow noopener" target="_blank">GitHub Pages</a>. Like most web hosts, GitHub may log technical data such as visitors' IP addresses for security and operations. Our font is loaded from <a href="https://policies.google.com/privacy" rel="nofollow noopener" target="_blank">Google Fonts</a>, which receives your IP address and browser details when the font downloads. We don't receive or control those logs.</p>
+<h2>Links to other sites</h2><p>Listings link to inspectors' websites, DBPR and other sources. Their own privacy policies apply once you leave our site.</p>
+<h2>Selling or sharing data</h2><p>We do not sell, rent or share personal information, and we don't use it for targeted advertising.</p>
+<h2>Children</h2><p>This site is meant for adults dealing with home insurance. It is not directed to children under 13, and we do not knowingly collect information from them.</p>
+<h2>Your choices</h2><p>To ask what we have about you, or to have it deleted, email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p>
+<h2>Changes</h2><p>If we change how the site handles information, we'll update this page and the date at the top before the change takes effect.</p>
+<h2>Contact</h2><p><a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a></p></article>'''),[("Privacy","privacy.html")])
+
+# ---------- Terms ----------
+layout("terms.html",f"Terms of Use & Disclaimer | {SITE}","Terms of use and disclaimer for PBC Inspections: informational directory only, not insurance or legal advice.",
+add_ids(f'''<article class="prose about"><h1>Terms of use &amp; disclaimer</h1><p class="muted">Effective {EFFECTIVE}.</p>
+<p>By using pbcinspections.com (the "site"), run by Leonard Ponce as {LONG}, you agree to these terms.</p>
+<h2>Informational only</h2><p>The site is a directory and general information resource. It is not insurance, legal, engineering or financial advice. We are not an insurance agent, inspector or contractor. Whether you need an inspection and what discount it earns depends on your insurer; ask a licensed insurance agent or your insurer.</p>
+<h2>No endorsement or warranty of listed businesses</h2><p>Listings are factual information collected from each business's own public website and the Florida DBPR license search. A listing is not an endorsement, recommendation, referral or guarantee of any business, its licensing, insurance, work quality or availability. You choose and hire inspectors yourself, and any agreement is between you and them. Check license status yourself before you hire.</p>
+<h2>Prices and accuracy</h2><p>Prices are third-party figures published by each business on the date shown, and they can change at any time. We try to keep everything accurate, but we don't guarantee that any information is complete, current or error-free. Always confirm price, scope and license directly with the inspector.</p>
+<h2>Corrections and removals</h2><p>Businesses can request a correction or removal, and anyone can report an error, by emailing <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>. See our <a href="about.html#removal-and-corrections">removal and correction policy</a>.</p>
+<h2>Third-party links</h2><p>The site links to websites we don't control. We aren't responsible for their content, prices, privacy practices or services.</p>
+<h2>Trademarks</h2><p>Business names, logos and trademarks belong to their owners. Their use here identifies the businesses listed and does not imply any affiliation with or endorsement by them. Citizens Property Insurance Corporation, the Florida Office of Insurance Regulation and DBPR are named only as sources; they don't endorse this site.</p>
+<h2>Disclosure</h2><p>See our <a href="about.html#affiliate-referral-disclosure">affiliate and referral disclosure</a>.</p>
+<h2>Limitation of liability</h2><p>The site is provided "as is" and "as available", without warranties of any kind, express or implied. To the fullest extent the law allows, {LONG} and Leonard Ponce are not liable for any loss or damage arising from your use of the site, your reliance on its information, or your dealings with any listed business.</p>
+<h2>Governing law</h2><p>These terms are governed by the laws of the State of Florida. Any dispute will be handled in the state or federal courts located in Palm Beach County, Florida.</p>
+<h2>Changes</h2><p>We may update these terms; the effective date above shows the latest version.</p>
+<h2>Contact</h2><p><a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a></p></article>'''),[("Terms","terms.html")])
 
 # ---------- static ----------
 open(f"{OUT}/style.css","w").write(open(f"{ROOT}/src/style.css").read())
@@ -681,7 +757,7 @@ open(f"{OUT}/favicon.svg","w").write(_svg+"\n")
 open(f"{OUT}/site.js","w").write(open(f"{ROOT}/src/site.js").read())
 open(f"{OUT}/.nojekyll","w").write("")
 open(f"{OUT}/CNAME","w").write("pbcinspections.com\n")
-open(f"{OUT}/sitemap.xml","w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+"".join(f'  <url><loc>{url(p)}</loc><lastmod>{CHECKED}</lastmod></url>\n' for p in pages if p!="thanks.html")+"</urlset>\n")
+open(f"{OUT}/sitemap.xml","w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+"".join(f'  <url><loc>{url(p)}</loc><lastmod>{CHECKED}</lastmod></url>\n' for p in pages if p not in NOINDEX)+"</urlset>\n")
 open(f"{OUT}/robots.txt","w").write(f"User-agent: *\nAllow: /\nSitemap: {BASE_URL}/sitemap.xml\n")
 keys=["slug","name","firm","cities","base","base_note","phone","phone_src","email","booking","wind_mit","four_point","roof_cert","bundle","lic_status","license","service_area","website","source","checked"]
 with open(f"{ROOT}/data/inspectors.csv","w",newline="") as f:
