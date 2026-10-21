@@ -235,3 +235,9 @@ table.cmp td{vertical-align:top}table.cmp .corner{background:#f8fafb}
  .t-med,.c-s b{color:var(--teal)}h2::after{background:var(--teal)}
  sup.mk,.capi,.capl,.rsub,.hint,.opt{color:var(--muted)}
 }
+
+/* r7 polish */
+#list.card{max-width:none}#list p{max-width:var(--prose)}
+#list h2{margin-top:0}
+.gitem{display:flex;flex-direction:column}.gitem .g-c{margin-top:auto;padding-top:var(--s2,.5rem)}
+#list{margin-top:var(--s7);margin-bottom:var(--s7)}

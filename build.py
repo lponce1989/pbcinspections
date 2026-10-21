@@ -24,6 +24,11 @@ GUIDE_LINE={"4-point-vs-wind-mitigation-vs-roof-certification":"What each report
  "how-long-inspection-reports-are-valid":"Wind mitigation reports last up to five years; Citizens wants 4-point reports within 12 months.",
  "look-up-inspector-license-dbpr":"Check an inspector's Florida license yourself on the DBPR search.",
  "my-safe-florida-home-vs-private-wind-mitigation":"The free program inspection includes the OIR-B1-1802 form; when a private one is faster."}
+def fmt_tel(t,orig):
+    d=re.sub(r"\D","",t or "")
+    if len(d)==11 and d[0]=="1": d=d[1:]
+    return f"({d[:3]}) {d[3:6]}-{d[6:]}" if len(d)==10 else orig
+
 def guide_list(pre=""):
     return '<div class="glist">'+"".join(f'<a class="gitem" href="{pre}{s}.html"><span class="g-t">{e(t)}</span><span class="g-d">{e(GUIDE_LINE[s])}</span><span class="g-c">Checked {nice_date(CHECKED)}</span></a>' for s,t in GUIDES)+'</div>'
 def city_stat(c):
@@ -79,6 +84,7 @@ def layout(path,title,desc,body,crumbs,extra_ld=()):
 <script src="{pre}site.js?v={ASSET_V}" defer></script>
 <script data-goatcounter="https://pbcinspections.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script></body></html>'''
     doc=canon_links(doc,path)
+    doc=re.sub(r"(?<![\"=\d-])2026-10-21(?![\"\d])","Oct 21, 2026",doc)
     fp=os.path.join(OUT,path); os.makedirs(os.path.dirname(fp),exist_ok=True); open(fp,"w").write(doc); pages.append(path)
 def canon_links(doc,path):
     base=posixpath.dirname(path)
@@ -143,7 +149,7 @@ def stats_table(byfirm,caption=""):
 TILE_LBL={"wind":"Wind mitigation","four":"4-point","roof":"Roof certification","bundle":"4-point + wind bundle"}
 def stat_tiles(byfirm,note=True):
     t="".join(f'<div class="tile"><div class="t-lbl">{TILE_LBL[k]}</div><div class="t-med">{money(s["med"])}<span class="sr-only"> median</span></div>'
-      f'<div class="t-sub">median &middot; <span class="nw">range {money(s["lo"])}&ndash;{money(s["hi"])}</span></div><div class="t-sub">{s["n"]} of {s["total"]} publish a price</div></div>' for k,_ in TYPES for s in [stats(byfirm,k)])
+      f'<div class="t-sub">median</div><div class="t-sub"><span class="nw">range {money(s["lo"])}&ndash;{money(s["hi"])}</span></div><div class="t-sub">{s["n"]} of {s["total"]} publish a price</div></div>' for k,_ in TYPES for s in [stats(byfirm,k)])
     return f'<div class="tiles">{t}</div>'+(STATNOTE if note else "")
 
 # ---------- city table + cards ----------
@@ -185,7 +191,7 @@ def card(i):
     book=f'<a class="btn btn-book" href="{e(i["booking"])}" rel="nofollow noopener" target="_blank">Book online</a>' if i.get("booking") else ''
     bundle_row=card_price(i,"bundle","Bundle") if pr(i,"bundle")["amt"] is None else f'<div class="prow"><span class="pl">Bundle</span><span class="pv"><span class="amt">${pr(i,"bundle")["amt"]}</span><span class="capl">{e(i["bundle"])}</span></span></div>'
     return f'''<article class="card insp" id="{e(i["slug"])}" {flt(i)}><div class="insp-head"><h3><a href="{e(i["website"])}" rel="nofollow noopener" target="_blank">{e(i["name"])}</a></h3><div class="badges"><span class="tag tag-{i["base"]}">{BASE_LABEL[i["base"]]}</span>{lic}</div></div>
-<div class="actions"><a class="btn btn-phone" href="tel:{e(tel)}">{PHONE_SVG}<span>{e(i["phone"])}</span></a>{book}</div>
+<div class="actions"><a class="btn btn-phone" href="tel:{e(tel)}">{PHONE_SVG}<span>{e(fmt_tel(tel,i["phone"]))}</span></a>{book}</div>
 <div class="prices">{card_price(i,"wind","Wind mitigation")}{card_price(i,"four","4-point")}{card_price(i,"roof","Roof cert")}{bundle_row}</div>
 <details class="more"><summary>Details</summary><dl class="meta"><dt>License</dt><dd>{e(i["license"])}</dd><dt>Area</dt><dd>{e(i["service_area"])}</dd><dt>Based</dt><dd>{e(i["base_note"])}</dd></dl></details>
 <p class="src"><a href="{e(i["source"])}" rel="nofollow noopener" target="_blank">{e(dom(i["source"]))} &#8599;</a> &middot; checked <time datetime="{e(i["checked"])}">{nice_date(i["checked"])}</time> &middot; <a href="{e(i["phone_src"])}" rel="nofollow noopener" target="_blank">phone source</a></p>
@@ -207,7 +213,7 @@ which='''<table class="which"><thead><tr><th>Your situation</th><th>Report usual
 <tr><td>Shingle roof over 25 years, or tile/metal roof over 50 years (Citizens)</td><td>Roof certification (roof inspection form)</td></tr>
 <tr><td>You want wind-premium discounts</td><td>Wind mitigation (OIR-B1-1802)</td></tr>
 <tr><td>Buying an older home</td><td>Often a 4-point + wind mitigation bundle</td></tr></tbody></table>
-<p class="muted small">Thresholds are Citizens' published rules (checked 2026-10-21). Other insurers set their own. Ask your agent. <a href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Full comparison</a>.</p>'''
+<p class="muted small">Thresholds are Citizens' published rules (checked Oct 21, 2026). Other insurers set their own. Ask your agent. <a href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Full comparison</a>.</p>'''
 city_links="".join(f'<li><a href="cities/{c["slug"]}.html">{e(c["name"])}</a> ({sum(c["slug"] in i["cities"] for i in INS)} listed)</li>' for c in cities)
 chips="".join(f'<a class="chip" href="cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in cities)
 LIC_FIRMS=sum(any(i["lic_status"]=="verified" for i in r) for r in FIRMS.values())
@@ -264,7 +270,7 @@ def intro(c):
         p1+=(f'The median home is {age} years old, past the 20-year age at which Citizens requires a 4-point inspection, so most owners here should expect that ask; '
              f'a wind mitigation report is the inspection that can lower the premium.')
     srcs=[(f'U.S. Census Bureau {h["release"]}, tables B25034/B25035, via Census Reporter',h["url"])]+WBDR_SRC
-    return (f'<div class="prose intro"><p>{e(p1)}</p><details class="disc"><summary>Wind-borne debris region &amp; sources</summary><p>{e(WBDR)}</p><p class="small muted">Sources: '+"; ".join(f'<a href="{e(u)}" rel="noopener" target="_blank">{e(n)}</a>' for n,u in srcs)+' (checked 2026-10-21).</p></details></div>')
+    return (f'<div class="prose intro"><p>{e(p1)}</p><details class="disc"><summary>Wind-borne debris region &amp; sources</summary><p>{e(WBDR)}</p><p class="small muted">Sources: '+"; ".join(f'<a href="{e(u)}" rel="noopener" target="_blank">{e(n)}</a>' for n,u in srcs)+' (checked Oct 21, 2026).</p></details></div>')
 HOWCHECK=('<details class="disc"><summary>How we check</summary><p>Listed in no particular order. None are paid placements. Licenses were checked on the Florida DBPR license search (<a href="https://www.myfloridalicense.com/wl11.asp" rel="nofollow noopener" target="_blank">myfloridalicense.com</a>). '
   '"Not verified" means we could not match the business to a license record, not that it is unlicensed. Prices are copied from each inspector\'s own site on the date shown. Always confirm price and license before you book.</p></details>')
 for c in cities:
@@ -318,9 +324,9 @@ def guide(slug,title,desc,body,qs):
          f'<p class="notice"><strong>Not insurance advice.</strong> General information only. Your insurer or agent decides what it needs.</p>{content}{faqhtml}{cta("../")}{srchtml}</article>')
     layout(f"{G}{slug}.html",title,desc,with_aside(art,side("../",toc if len(toc)>=4 else (),slug)),
       [("Guides","guides/index.html"),(t,f"{G}{slug}.html")],[faq(qs)])
-SRC_CIT='<li>Citizens Property Insurance, Inspections: <a href="https://www.citizensfla.com/web/public/inspections">citizensfla.com/web/public/inspections</a> (checked 2026-10-21)</li>'
-SRC_OIR='<li>Florida OIR, Wind Mitigation Resources: <a href="https://floir.gov/consumers/wind-mitigation-resources/">floir.gov</a> (checked 2026-10-21)</li>'
-SRC_DFS='<li>Florida DFS, Mitigation Notices, Inspections and Forms: <a href="https://www.myfloridacfo.com/division/consumers/storm/mitigation-notices-inspections-and-forms">myfloridacfo.com</a> (checked 2026-10-21)</li>'
+SRC_CIT='<li>Citizens Property Insurance, Inspections: <a href="https://www.citizensfla.com/web/public/inspections">citizensfla.com/web/public/inspections</a> (checked Oct 21, 2026)</li>'
+SRC_OIR='<li>Florida OIR, Wind Mitigation Resources: <a href="https://floir.gov/consumers/wind-mitigation-resources/">floir.gov</a> (checked Oct 21, 2026)</li>'
+SRC_DFS='<li>Florida DFS, Mitigation Notices, Inspections and Forms: <a href="https://www.myfloridacfo.com/division/consumers/storm/mitigation-notices-inspections-and-forms">myfloridacfo.com</a> (checked Oct 21, 2026)</li>'
 onevisit='<span class="chips chips-sm">'+"".join(f'<a class="chip" href="../cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in cities)+'</span>'
 guide("4-point-vs-wind-mitigation-vs-roof-certification","4-Point vs. Wind Mitigation vs. Roof Certification: Which One Your Florida Insurer Wants",
 "What a 4-point inspection, a wind mitigation report (OIR-B1-1802), and a roof certification are, and when Florida insurers like Citizens ask for each.",
@@ -392,7 +398,7 @@ guide("my-safe-florida-home-vs-private-wind-mitigation","My Safe Florida Home Fr
 <li><strong>Florida Statutes s. 627.711(2)</strong> (2026 text) says "an insurer shall accept as valid a uniform mitigation verification form signed by" listed authorized mitigation inspectors: a home inspector with that 3-hour training, a certified building code inspector, a general, building or residential contractor, a professional engineer, or a professional architect. It does not name the MSFH program; what makes a form acceptable is the signer's qualification, and s. 215.5586 requires program inspectors to hold those same license types.</li>
 <li><strong>MSFH program materials:</strong> the program's Homeowners Guide lists "Form OIR-B1-1802 (Uniform Mitigation Verification Inspection Form)" as an attachment to every Initial Inspection Report and every Final Inspection Report. Its support center says to "share this report with your insurance company" to "make sure you get all the insurance discounts you currently qualify for." The program's home page says the report gives you "the opportunity to share your report with your insurance carrier."</li></ul>
 <p>We found no source that contradicts these. Section 627.711 also lets insurers accept forms from others they consider qualified, and a private form signed by a qualified inspector is equally valid.</p>
-<p><strong>Status checked 2026-10-21:</strong> the program's website says free wind mitigation inspections and grants of up to $10,000 are available. You create an account, complete a Prioritization Questionnaire, and are placed in an inspection group (1-5); you can apply when your group's window opens. Funding is set by the Legislature, so check <a href="https://mysafeflhome.com/">mysafeflhome.com</a>.</p>
+<p><strong>Status checked Oct 21, 2026:</strong> the program's website says free wind mitigation inspections and grants of up to $10,000 are available. You create an account, complete a Prioritization Questionnaire, and are placed in an inspection group (1-5); you can apply when your group's window opens. Funding is set by the Legislature, so check <a href="https://mysafeflhome.com/">mysafeflhome.com</a>.</p>
 <table><thead><tr><th></th><th>My Safe Florida Home inspection</th><th>Private wind mitigation</th></tr></thead><tbody>
 <tr><td>Cost</td><td>Free to eligible homeowners</td><td>You pay (see <a href="../prices/index.html">local prices</a>)</td></tr>
 <tr><td>OIR-B1-1802 form?</td><td>Yes, attached to the Initial Inspection Report</td><td>Yes</td></tr>
@@ -405,13 +411,13 @@ guide("my-safe-florida-home-vs-private-wind-mitigation","My Safe Florida Home Fr
 <li><strong>If your insurer or a home closing needs the form soon,</strong> or your group's window isn't open, a private inspection is faster. Ask your agent about deadlines.</li>
 <li>Either way, send the signed form to your agent or insurer and keep a copy. OIR says a completed form is valid for up to five years if the structure doesn't materially change.</li></ul>
 <h2>Sources</h2><ul>
-<li>Florida Statutes s. 215.5586 (2026), My Safe Florida Home Program: <a href="https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0200-0299/0215/Sections/0215.5586.html">leg.state.fl.us</a> (checked 2026-10-21)</li>
-<li>Florida Statutes s. 627.711 (2026), uniform mitigation verification inspection form: <a href="https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0600-0699/0627/Sections/0627.711.html">leg.state.fl.us</a> (checked 2026-10-21)</li>
-<li>My Safe Florida Home, Homeowner's Guide (PDF, updated 7/21/25), "Initial Inspection Reports" and "Final Inspection Reports": <a href="https://mysafeflhome.com/wp-content/uploads/2025/07/MSFH-Homeowners-Guide-Clean-Copy-Updated-72125.pdf">mysafeflhome.com</a> (checked 2026-10-21)</li>
+<li>Florida Statutes s. 215.5586 (2026), My Safe Florida Home Program: <a href="https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0200-0299/0215/Sections/0215.5586.html">leg.state.fl.us</a> (checked Oct 21, 2026)</li>
+<li>Florida Statutes s. 627.711 (2026), uniform mitigation verification inspection form: <a href="https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0600-0699/0627/Sections/0627.711.html">leg.state.fl.us</a> (checked Oct 21, 2026)</li>
+<li>My Safe Florida Home, Homeowner's Guide (PDF, updated 7/21/25), "Initial Inspection Reports" and "Final Inspection Reports": <a href="https://mysafeflhome.com/wp-content/uploads/2025/07/MSFH-Homeowners-Guide-Clean-Copy-Updated-72125.pdf">mysafeflhome.com</a> (checked Oct 21, 2026)</li>
 <li>MSFH Support Center, "Where do I find the results from my Initial Inspection Report?": <a href="https://support.mysafeflhome.com/en/support/solutions/articles/156000024192-where-do-i-find-the-results-from-my-initial-inspection-report-">support.mysafeflhome.com</a></li>
 <li>MSFH Support Center, "How do I get discounts on homeowner's insurance using my inspection reports?": <a href="https://support.mysafeflhome.com/en/support/solutions/articles/156000370516-how-do-i-get-discounts-on-homeowner-s-insurance-using-my-inspection-reports-">support.mysafeflhome.com</a></li>
 <li>MSFH Support Center, Program Terms Glossary: <a href="https://support.mysafeflhome.com/en/support/solutions/articles/156000372633-program-terms-glossary">support.mysafeflhome.com</a></li>
-<li>My Safe Florida Home: <a href="https://mysafeflhome.com/">mysafeflhome.com</a> (checked 2026-10-21)</li>'''+SRC_OIR+'''</ul>''',
+<li>My Safe Florida Home: <a href="https://mysafeflhome.com/">mysafeflhome.com</a> (checked Oct 21, 2026)</li>'''+SRC_OIR+'''</ul>''',
 [("Does the My Safe Florida Home inspection include the wind mitigation form?","Yes. The program's Homeowners Guide lists Form OIR-B1-1802 (Uniform Mitigation Verification Inspection Form) as an attachment to every Initial Inspection Report."),
  ("Must my insurer accept a form signed by a program inspector?","Florida Statutes s. 627.711 says an insurer shall accept as valid a uniform mitigation verification form signed by listed authorized inspectors, and s. 215.5586 requires program inspectors to hold those same license types and training."),
  ("Is My Safe Florida Home accepting applications?","When we checked on 2026-10-21, the program's site asked homeowners to create an account and complete a Prioritization Questionnaire to be placed in an inspection group. Funding depends on the Legislature; check mysafeflhome.com.")])
