@@ -241,3 +241,20 @@ table.cmp td{vertical-align:top}table.cmp .corner{background:#f8fafb}
 #list h2{margin-top:0}
 .gitem{display:flex;flex-direction:column}.gitem .g-c{margin-top:auto;padding-top:var(--s2,.5rem)}
 #list{margin-top:var(--s7);margin-bottom:var(--s7)}
+/* r8: approved audit suggestions */
+.city-table .c-name .tag{display:flex;width:fit-content;margin-top:4px}
+.city-table td{vertical-align:middle}
+.g-more{background:#eef7fa;border-color:#c9e3ec}.g-more .g-c{color:var(--teal-d);font-weight:600;font-size:.9rem}
+.chip-all{border-style:dashed;font-weight:600}
+.form-alt{margin:var(--s4) 0 0;padding-top:var(--s3);border-top:1px solid var(--line)}
+.guide-wide>.prose{max-width:var(--prose)}
+.cmp-wide{margin:var(--s5) 0}
+.cmp-wide table.cmp{width:100%}
+.guide-wide>.with-aside>.prose>h2:first-child{margin-top:var(--s6)}
+/* running-text links are underlined everywhere; nav, chips, buttons, cards and arrow CTAs are not */
+main p a:not(.btn):not(.chip):not(.arrow-link),main li a,main dd a,footer p a,.card p a,.notice a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+main .side li a,main .side p a:not(.arrow-link),.crumbs a,main .list li a,main .cols li a{text-decoration:none}
+.qprompt a{text-decoration:none!important}
+@media (prefers-color-scheme:dark){.g-more{background:#143644;border-color:#24505f}.form-alt{border-color:#24414d}}
+@media print{.guide-wide .side{display:none}}
+.cmp-wide .tablewrap,.cmp-wide table{max-width:none;width:100%}

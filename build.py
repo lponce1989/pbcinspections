@@ -29,8 +29,10 @@ def fmt_tel(t,orig):
     if len(d)==11 and d[0]=="1": d=d[1:]
     return f"({d[:3]}) {d[3:6]}-{d[6:]}" if len(d)==10 else orig
 
-def guide_list(pre=""):
-    return '<div class="glist">'+"".join(f'<a class="gitem" href="{pre}{s}.html"><span class="g-t">{e(t)}</span><span class="g-d">{e(GUIDE_LINE[s])}</span><span class="g-c">Checked {nice_date(CHECKED)}</span></a>' for s,t in GUIDES)+'</div>'
+def guide_list(pre="",more=False):
+    items="".join(f'<a class="gitem" href="{pre}{s}.html"><span class="g-t">{e(t)}</span><span class="g-d">{e(GUIDE_LINE[s])}</span><span class="g-c">Checked {nice_date(CHECKED)}</span></a>' for s,t in GUIDES)
+    if more: items+=f'<a class="gitem g-more" href="{pre}index.html"><span class="g-t">All guides</span><span class="g-d">Report types, how long reports stay valid, and how to check a license, in one place.</span><span class="g-c">Browse guides <span aria-hidden="true">&rarr;</span></span></a>'
+    return '<div class="glist">'+items+'</div>'
 def city_stat(c):
     recs=[i for i in INS if c["slug"] in i["cities"]]; byf={}
     for i in recs: byf.setdefault(i["firm"],[]).append(i)
@@ -215,7 +217,7 @@ which='''<table class="which"><thead><tr><th>Your situation</th><th>Report usual
 <tr><td>Buying an older home</td><td>Often a 4-point + wind mitigation bundle</td></tr></tbody></table>
 <p class="muted small">Thresholds are Citizens' published rules (checked Oct 21, 2026). Other insurers set their own. Ask your agent. <a href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">Full comparison</a>.</p>'''
 city_links="".join(f'<li><a href="cities/{c["slug"]}.html">{e(c["name"])}</a> ({sum(c["slug"] in i["cities"] for i in INS)} listed)</li>' for c in cities)
-chips="".join(f'<a class="chip" href="cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in cities)
+chips="".join(f'<a class="chip" href="cities/{c["slug"]}.html">{e(c["name"])}</a>' for c in cities)+'<a class="chip chip-all" href="cities/index.html">All cities <span aria-hidden="true">&rarr;</span></a>'
 LIC_FIRMS=sum(any(i["lic_status"]=="verified" for i in r) for r in FIRMS.values())
 layout("index.html","Wind Mitigation & 4-Point Inspectors | PBC Inspections",
 "Compare Palm Beach County wind mitigation (OIR-B1-1802), 4-point and roof certification inspectors: published prices, size caps, phone, booking and Florida license checks.",
@@ -227,7 +229,7 @@ f'''<section class="hero"><h1>Compare Palm Beach County home insurance inspector
 <section><h2>What inspections cost in Palm Beach County</h2>{stat_tiles(FIRMS,False)}<p class="small">Each company counted once; checked {nice_date(CHECKED)}. <a href="prices/index.html">Prices by city and how we counted &rarr;</a></p></section>
 <section><h2>Which report do you need?</h2>{which}</section>
 <section><h2>Browse by city</h2>{city_grid("cities/")}</section>
-<section><h2>Guides</h2>{guide_list(G)}</section>
+<section><h2>Guides</h2>{guide_list(G,more=True)}</section>
 <!-- QUOTE-WIDGET-HOOK: future insurance-quote widget goes here. Hidden from public view; no widget, partner or affiliate link is connected yet. -->
 <section id="list" class="card prose"><h2>List your inspection business</h2><p>Do you do wind mitigation, 4-point, or roof certification inspections in Palm Beach County? Self-serve listings are coming soon. Until then, email your business name, website, service area, pricing page and Florida license number to <a href="mailto:{CONTACT}">{CONTACT}</a>. Listings are free. Already listed and something's wrong? Email <a href="mailto:{CORRECTIONS}">{CORRECTIONS}</a>.</p></section>''',[],[{"@context":"https://schema.org","@type":"WebSite","name":"PBC Inspections","alternateName":"pbcinspections.com","url":BASE_URL+"/"}])
 
@@ -299,7 +301,7 @@ def slugify(x): return re.sub(r"[^a-z0-9]+","-",re.sub(r"<[^>]+>","",html.unesca
 def add_ids(h): return re.sub(r"<h2>(.*?)</h2>",lambda m:f'<h2 id="{slugify(m.group(1))}">{m.group(1)}</h2>',h)
 def cmp_tables(h):
     def fix(m):
-        t=m.group(0); n=len(re.findall(r"<th",t.split("</thead>")[0]))
+        t=m.group(0); n=len(re.findall(r"<th[ >]",t.split("</thead>")[0]))
         t=t.replace("<table>",'<div class="tablewrap"><table class="cmp"><colgroup><col class="c-lbl">'+'<col>'*(n-1)+'</colgroup>',1)+"</div>"
         t=t.replace("<th></th>",'<td class="corner"></td>',1)
         return re.sub(r"<tr><td>(.*?)</td>",r'<tr><th scope="row">\1</th>',t)
@@ -320,9 +322,17 @@ def guide(slug,title,desc,body,qs):
     faqhtml='<h2 id="faq">FAQ</h2>'+"".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q,a in qs)
     srchtml=('<h2 id="sources">Sources</h2>'+sources) if sources else ""
     toc=[(m.group(1),re.sub(r"<[^>]+>","",m.group(2))) for m in re.finditer(r'<h2 id="([^"]+)">(.*?)</h2>',content+faqhtml+srchtml)]
-    art=(f'<article class="prose"><h1>{e(t)}</h1><p class="dateline">Checked <time datetime="{CHECKED}">{nice_date(CHECKED)}</time></p>'
-         f'<p class="notice"><strong>Not insurance advice.</strong> General information only. Your insurer or agent decides what it needs.</p>{content}{faqhtml}{cta("../")}{srchtml}</article>')
-    layout(f"{G}{slug}.html",title,desc,with_aside(art,side("../",toc if len(toc)>=4 else (),slug)),
+    head=(f'<h1>{e(t)}</h1><p class="dateline">Checked <time datetime="{CHECKED}">{nice_date(CHECKED)}</time></p>'
+         f'<p class="notice"><strong>Not insurance advice.</strong> General information only. Your insurer or agent decides what it needs.</p>')
+    aside=side("../",toc if len(toc)>=4 else (),slug)
+    m=re.search(r'<div class="tablewrap"><table class="cmp">.*?</table></div>',content,flags=re.S)
+    if m:
+        # comparison table breaks out to full width; the sidebar sits beside the text that follows it
+        body=(f'<article class="guide-wide"><div class="prose">{head}{content[:m.start()]}</div><div class="cmp-wide">{m.group(0)}</div>'
+              +with_aside(f'<div class="prose">{content[m.end():]}{faqhtml}{cta("../")}{srchtml}</div>',aside)+'</article>')
+    else:
+        body=with_aside(f'<article class="prose">{head}{content}{faqhtml}{cta("../")}{srchtml}</article>',aside)
+    layout(f"{G}{slug}.html",title,desc,body,
       [("Guides","guides/index.html"),(t,f"{G}{slug}.html")],[faq(qs)])
 SRC_CIT='<li>Citizens Property Insurance, Inspections: <a href="https://www.citizensfla.com/web/public/inspections">citizensfla.com/web/public/inspections</a> (checked Oct 21, 2026)</li>'
 SRC_OIR='<li>Florida OIR, Wind Mitigation Resources: <a href="https://floir.gov/consumers/wind-mitigation-resources/">floir.gov</a> (checked Oct 21, 2026)</li>'
@@ -451,8 +461,8 @@ f'''<div class="prose"><h1>Request quotes from local inspectors</h1>
 <div class="field"><label for="f-notes">Notes <span class="opt">(optional)</span></label><textarea id="f-notes" name="notes" rows="4" placeholder="Year built, roof type, insurer deadline, anything else"></textarea></div>
 <p class="consent small">{CONSENT} See our <a href="../about.html#privacy">privacy note</a>.</p>
 <button class="btn btn-book" type="submit">Send request</button>
-</form>
-<p class="small muted prose">Prefer to call? Every inspector's phone number is on the <a href="../cities/index.html">city pages</a>.</p>''',[("Request quotes","request/index.html")])
+<p class="form-alt small muted">Prefer to call? Every inspector's phone number is on the <a href="../cities/index.html">city pages</a>.</p>
+</form>''',[("Request quotes","request/index.html")])
 layout("thanks.html","Request Received | PBC Inspections","Your inspection quote request was sent.",
 '''<div class="prose"><h1>Thanks, your request was sent</h1><p class="lead">We'll pass it to up to 3 local inspectors who serve your area. They'll contact you directly by phone or email.</p>
 <p>In the meantime you can compare <a href="prices/index.html">published prices</a> or read <a href="guides/4-point-vs-wind-mitigation-vs-roof-certification.html">which report you need</a>.</p></div>''',[])
