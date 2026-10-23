@@ -24,7 +24,9 @@ data=json.load(open(f"{ROOT}/data/inspectors.json")); cities=json.load(open(f"{R
 INS=data["inspectors"]; CHECKED=data["checked"]
 pages=[]; NOINDEX=set()
 G="guides/"
-GUIDE_LINE={"find-permit-records-palm-beach-county":"Where to look up roof and window permits and product approvals for your wind mitigation.",
+GUIDE_CHECKED={"insurer-verification-inspection-wind-mitigation":"2026-10-22"}  # guides whose sources were checked after data["checked"]
+GUIDE_LINE={"insurer-verification-inspection-wind-mitigation":"When an insurer can pay to verify your form, why forms get turned down, and how to dispute it.",
+ "find-permit-records-palm-beach-county":"Where to look up roof and window permits and product approvals for your wind mitigation.",
  "4-point-vs-wind-mitigation-vs-roof-certification":"What each report covers and when Citizens asks for it.",
  "oir-b1-1802-rev-04-26-changes":"What's new on the wind mitigation form effective April 1, 2026.",
  "how-long-inspection-reports-are-valid":"Wind mitigation reports last up to five years; Citizens wants 4-point reports within 12 months.",
@@ -41,7 +43,7 @@ def fmt_tel(t,orig):
 
 def guide_list(pre="",more=False):
     gl=[(s,t) for h in HOME_GUIDES for s,t in GUIDES if s==h] if more else GUIDES
-    items="".join(f'<a class="gitem" href="{pre}{s}.html"><span class="g-t">{e(t)}</span><span class="g-d">{e(GUIDE_LINE[s])}</span><span class="g-c">Checked {nice_date(CHECKED)}</span></a>' for s,t in gl)
+    items="".join(f'<a class="gitem" href="{pre}{s}.html"><span class="g-t">{e(t)}</span><span class="g-d">{e(GUIDE_LINE[s])}</span><span class="g-c">Checked {nice_date(GUIDE_CHECKED.get(s,CHECKED))}</span></a>' for s,t in gl)
     if more: items+=f'<a class="gitem g-more" href="{pre}index.html"><span class="g-t">All {len(GUIDES)} guides</span><span class="g-d">Discounts, roof age rules, the wind mitigation form, report validity and license checks, in one place.</span><span class="g-c">Browse guides <span aria-hidden="true">&rarr;</span></span></a>'
     return '<div class="glist">'+items+'</div>'
 def city_stat(c):
@@ -68,18 +70,20 @@ GUIDES=[("4-point-vs-wind-mitigation-vs-roof-certification","4-point vs. wind mi
  ("florida-roof-age-insurance-rules","Florida roof age rules for home insurance"),
  ("4-point-inspection-common-problems","Common 4-point inspection problems and fixes"),
  ("oir-b1-1802-wind-mitigation-form-explained","The wind mitigation form, question by question"),
- ("find-permit-records-palm-beach-county","How to find your roof and window permits in Palm Beach County")]
+ ("find-permit-records-palm-beach-county","How to find your roof and window permits in Palm Beach County"),
+ ("insurer-verification-inspection-wind-mitigation","Can your insurer re-inspect or reject your wind mitigation report?")]
 HOME_GUIDES=["wind-mitigation-discount-how-much-you-save","4-point-vs-wind-mitigation-vs-roof-certification","florida-roof-age-insurance-rules","4-point-inspection-common-problems","oir-b1-1802-wind-mitigation-form-explained"]
-RELATED={"find-permit-records-palm-beach-county":["oir-b1-1802-wind-mitigation-form-explained","florida-roof-age-insurance-rules","wind-mitigation-discount-how-much-you-save","how-long-inspection-reports-are-valid","4-point-vs-wind-mitigation-vs-roof-certification"],
+RELATED={"insurer-verification-inspection-wind-mitigation":["oir-b1-1802-wind-mitigation-form-explained","look-up-inspector-license-dbpr","how-long-inspection-reports-are-valid","wind-mitigation-discount-how-much-you-save","find-permit-records-palm-beach-county"],
+ "find-permit-records-palm-beach-county":["oir-b1-1802-wind-mitigation-form-explained","florida-roof-age-insurance-rules","wind-mitigation-discount-how-much-you-save","how-long-inspection-reports-are-valid","4-point-vs-wind-mitigation-vs-roof-certification"],
  "4-point-vs-wind-mitigation-vs-roof-certification":["4-point-inspection-common-problems","florida-roof-age-insurance-rules","wind-mitigation-discount-how-much-you-save","how-long-inspection-reports-are-valid","look-up-inspector-license-dbpr"],
  "oir-b1-1802-rev-04-26-changes":["oir-b1-1802-wind-mitigation-form-explained","wind-mitigation-discount-how-much-you-save","how-long-inspection-reports-are-valid","my-safe-florida-home-vs-private-wind-mitigation","look-up-inspector-license-dbpr"],
- "how-long-inspection-reports-are-valid":["4-point-vs-wind-mitigation-vs-roof-certification","oir-b1-1802-wind-mitigation-form-explained","florida-roof-age-insurance-rules","find-permit-records-palm-beach-county","wind-mitigation-discount-how-much-you-save"],
- "look-up-inspector-license-dbpr":["4-point-vs-wind-mitigation-vs-roof-certification","oir-b1-1802-wind-mitigation-form-explained","4-point-inspection-common-problems","how-long-inspection-reports-are-valid","my-safe-florida-home-vs-private-wind-mitigation"],
+ "how-long-inspection-reports-are-valid":["4-point-vs-wind-mitigation-vs-roof-certification","insurer-verification-inspection-wind-mitigation","oir-b1-1802-wind-mitigation-form-explained","florida-roof-age-insurance-rules","find-permit-records-palm-beach-county"],
+ "look-up-inspector-license-dbpr":["4-point-vs-wind-mitigation-vs-roof-certification","insurer-verification-inspection-wind-mitigation","oir-b1-1802-wind-mitigation-form-explained","4-point-inspection-common-problems","how-long-inspection-reports-are-valid"],
  "my-safe-florida-home-vs-private-wind-mitigation":["wind-mitigation-discount-how-much-you-save","oir-b1-1802-wind-mitigation-form-explained","oir-b1-1802-rev-04-26-changes","how-long-inspection-reports-are-valid","look-up-inspector-license-dbpr"],
- "wind-mitigation-discount-how-much-you-save":["oir-b1-1802-wind-mitigation-form-explained","my-safe-florida-home-vs-private-wind-mitigation","oir-b1-1802-rev-04-26-changes","how-long-inspection-reports-are-valid","find-permit-records-palm-beach-county"],
+ "wind-mitigation-discount-how-much-you-save":["oir-b1-1802-wind-mitigation-form-explained","insurer-verification-inspection-wind-mitigation","my-safe-florida-home-vs-private-wind-mitigation","oir-b1-1802-rev-04-26-changes","how-long-inspection-reports-are-valid"],
  "florida-roof-age-insurance-rules":["4-point-vs-wind-mitigation-vs-roof-certification","4-point-inspection-common-problems","how-long-inspection-reports-are-valid","wind-mitigation-discount-how-much-you-save","find-permit-records-palm-beach-county"],
  "4-point-inspection-common-problems":["4-point-vs-wind-mitigation-vs-roof-certification","florida-roof-age-insurance-rules","how-long-inspection-reports-are-valid","look-up-inspector-license-dbpr","wind-mitigation-discount-how-much-you-save"],
- "oir-b1-1802-wind-mitigation-form-explained":["oir-b1-1802-rev-04-26-changes","wind-mitigation-discount-how-much-you-save","how-long-inspection-reports-are-valid","my-safe-florida-home-vs-private-wind-mitigation","find-permit-records-palm-beach-county"]}
+ "oir-b1-1802-wind-mitigation-form-explained":["oir-b1-1802-rev-04-26-changes","insurer-verification-inspection-wind-mitigation","wind-mitigation-discount-how-much-you-save","how-long-inspection-reports-are-valid","my-safe-florida-home-vs-private-wind-mitigation"]}
 BASE_LABEL={"pbc":"Local (PBC-based)","bd":"Serves area from Broward/Miami-Dade","other":"Based elsewhere in Florida","unknown":"Address not stated"}
 LIC_LABEL={"verified":"Verified","not_verified":"Not found on DBPR","none_shown":"No license # on site","note":"See note"}
 TYPES=[("wind","Wind mitigation"),("four","4-point"),("roof","Roof certification"),("bundle","4-point + wind bundle")]
@@ -430,7 +434,7 @@ def guide(slug,title,desc,body,qs):
     faqhtml='<h2 id="faq">FAQ</h2>'+"".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q,a in qs)
     srchtml=('<h2 id="sources">Sources</h2>'+sources) if sources else ""
     toc=[(m.group(1),re.sub(r"<[^>]+>","",m.group(2))) for m in re.finditer(r'<h2 id="([^"]+)">(.*?)</h2>',content+faqhtml+srchtml)]
-    head=(f'<h1>{e(t)}</h1><p class="dateline">Checked <time datetime="{CHECKED}">{nice_date(CHECKED)}</time></p>'
+    head=(f'<h1>{e(t)}</h1><p class="dateline">Checked <time datetime="{GUIDE_CHECKED.get(slug,CHECKED)}">{nice_date(GUIDE_CHECKED.get(slug,CHECKED))}</time></p>'
          f'<p class="notice"><strong>Not insurance advice.</strong> General information only. Your insurer or agent decides what it needs.</p>')
     aside=side("../",toc if len(toc)>=4 else (),slug)
     m=re.search(r'<div class="tablewrap"><table class="cmp">.*?</table></div>',content,flags=re.S)
@@ -441,7 +445,7 @@ def guide(slug,title,desc,body,qs):
     else:
         body=with_aside(f'<article class="prose">{head}{content}{faqhtml}{cta("../")}{srchtml}</article>',aside)
     layout(f"{G}{slug}.html",title,desc,body,
-      [("Guides","guides/index.html"),(t,f"{G}{slug}.html")],[faq(qs),{"@context":"https://schema.org","@type":"Article","headline":title,"description":desc,"url":url(f"{G}{slug}.html"),"mainEntityOfPage":url(f"{G}{slug}.html"),"dateModified":CHECKED,"inLanguage":"en-US","author":{"@type":"Organization","name":"PBC Inspections","url":BASE_URL+"/"},"publisher":{"@type":"Organization","name":"PBC Inspections","url":BASE_URL+"/"}}])
+      [("Guides","guides/index.html"),(t,f"{G}{slug}.html")],[faq(qs),{"@context":"https://schema.org","@type":"Article","headline":title,"description":desc,"url":url(f"{G}{slug}.html"),"mainEntityOfPage":url(f"{G}{slug}.html"),"dateModified":GUIDE_CHECKED.get(slug,CHECKED),"inLanguage":"en-US","author":{"@type":"Organization","name":"PBC Inspections","url":BASE_URL+"/"},"publisher":{"@type":"Organization","name":"PBC Inspections","url":BASE_URL+"/"}}])
 SRC_CIT='<li>Citizens Property Insurance, Inspections: <a href="https://www.citizensfla.com/web/public/inspections">citizensfla.com/web/public/inspections</a> (checked Oct 21, 2026)</li>'
 SRC_OIR='<li>Florida OIR, Wind Mitigation Resources: <a href="https://floir.gov/consumers/wind-mitigation-resources/">floir.gov</a> (checked Oct 21, 2026)</li>'
 SRC_DFS='<li>Florida DFS, Mitigation Notices, Inspections and Forms: <a href="https://www.myfloridacfo.com/division/consumers/storm/mitigation-notices-inspections-and-forms">myfloridacfo.com</a> (checked Oct 21, 2026)</li>'
@@ -680,6 +684,51 @@ guide("find-permit-records-palm-beach-county","How to Find Your Roof and Window 
  ("Why does my wind mitigation inspector need my permit?","The OIR-B1-1802 form asks for the roof covering's permit application date or product approval number, and for some homes a permit date to prove which building code applied. Documented features can earn more credit than unknown ones."),
  ("How do I check if my impact windows are approved?","Look up the FL product approval number on the Florida Building Commission's free product approval search at floridabuilding.org, or check the Miami-Dade approval if that is what the label shows.")])
 
+SRC_711_22='<li>Florida Statutes s. 627.711 (2026), notice of premium discounts; uniform mitigation verification inspection form: <a href="https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0600-0699/0627/Sections/0627.711.html">leg.state.fl.us</a> (checked Oct 22, 2026)</li>'
+guide("insurer-verification-inspection-wind-mitigation","Can Your Insurer Re-Inspect or Reject Your Wind Mitigation Report? Florida Rules",
+"Florida law makes insurers accept a wind mitigation form signed by an authorized inspector, but lets them pay to have it independently verified first. How verification inspections work, why forms get turned down, and what to do if you disagree.",
+'''<p class="notice"><strong>Short answer:</strong> Florida Statutes s. 627.711 says an insurer "shall accept as valid" a wind mitigation form signed by an authorized mitigation inspector. The same section lets the insurer, at its own expense, have the form independently verified before accepting it. Citizens cannot re-verify or reinspect a form that went through a Citizens-approved quality assurance program before it was submitted, unless the structure has materially changed during the term stated on the form.</p>
+<h2>What your insurer has to accept</h2><p>Section 627.711(2)(a) lists the authorized mitigation inspectors whose signed form an insurer must accept: a licensed home inspector with at least 3 hours of approved hurricane mitigation training and a proficiency exam, a certified building code inspector, a licensed general, building or residential contractor, a licensed professional engineer, a licensed professional architect, or anyone else the insurer recognizes as qualified. Under s. 627.711(2)(b), an insurer may, but is not required to, accept a form from anyone else whose qualifications it finds acceptable. Florida's Department of Financial Services (DFS) says that since July 1, 2008, all admitted insurers have been required to accept a valid form completed and signed by these licensees. You can confirm an inspector's license yourself; see <a href="look-up-inspector-license-dbpr.html">how to look up a license on DBPR</a>.</p>
+<h2>The insurer's right to verify</h2><ul>
+<li><strong>Who pays:</strong> s. 627.711(9) says that, "at its expense," an insurer may require a form to be independently verified by an inspector, an inspection company, or an independent third-party quality assurance provider with a quality assurance program before accepting it as valid. DFS describes the same right on its mitigation forms page.</li>
+<li><strong>Exemptions are optional:</strong> the same subsection says an insurer may, at its option, exempt forms completed by an inspector or company whose quality assurance program the insurer has approved.</li>
+<li><strong>Citizens' limit:</strong> a form given to Citizens Property Insurance is not subject to independent verification, and the property is not subject to reinspection by Citizens, absent material changes to the structure during the term stated on the form, if an authorized mitigation inspector signed it and a Citizens-approved quality assurance program reviewed and verified it before it was submitted.</li>
+<li><strong>A note on numbering:</strong> Citizens' "Your Wind Inspection" page cites s. 627.711(8) for this right; in the 2026 statute text, the verification provision is subsection (9).</li></ul>
+<h2>How Citizens handles a verification inspection</h2><p>Citizens says it "occasionally receives wind mitigation inspection reports that do not adequately document a home's wind mitigation features," and that without the required documentation it cannot give premium discounts. If Citizens decides a verification inspection is needed, the inspection company contacts you directly to schedule it. Citizens then notifies your agent of the findings and their impact, if any, on your policy.</p>
+<p>A verification inspection is different from Citizens' underwriting field surveys. Citizens says it may require an exterior-only or an interior and exterior survey during the life of the policy, at no cost to you, done by a third-party field survey company, and that it may require you to repair hazards or deficiencies.</p>
+<h2>Why a wind mitigation form gets turned down</h2><ul>
+<li><strong>The signer doesn't qualify:</strong> Citizens says its underwriters review every mitigation form, and a form may not be accepted if the appropriate professional did not perform the inspection or the professional's Florida license is not active or cannot be verified.</li>
+<li><strong>Someone else did the inspection:</strong> s. 627.711(3) says the person who signs must personally inspect the structures; only licensed engineers and contractors may send a direct employee, and the insurer can ask about that employee's qualifications before accepting the form.</li>
+<li><strong>Missing proof:</strong> the OIR-B1-1802 (Rev. 04/26) form says at least one photograph or document must accompany it to validate each attribute marked in questions 2 through 9, and that the insurer may ask additional questions about the features it verifies.</li>
+<li><strong>No attic access:</strong> Citizens says that if the inspector cannot get into your attic, you may not be eligible for discounts for roof-to-wall attachment, roof-deck attachment and secondary water resistance.</li>
+<li><strong>Changes or errors:</strong> the form is valid for up to five years "provided no material changes have been made to the structure or inaccuracies found on the form." Citizens lists adding a room or replacing a roof as examples of changes that may require a new inspection. See <a href="how-long-inspection-reports-are-valid.html">how long a report stays valid</a>.</li></ul>
+<h2>Before you send the form</h2><ul>
+<li><strong>Hand over your paperwork:</strong> Citizens asks you to give the inspector copies of any mitigation documents before the inspection starts, such as receipts with product specifications, work orders and invoices, roofing permits, and notice-of-acceptance letters for mitigation products. If you don't have them, see <a href="find-permit-records-palm-beach-county.html">how to find your permits in Palm Beach County</a>.</li>
+<li><strong>Clear the way:</strong> Citizens says to make sure your attic is accessible, and that a representative 18 or older can attend in your place if they know where the attic access and any stored shutters or panels are.</li>
+<li><strong>Check the signatures:</strong> the inspector signs a statement on page 6 that they personally performed the inspection (or, for licensed contractors and engineers, that an employee did and they take responsibility). The homeowner signs that the inspector performed it and showed proof of identification.</li>
+<li><strong>Keep a copy:</strong> every page of the form says to "maintain a copy of this form and any documentation provided with the insurance policy."</li></ul>
+<h2>If you disagree with the result</h2><ul>
+<li><strong>Citizens policies:</strong> if you believe the verification findings are wrong, Citizens says your agent should submit documentation that clearly shows why the discrepancy in the verification report is inaccurate. Citizens calls your agent the best source for questions about how the report affects your premium, and your inspector the contact for questions about how the inspection was done.</li>
+<li><strong>Any Florida insurer:</strong> DFS's Division of Consumer Services asks you to contact the insurance company first and give it a chance to resolve the issue, noting that most issues can be resolved within 30 days. If that fails, it can help with premium issues: it says companies have 14 days by statute to respond once a concern is filed. You can file through its online Consumer Assistance Portal or call (877) 693-5236.</li>
+<li><strong>What DFS can't do:</strong> DFS says it cannot determine a question of fact or compel a company to refund a premium or issue a policy if the company has not violated a law, rule or policy provision.</li>
+<li><strong>Getting a fresh inspection:</strong> if a new form is the answer, compare <a href="../prices/index.html">wind mitigation prices across Palm Beach County</a> or find inspectors on the <a href="../cities/index.html">city pages</a>.</li></ul>
+<h2>Misconduct, kickbacks and false forms</h2><ul>
+<li><strong>Inspector misconduct:</strong> s. 627.711(4) says an inspector commits misconduct by signing a form that falsely claims a personal inspection, falsely shows a discount feature the inspector knows doesn't exist or didn't inspect, contains errors due to gross negligence, or shows a pattern of demonstrably false information. Under s. 627.711(5), the inspector's licensing board may discipline and fine them.</li>
+<li><strong>Where to complain:</strong> DBPR's <a href="https://www2.myfloridalicense.com/file-a-complaint/">File a Complaint</a> page has forms for professions including home inspectors, building code administrators and inspectors, and the construction industry. DBPR says its discipline is administrative and that it cannot represent you in civil matters to recover fees paid.</li>
+<li><strong>No referral payments:</strong> s. 627.711(6) bars inspectors from offering, and insurance agents and agency staff from accepting, any compensation, inducement or reward for referring a property owner to an inspector.</li>
+<li><strong>False forms:</strong> s. 627.711(8) makes knowingly providing a false or fraudulent form to get a discount you aren't entitled to a first-degree misdemeanor (the Rev. 04/26 form cites this as subsection (7)). Under s. 627.711(7), an insurer or anyone else with evidence of fraud or false statements on a form must report it to the Division of Criminal Investigations.</li></ul>
+<h2>Sources</h2><ul>'''+SRC_711_22+'''<li>Florida DFS, Mitigation Notices, Inspections and Forms: <a href="https://www.myfloridacfo.com/division/consumers/storm/mitigation-notices-inspections-and-forms">myfloridacfo.com</a> (checked Oct 22, 2026)</li>
+<li>Citizens Property Insurance, Wind Inspection Results (verification inspections, results and disputes): <a href="https://www.citizensfla.com/wind-inspection-results">citizensfla.com</a> (checked Oct 22, 2026)</li>
+<li>Citizens Property Insurance, Your Wind Inspection (attic access, documents, mitigation forms): <a href="https://www.citizensfla.com/your-wind-inspection">citizensfla.com</a> (checked Oct 22, 2026)</li>
+<li>Citizens Property Insurance, Inspections (underwriting field surveys, form review): <a href="https://www.citizensfla.com/web/public/inspections">citizensfla.com/web/public/inspections</a> (checked Oct 22, 2026)</li>
+<li>Florida OIR, Uniform Mitigation Verification Inspection Form OIR-B1-1802 (Rev. 04/26): <a href="https://www.floir.gov/docs-sf/property-casualty-libraries/product-review/all-forms/form-oir-1802-adopted-version-(no-watermark).pdf">floir.gov (PDF)</a> (checked Oct 22, 2026)</li>
+<li>Florida DFS, Get Insurance Help: <a href="https://www.myfloridacfo.com/division/consumers/needourhelp">myfloridacfo.com</a> (checked Oct 22, 2026)</li>
+<li>Florida DBPR, File a Complaint: <a href="https://www2.myfloridalicense.com/file-a-complaint/">myfloridalicense.com</a> (checked Oct 22, 2026)</li></ul>''',
+[("Can my insurance company reinspect my house after I send a wind mitigation report?","Yes. Florida Statutes s. 627.711(9) lets an insurer, at its own expense, have the form independently verified by an inspector, inspection company or quality assurance provider before accepting it. Citizens cannot do this for a form verified by a Citizens-approved quality assurance program before submission, absent material changes to the structure."),
+ ("Who pays for a wind mitigation verification inspection?","The insurer. Section 627.711(9) says the insurer may require independent verification at its expense."),
+ ("Why would my insurer reject my wind mitigation form?","Citizens says a form may not be accepted if the appropriate professional did not perform the inspection or the inspector's Florida license is not active or cannot be verified. The OIR-B1-1802 form also requires a photo or document for each attribute marked in questions 2 through 9."),
+ ("What can I do if I disagree with a verification inspection?","For a Citizens policy, Citizens says your agent should submit documentation showing why the discrepancy is inaccurate. For any Florida insurer, DFS's Division of Consumer Services can help with premium issues after you first try to resolve it with the company.")])
+
 layout("guides/index.html","Guides: Florida Wind Mitigation, 4-Point & Roof Inspections | PBC Inspections","Plain-English guides to Florida insurance inspections.",
  f'<h1>Guides</h1>{guide_list()}',[("Guides","guides/index.html")])
 
@@ -793,7 +842,7 @@ open(f"{OUT}/favicon.svg","w").write(_svg+"\n")
 open(f"{OUT}/site.js","w").write(open(f"{ROOT}/src/site.js").read())
 open(f"{OUT}/.nojekyll","w").write("")
 open(f"{OUT}/CNAME","w").write("pbcinspections.com\n")
-open(f"{OUT}/sitemap.xml","w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+"".join(f'  <url><loc>{url(p)}</loc><lastmod>{CHECKED}</lastmod></url>\n' for p in pages if p not in NOINDEX)+"</urlset>\n")
+open(f"{OUT}/sitemap.xml","w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+"".join(f'  <url><loc>{url(p)}</loc><lastmod>{GUIDE_CHECKED.get(p.removeprefix(G).removesuffix(".html"),CHECKED) if p.startswith(G) else CHECKED}</lastmod></url>\n' for p in pages if p not in NOINDEX)+"</urlset>\n")
 open(f"{OUT}/robots.txt","w").write(f"User-agent: *\nAllow: /\nSitemap: {BASE_URL}/sitemap.xml\n")
 keys=["slug","name","firm","cities","base","base_note","phone","phone_src","email","booking","wind_mit","four_point","roof_cert","bundle","lic_status","license","service_area","website","source","checked"]
 with open(f"{ROOT}/data/inspectors.csv","w",newline="") as f:
