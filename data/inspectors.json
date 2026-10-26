@@ -1,1942 +1,1942 @@
 {
-  "checked": "2026-10-21",
-  "inspectors": [
-    {
-      "slug": "sun-inspections",
-      "name": "Sun Inspections (Boca Raton pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "boca-raton"
-      ],
-      "service_area": "Palm Beach County (Boca Raton and nearby communities); statewide company with Miami as primary market",
-      "wind_mit": "From $125 (homes up to 3,000 sq ft)",
-      "four_point": "From $100 (up to 2,000 sq ft)",
-      "roof_cert": "From $85",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $200",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/boca-raton",
-      "checked": "2026-10-21",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "prices": {
-        "wind": {
-          "amt": 125,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 100,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 85,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 200,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
+ "checked": "2026-10-21",
+ "inspectors": [
+  {
+   "slug": "sun-inspections",
+   "name": "Sun Inspections (Boca Raton pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "boca-raton"
+   ],
+   "service_area": "Palm Beach County (Boca Raton and nearby communities); statewide company with Miami as primary market",
+   "wind_mit": "From $125 (homes up to 3,000 sq ft)",
+   "four_point": "From $100 (up to 2,000 sq ft)",
+   "roof_cert": "From $85",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $200",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/boca-raton",
+   "checked": "2026-10-26",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "prices": {
+    "wind": {
+     "amt": 125,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
     },
-    {
-      "slug": "home-inspector-proz",
-      "name": "Home Inspector Proz",
-      "website": "https://homeinspectorproz.com/",
-      "cities": [
-        "boca-raton"
-      ],
-      "service_area": "Boca Raton-based; Palm Beach, Broward and Miami-Dade counties",
-      "wind_mit": "$125",
-      "four_point": "$125",
-      "roof_cert": "$125",
-      "bundle": "Yes: Wind Mitigation + 4-Point $200 (homes up to 2,000 sq ft)",
-      "source": "https://homeinspectorproz.com/pricing",
-      "checked": "2026-10-21",
-      "license": "Home Inspector HI18198 (Nikolay Barkalin), active on DBPR (checked 2026-10-21)",
-      "firm": "hip",
-      "firm_name": "Home Inspector Proz",
-      "phone": "(305) 482-3232",
-      "phone_src": "https://homeinspectorproz.com/contact",
-      "email": "info@homeinspectorproz.com",
-      "booking": "https://homeinspectorproz.com/book-inspection",
-      "base": "pbc",
-      "base_note": "Boca Raton (business address on its site)",
-      "contact_note": null,
-      "lic_status": "verified",
-      "prices": {
-        "wind": {
-          "amt": 125,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 125,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 125,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "bundle": {
-          "amt": 200,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        }
-      }
+    "four": {
+     "amt": 100,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
     },
-    {
-      "slug": "all-rite-home-inspections",
-      "name": "All Rite Home Inspections, Inc of Palm Beach County",
-      "website": "https://www.allritehomeinspectionsinc.com/",
-      "cities": [
-        "boca-raton",
-        "delray-beach",
-        "boynton-beach",
-        "lake-worth-beach",
-        "palm-beach-gardens",
-        "palm-beach",
-        "riviera-beach"
-      ],
-      "service_area": "Palm Beach County: Delray Beach, Boca Raton, Deerfield Beach, Boynton Beach, Lake Worth, Palm Beach, Palm Beach Gardens, Riviera Beach",
-      "wind_mit": "$125 stand-alone ($100 with home inspection)",
-      "four_point": "$125 stand-alone ($100 with home inspection)",
-      "roof_cert": "$150",
-      "bundle": "Yes: 4-Point + Wind Mitigation combo $225",
-      "source": "https://www.allritehomeinspectionsinc.com/your-inspection/",
-      "checked": "2026-10-21",
-      "license": "Home Inspector HI14846 (John P. Bronner), active on DBPR (checked 2026-10-21)",
-      "firm": "allrite",
-      "firm_name": "All Rite Home Inspections, Inc of Palm Beach County",
-      "phone": "914-384-6435",
-      "phone_src": "https://www.allritehomeinspectionsinc.com/your-inspection/",
-      "email": "johnb@allritehomeinspectionsinc.com",
-      "booking": "https://www.allritehomeinspectionsinc.com/schedule-your-inspection/",
-      "base": "unknown",
-      "base_note": "No street address on the site",
-      "contact_note": null,
-      "lic_status": "verified",
-      "prices": {
-        "wind": {
-          "amt": 125,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "four": {
-          "amt": 125,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "roof": {
-          "amt": 150,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 225,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
+    "roof": {
+     "amt": 85,
+     "cap": null,
+     "covers2000": false,
+     "note": null
     },
-    {
-      "slug": "green-foot-home-inspections",
-      "name": "Green Foot Home Inspections",
-      "website": "https://greenfoothomeinspections.com/",
-      "cities": [
-        "boca-raton"
-      ],
-      "service_area": "Miami-Dade, Broward and Palm Beach corridor, incl. Boca Raton",
-      "wind_mit": "From $100",
-      "four_point": "From $125",
-      "roof_cert": "From $150 (2-year roof certification)",
-      "bundle": "Yes: 4-Point + Wind same visit $200",
-      "source": "https://greenfoothomeinspections.com/florida-insurance-inspections-guide",
-      "checked": "2026-10-21",
-      "license": "Home Inspector HI7640 (Fabian Ivan Fernandez) and HI8652 (Hernan Fernandez Sergio), both active on DBPR (checked 2026-10-21)",
-      "firm": "greenfoot",
-      "firm_name": "Green Foot Home Inspections",
-      "phone": "(786) 301-5677",
-      "phone_src": "https://greenfoothomeinspections.com/",
-      "email": "inspectors@greenfoothomeinspections.com",
-      "booking": null,
-      "base": "pbc",
-      "base_note": "7406 Clarke Rd, West Palm Beach (address on its site)",
-      "contact_note": null,
-      "lic_status": "verified",
-      "prices": {
-        "wind": {
-          "amt": 100,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "four": {
-          "amt": 125,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "roof": {
-          "amt": 150,
-          "cap": null,
-          "covers2000": false,
-          "note": "2-year roof certification"
-        },
-        "bundle": {
-          "amt": 200,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "modern-building-inspections",
-      "name": "Modern Building Inspections",
-      "website": "https://modernbuildinginspections.com/",
-      "cities": [
-        "boca-raton"
-      ],
-      "service_area": "Within 60 miles of West Kendall office: Miami-Dade, Broward and the Boca Raton area",
-      "wind_mit": "From $200",
-      "four_point": "From $200",
-      "roof_cert": "From $150",
-      "bundle": "Yes: 4-Point + Wind Mitigation combo from $250",
-      "source": "https://modernbuildinginspections.com/pricing/",
-      "checked": "2026-10-21",
-      "license": "Home Inspector HI9540 (Jorge Luis Garcia), current on DBPR (checked 2026-10-21)",
-      "firm": "modern",
-      "firm_name": "Modern Building Inspections",
-      "phone": "(786) 839-1644",
-      "phone_src": "https://modernbuildinginspections.com/contact/",
-      "email": "modernbuildinginspections@gmail.com",
-      "booking": "https://modernbuildinginspections.com/schedule/",
-      "base": "bd",
-      "base_note": "West Kendall, Miami-Dade (office location stated on its site)",
-      "contact_note": null,
-      "lic_status": "verified",
-      "prices": {
-        "wind": {
-          "amt": 200,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "four": {
-          "amt": 200,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "roof": {
-          "amt": 150,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 250,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "accurate-building-inspections",
-      "name": "Accurate Building Inspections LLC",
-      "website": "https://accuratebi.com/",
-      "cities": [
-        "boca-raton",
-        "west-palm-beach",
-        "delray-beach",
-        "boynton-beach",
-        "jupiter",
-        "wellington",
-        "palm-beach-gardens",
-        "lake-worth-beach",
-        "riviera-beach",
-        "royal-palm-beach",
-        "greenacres",
-        "lantana",
-        "north-palm-beach",
-        "tequesta",
-        "juno-beach",
-        "lake-park",
-        "palm-beach",
-        "palm-springs",
-        "highland-beach"
-      ],
-      "service_area": "Palm Beach, Broward, Miami-Dade, Martin, St. Lucie and Monroe counties; says it serves throughout Palm Beach County and lists cities from Boca Raton to Tequesta, incl. Riviera Beach, Royal Palm Beach, Greenacres, Lantana, Palm Springs and Palm Beach",
-      "wind_mit": "$150 on the package page ($125 stand-alone on its wind mitigation page)",
-      "four_point": "$150",
-      "roof_cert": "Call for price",
-      "bundle": "Yes: 4-Point + Wind Mitigation package $250",
-      "source": "https://accuratebi.com/services/insurance-inspection-package",
-      "checked": "2026-10-21",
-      "license": "Home Inspector HI13351 (Guillermo Ruiz, co-founder), active on DBPR (checked 2026-10-21). The number shown on the site (JE303969) does not match a DBPR record; co-founder Wesley Williford holds Mold Assessor MRSA5406 (active).",
-      "firm": "accurate",
-      "firm_name": "Accurate Building Inspections LLC",
-      "phone": "(786) 863-4866",
-      "phone_src": "https://accuratebi.com/contact",
-      "email": "accuratebuildinginspections@gmail.com",
-      "booking": "https://accuratebi.com/schedule",
-      "base": "pbc",
-      "base_note": "Royal Palm Beach (business address in its site data)",
-      "contact_note": null,
-      "lic_status": "verified",
-      "prices": {
-        "wind": {
-          "amt": 150,
-          "cap": null,
-          "covers2000": false,
-          "note": "$125 on its wind mitigation page"
-        },
-        "four": {
-          "amt": 150,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "roof": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 250,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "steelsight-home-inspections",
-      "name": "Steelsight Home Inspections",
-      "website": "https://www.steelsightinspections.com/",
-      "cities": [
-        "boca-raton",
-        "jupiter"
-      ],
-      "service_area": "Boca Raton, Jupiter and Palm Beach County",
-      "wind_mit": "Call for price",
-      "four_point": "Call for price",
-      "roof_cert": "Call for price",
-      "bundle": "Not stated",
-      "source": "https://www.steelsightinspections.com/wind-mitigation-inspection",
-      "checked": "2026-10-21",
-      "license": "Home Inspector HI18142 (Victor Rogoff), active on DBPR (checked 2026-10-21)",
-      "firm": "steelsight",
-      "firm_name": "Steelsight Home Inspections",
-      "phone": "(561) 609-0312",
-      "phone_src": "https://www.steelsightinspections.com/license-and-certificates",
-      "email": "rogoffvictor@gmail.com",
-      "booking": null,
-      "base": "pbc",
-      "base_note": "Boca Raton (stated on its site)",
-      "contact_note": null,
-      "lic_status": "verified",
-      "prices": {
-        "wind": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "four": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "roof": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "my-safe-home-inspection",
-      "name": "My Safe Home Inspection",
-      "website": "https://mshi.com/",
-      "cities": [
-        "boca-raton",
-        "delray-beach",
-        "boynton-beach",
-        "highland-beach"
-      ],
-      "service_area": "Boca Raton, Delray Beach, Highland Beach, Boynton Beach, Deerfield Beach, Coconut Creek, Parkland, West Boca (statewide team)",
-      "wind_mit": "Call for price",
-      "four_point": "Call for price",
-      "roof_cert": "Call for price",
-      "bundle": "Not stated",
-      "source": "https://mshi.com/wind-mitigation-inspection-in-boca-raton-fl/",
-      "checked": "2026-10-21",
-      "license": "The site publishes no inspector names or license numbers, so we could not check DBPR (checked 2026-10-21). It says its inspectors are licensed; the owner can send license details.",
-      "firm": "mshi",
-      "firm_name": "My Safe Home Inspection",
-      "phone": "(888) 697-2331",
-      "phone_src": "https://mshi.com/",
-      "email": null,
-      "contact_note": "Phone or website form (email address not shown in plain text)",
-      "booking": null,
-      "base": "other",
-      "base_note": "Palm Bay, Brevard County (address on its site)",
-      "lic_status": "none_shown",
-      "prices": {
-        "wind": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "four": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "roof": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "wind-inspections-florida",
-      "name": "Wind Inspections Florida",
-      "website": "https://www.windinspectionflorida.com/",
-      "cities": [
-        "boca-raton"
-      ],
-      "service_area": "Palm Beach, Broward and Martin counties",
-      "wind_mit": "Call for price",
-      "four_point": "Call for price",
-      "roof_cert": "Call for price",
-      "bundle": "Not stated",
-      "source": "https://www.windinspectionflorida.com/",
-      "checked": "2026-10-21",
-      "license": "The site publishes no inspector name or license number, so we could not check DBPR (checked 2026-10-21); the owner can send license details.",
-      "firm": "windfl",
-      "firm_name": "Wind Inspections Florida",
-      "phone": "(561) 504-7962",
-      "phone_src": "https://www.windinspectionflorida.com/",
-      "email": null,
-      "contact_note": "Phone or website schedule form",
-      "booking": null,
-      "base": "pbc",
-      "base_note": "Boca Raton (address on its site)",
-      "lic_status": "none_shown",
-      "prices": {
-        "wind": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "four": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "roof": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-wpb",
-      "name": "Sun Inspections (West Palm Beach pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "west-palm-beach"
-      ],
-      "service_area": "West Palm Beach and Palm Beach County (statewide company)",
-      "wind_mit": "From $175 (up to 3,000 sq ft)",
-      "four_point": "From $150",
-      "roof_cert": "From $135",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $250",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/west-palm-beach",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "prices": {
-        "wind": {
-          "amt": 175,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 150,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 135,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 250,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-delray",
-      "name": "Sun Inspections (Delray Beach pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "delray-beach"
-      ],
-      "service_area": "Delray Beach and Palm Beach County (statewide company)",
-      "wind_mit": "From $150 (up to 3,000 sq ft)",
-      "four_point": "From $125",
-      "roof_cert": "From $135",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $225",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/delray-beach",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "prices": {
-        "wind": {
-          "amt": 150,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 125,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 135,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 225,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "palm-beach-inspections",
-      "name": "Palm Beach Inspections, LLC",
-      "website": "https://pbinspect.com/",
-      "cities": [
-        "west-palm-beach",
-        "delray-beach",
-        "boynton-beach",
-        "jupiter",
-        "wellington",
-        "palm-beach-gardens",
-        "lake-worth-beach",
-        "riviera-beach",
-        "royal-palm-beach",
-        "greenacres",
-        "lantana",
-        "north-palm-beach",
-        "tequesta",
-        "juno-beach",
-        "lake-park",
-        "palm-beach",
-        "palm-springs",
-        "highland-beach"
-      ],
-      "service_area": "West Palm Beach-based; states it serves all of Palm Beach County and lists coastal and central cities from Boca Raton to Tequesta (incl. Highland Beach, Lantana, Greenacres, Palm Springs, Royal Palm Beach, Lake Park, Riviera Beach, Juno Beach, North Palm Beach)",
-      "wind_mit": "$165 (up to 2,500 sq ft; larger homes more)",
-      "four_point": "$165 (up to 2,500 sq ft)",
-      "roof_cert": "$125 insurance roof inspection (up to 2,500 sq ft)",
-      "bundle": "Yes: Wind Mit + 4-Point $225 (up to 2,500 sq ft)",
-      "source": "https://pbinspect.com/cost",
-      "license": "Home Inspector HI12371 (Raimo Kumpulainen, owner) and HI15474 (Lukas Kumpulainen), both active on DBPR (checked 2026-10-21)",
-      "checked": "2026-10-21",
-      "firm": "pbi",
-      "firm_name": "Palm Beach Inspections, LLC",
-      "phone": "(561) 582-4332",
-      "phone_src": "https://pbinspect.com/contact",
-      "email": null,
-      "contact_note": "Phone or website contact form",
-      "booking": null,
-      "base": "pbc",
-      "base_note": "7906 Martin Ave, West Palm Beach (address on its site)",
-      "lic_status": "verified",
-      "prices": {
-        "wind": {
-          "amt": 165,
-          "cap": "up to 2,500 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 165,
-          "cap": "up to 2,500 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 125,
-          "cap": "up to 2,500 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "bundle": {
-          "amt": 225,
-          "cap": "up to 2,500 sq ft",
-          "covers2000": true,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "home-scan-inspections",
-      "name": "Home Scan Inspections",
-      "website": "https://www.homescanfl.com/",
-      "cities": [
-        "west-palm-beach",
-        "delray-beach",
-        "boynton-beach",
-        "jupiter",
-        "wellington",
-        "palm-beach-gardens",
-        "lake-worth-beach",
-        "riviera-beach",
-        "royal-palm-beach",
-        "greenacres",
-        "lantana",
-        "north-palm-beach",
-        "tequesta",
-        "juno-beach",
-        "lake-park",
-        "palm-beach",
-        "palm-springs",
-        "highland-beach"
-      ],
-      "service_area": "Palm Beach County; states it serves all of Palm Beach County and lists cities incl. Riviera Beach, Royal Palm Beach, Lantana, North Palm Beach, Tequesta and Palm Beach",
-      "wind_mit": "$150 stand-alone ($75 with a home inspection)",
-      "four_point": "$150 stand-alone ($75 with a home inspection)",
-      "roof_cert": "Call for price",
-      "bundle": "Not stated (discount when added to a home inspection)",
-      "source": "https://www.homescanfl.com/west-palm-beach-home-inspections",
-      "license": "Home Inspector HI11676 (George Randall Seuss), active on DBPR; this number is shown on the site (checked 2026-10-21)",
-      "checked": "2026-10-21",
-      "firm": "homescan",
-      "firm_name": "Home Scan Inspections",
-      "phone": "(561) 320-1970",
-      "phone_src": "https://www.homescanfl.com/contact",
-      "email": "homescanfl@gmail.com",
-      "booking": "https://app.spectora.com/home-inspectors/my-inspection-company-2c9382c77b/schedule",
-      "base": "unknown",
-      "base_note": "No street address on the site",
-      "contact_note": null,
-      "lic_status": "verified",
-      "prices": {
-        "wind": {
-          "amt": 150,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "four": {
-          "amt": 150,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "roof": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "certified-inspectors",
-      "name": "Certified Inspectors, LLC",
-      "website": "https://certifiedinspectors.com/",
-      "cities": [
-        "west-palm-beach",
-        "delray-beach",
-        "boynton-beach",
-        "lake-worth-beach",
-        "wellington"
-      ],
-      "service_area": "Palm Beach, Broward and Miami-Dade; lists Boca Raton, West Palm Beach, Delray Beach, Boynton Beach, Lake Worth, Wellington",
-      "wind_mit": "From $150",
-      "four_point": "Call for price",
-      "roof_cert": "Call for price",
-      "bundle": "Yes: 4-Point + Wind Mitigation 'Insurance Only Package' $300",
-      "source": "https://certifiedinspectors.com/service/wind-mitigation-inspection/",
-      "license": "License not found on DBPR (checked 2026-10-21): the site names no license number, and a DBPR name search for owner Angelo Menendez found no inspector or contractor license. Engineers and architects are licensed outside DBPR; the owner can send license details.",
-      "checked": "2026-10-21",
-      "firm": "certified",
-      "firm_name": "Certified Inspectors, LLC",
-      "phone": "(561) 570-6311",
-      "phone_src": "https://certifiedinspectors.com/contact-us/",
-      "email": "info@certifiedinspectors.com",
-      "booking": "https://certifiedinspectors.com/schedule-inspection/",
-      "base": "pbc",
-      "base_note": "Boca Raton mailing address (W Palmetto Park Rd) on its site",
-      "contact_note": null,
-      "lic_status": "not_verified",
-      "prices": {
-        "wind": {
-          "amt": 150,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "four": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "roof": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 300,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "ellenbogen-inspections",
-      "name": "Steven Ellenbogen Inspections",
-      "website": "https://www.ellenbogeninspections.com/",
-      "cities": [
-        "west-palm-beach",
-        "delray-beach",
-        "boynton-beach",
-        "wellington",
-        "palm-beach-gardens",
-        "lake-worth-beach",
-        "riviera-beach",
-        "royal-palm-beach",
-        "greenacres",
-        "lantana",
-        "north-palm-beach",
-        "juno-beach",
-        "lake-park",
-        "palm-springs",
-        "highland-beach",
-        "palm-beach",
-        "the-glades"
-      ],
-      "service_area": "Broward and Palm Beach counties; its Palm Beach County list includes Riviera Beach, Palm Beach, Royal Palm Beach, Greenacres, Lantana, Palm Springs, Lake Park, North Palm Beach, Juno Beach, Highland Beach and South Bay",
-      "wind_mit": "Call for price",
-      "four_point": "Call for price",
-      "roof_cert": "Call for price",
-      "bundle": "Not stated",
-      "source": "https://www.ellenbogeninspections.com/wind-mitigation/Delray%20Beach/",
-      "license": "Steven L. Ellenbogen: Certified Building Contractor CBC1254077 and Standard Inspector BN5843, both active on DBPR (checked 2026-10-21). His home inspector license (HI5824) is null and void; Form OIR-B1-1802 lists licensed building contractors among those who may sign it.",
-      "checked": "2026-10-21",
-      "firm": "ellenbogen",
-      "firm_name": "Steven Ellenbogen Inspections",
-      "phone": "(954) 255-5675",
-      "phone_src": "https://www.ellenbogeninspections.com/",
-      "email": "wind11@email.com",
-      "booking": null,
-      "base": "bd",
-      "base_note": "Fort Lauderdale, Broward (business address in its site data)",
-      "contact_note": null,
-      "lic_status": "verified",
-      "prices": {
-        "wind": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "four": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "roof": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "truview-inspections",
-      "name": "TruView Inspections",
-      "website": "https://www.truviewinspections.com/",
-      "cities": [
-        "west-palm-beach",
-        "delray-beach",
-        "boynton-beach",
-        "jupiter",
-        "wellington",
-        "palm-beach-gardens",
-        "riviera-beach",
-        "royal-palm-beach",
-        "greenacres",
-        "lantana",
-        "north-palm-beach",
-        "tequesta",
-        "juno-beach",
-        "lake-park",
-        "palm-beach",
-        "palm-springs",
-        "highland-beach"
-      ],
-      "service_area": "States it covers all of Palm Beach County (multi-city company); location pages incl. West Palm Beach, Delray Beach, Boynton Beach, Jupiter, Wellington, Palm Beach Gardens",
-      "wind_mit": "Free with a full home inspection; stand-alone price not published",
-      "four_point": "Free with a full home inspection; stand-alone price not published",
-      "roof_cert": "Call for price",
-      "bundle": "Included with full home inspection ($400-$700 single-family; condos from $299)",
-      "source": "https://www.truviewinspections.com/locations/west-palm-beach/",
-      "license": "Certified Residential Contractor CRC1330244 (shown on the site) is active on DBPR (checked 2026-10-21), held by Luis Miguel Perez / Dri-Max Restoration LLC at the Coral Gables address TruView uses. The site's 'H17112' matches home inspector license HI17112, which DBPR lists for Jose Mauricio Luna of Jacksonville; we could not confirm his link to TruView.",
-      "checked": "2026-10-21",
-      "firm": "truview",
-      "firm_name": "TruView Inspections",
-      "phone": "(561) 515-0113",
-      "phone_src": "https://www.truviewinspections.com/locations/west-palm-beach/",
-      "email": null,
-      "contact_note": "Phone or online scheduler",
-      "booking": "https://goisn.net/truviewinspections/online-scheduler/a60ac7a4-65c4-5205-99c4-52c3e5f37002",
-      "base": "bd",
-      "base_note": "901 Ponce de Leon Blvd, Coral Gables, Miami-Dade (address on its site)",
-      "lic_status": "verified",
-      "prices": {
-        "wind": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "four": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "roof": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "inspectionnow",
-      "name": "InspectionNow",
-      "website": "https://www.inspectionow.com/",
-      "cities": [
-        "west-palm-beach",
-        "delray-beach"
-      ],
-      "service_area": "Miami-Dade, Broward and Palm Beach counties incl. West Palm Beach and Delray Beach",
-      "wind_mit": "Free with a pre-purchase inspection; stand-alone price not published",
-      "four_point": "Free with a pre-purchase inspection; stand-alone price not published",
-      "roof_cert": "Call for price",
-      "bundle": "Wind Mit + 4-Point included with a pre-purchase inspection",
-      "source": "https://www.inspectionow.com/home-inspection-west-palm-beach/",
-      "license": "Home Inspector HI2355 (Luiz Fernando Franco), active on DBPR; this number is shown on the site (checked 2026-10-21)",
-      "checked": "2026-10-21",
-      "firm": "inow",
-      "firm_name": "InspectionNow",
-      "phone": "(954) 543-1177",
-      "phone_src": "https://www.inspectionow.com/home-inspection-west-palm-beach/",
-      "email": "info@inspectionow.com",
-      "booking": null,
-      "base": "bd",
-      "base_note": "Pembroke Pines, Broward (address on its site)",
-      "contact_note": null,
-      "lic_status": "verified",
-      "prices": {
-        "wind": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "four": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "roof": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "don-meyler-inspections",
-      "name": "Don Meyler Inspections",
-      "website": "https://windstorminspections.com/",
-      "cities": [
-        "west-palm-beach",
-        "delray-beach",
-        "boynton-beach",
-        "jupiter",
-        "wellington",
-        "palm-beach-gardens",
-        "lake-worth-beach",
-        "riviera-beach",
-        "royal-palm-beach",
-        "greenacres",
-        "lantana",
-        "north-palm-beach",
-        "tequesta",
-        "juno-beach",
-        "lake-park",
-        "palm-beach",
-        "palm-springs",
-        "highland-beach",
-        "the-glades"
-      ],
-      "service_area": "Statewide (states it operates in all 67 Florida counties)",
-      "wind_mit": "From $125 (varies by building type and location)",
-      "four_point": "Call for price",
-      "roof_cert": "Usually $99",
-      "bundle": "Not stated",
-      "source": "https://windstorminspections.com/our-services/",
-      "license": "Certified General Contractor CGC1516363, active on DBPR under the name 'Don Meyler Inspections' (checked 2026-10-21). The site says it uses multiple state-certified inspectors; individual inspector licenses aren't listed.",
-      "checked": "2026-10-21",
-      "firm": "dmi",
-      "firm_name": "Don Meyler Inspections",
-      "phone": "(800) 469-0434",
-      "phone_src": "https://windstorminspections.com/our-services/",
-      "email": null,
-      "contact_note": "Phone or online inspection request form",
-      "booking": "https://windstorminspections.com/insurance-inspection-request/",
-      "base": "bd",
-      "base_note": "2703 Gateway Dr, Pompano Beach, Broward (address on its site)",
-      "lic_status": "verified",
-      "prices": {
-        "wind": {
-          "amt": 125,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "four": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "roof": {
-          "amt": 99,
-          "cap": null,
-          "covers2000": false,
-          "note": "'usually'"
-        },
-        "bundle": {
-          "amt": null,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-boynton-beach",
-      "name": "Sun Inspections (Boynton Beach pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "boynton-beach"
-      ],
-      "service_area": "Boynton Beach and Palm Beach County (statewide company)",
-      "wind_mit": "From $150 (up to 3,000 sq ft)",
-      "four_point": "From $125 (up to 2,000 sq ft)",
-      "roof_cert": "From $135",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $225",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/boynton-beach",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 150,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 125,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 135,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 225,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-jupiter",
-      "name": "Sun Inspections (Jupiter pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "jupiter"
-      ],
-      "service_area": "Jupiter and Palm Beach County (statewide company)",
-      "wind_mit": "From $200 (up to 3,000 sq ft)",
-      "four_point": "From $200 (up to 2,000 sq ft)",
-      "roof_cert": "From $235",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $275",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/jupiter",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 200,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 200,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 235,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 275,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-wellington",
-      "name": "Sun Inspections (Wellington pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "wellington"
-      ],
-      "service_area": "Wellington and Palm Beach County (statewide company)",
-      "wind_mit": "From $175 (up to 3,000 sq ft)",
-      "four_point": "From $150 (up to 2,000 sq ft)",
-      "roof_cert": "From $135",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $250",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/wellington",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 175,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 150,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 135,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 250,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-palm-beach-gardens",
-      "name": "Sun Inspections (Palm Beach Gardens pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "palm-beach-gardens"
-      ],
-      "service_area": "Palm Beach Gardens and Palm Beach County (statewide company)",
-      "wind_mit": "From $175 (up to 3,000 sq ft)",
-      "four_point": "From $175 (up to 2,000 sq ft)",
-      "roof_cert": "From $235",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $265",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/palm-beach-gardens",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 175,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 175,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 235,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 265,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-lake-worth-beach",
-      "name": "Sun Inspections (Lake Worth Beach pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "lake-worth-beach"
-      ],
-      "service_area": "Lake Worth Beach and Palm Beach County (statewide company)",
-      "wind_mit": "From $175 (up to 3,000 sq ft)",
-      "four_point": "From $150 (up to 2,000 sq ft)",
-      "roof_cert": "From $135",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $250",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/lake-worth-beach",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 175,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 150,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 135,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 250,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-riviera-beach",
-      "name": "Sun Inspections (Riviera Beach pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "riviera-beach"
-      ],
-      "service_area": "Riviera Beach and Palm Beach County (statewide company)",
-      "wind_mit": "From $175 (up to 3,000 sq ft)",
-      "four_point": "From $175 (up to 2,000 sq ft)",
-      "roof_cert": "From $235",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $265",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/riviera-beach",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 175,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 175,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 235,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 265,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-royal-palm-beach",
-      "name": "Sun Inspections (Royal Palm Beach pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "royal-palm-beach"
-      ],
-      "service_area": "Royal Palm Beach and Palm Beach County (statewide company)",
-      "wind_mit": "From $175 (up to 3,000 sq ft)",
-      "four_point": "From $150 (up to 2,000 sq ft)",
-      "roof_cert": "From $135",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $250",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/royal-palm-beach",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 175,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 150,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 135,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 250,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-greenacres",
-      "name": "Sun Inspections (Greenacres pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "greenacres"
-      ],
-      "service_area": "Greenacres and Palm Beach County (statewide company)",
-      "wind_mit": "From $175 (up to 3,000 sq ft)",
-      "four_point": "From $150 (up to 2,000 sq ft)",
-      "roof_cert": "From $135",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $250",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/greenacres",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 175,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 150,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 135,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 250,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-lantana",
-      "name": "Sun Inspections (Lantana pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "lantana"
-      ],
-      "service_area": "Lantana and Palm Beach County (statewide company)",
-      "wind_mit": "From $175 (up to 3,000 sq ft)",
-      "four_point": "From $150 (up to 2,000 sq ft)",
-      "roof_cert": "From $135",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $250",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/lantana",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 175,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 150,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 135,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 250,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-north-palm-beach",
-      "name": "Sun Inspections (North Palm Beach pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "north-palm-beach"
-      ],
-      "service_area": "North Palm Beach and Palm Beach County (statewide company)",
-      "wind_mit": "From $175 (up to 3,000 sq ft)",
-      "four_point": "From $175 (up to 2,000 sq ft)",
-      "roof_cert": "From $235",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $265",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/north-palm-beach",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 175,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 175,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 235,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 265,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-tequesta",
-      "name": "Sun Inspections (Tequesta pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "tequesta"
-      ],
-      "service_area": "Tequesta and Palm Beach County (statewide company)",
-      "wind_mit": "From $200 (up to 3,000 sq ft)",
-      "four_point": "From $200 (up to 2,000 sq ft)",
-      "roof_cert": "From $235",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $275",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/tequesta",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 200,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 200,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 235,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 275,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-juno-beach",
-      "name": "Sun Inspections (Juno Beach pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "juno-beach"
-      ],
-      "service_area": "Juno Beach and Palm Beach County (statewide company)",
-      "wind_mit": "From $200 (up to 3,000 sq ft)",
-      "four_point": "From $200 (up to 2,000 sq ft)",
-      "roof_cert": "From $235",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $275",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/juno-beach",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 200,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 200,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 235,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 275,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-lake-park",
-      "name": "Sun Inspections (Lake Park pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "lake-park"
-      ],
-      "service_area": "Lake Park and Palm Beach County (statewide company)",
-      "wind_mit": "From $175 (up to 3,000 sq ft)",
-      "four_point": "From $175 (up to 2,000 sq ft)",
-      "roof_cert": "From $235",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $265",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/lake-park",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 175,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 175,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 235,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 265,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-palm-beach",
-      "name": "Sun Inspections (Palm Beach pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "palm-beach"
-      ],
-      "service_area": "Palm Beach and Palm Beach County (statewide company)",
-      "wind_mit": "From $175 (up to 3,000 sq ft)",
-      "four_point": "From $150 (up to 2,000 sq ft)",
-      "roof_cert": "From $135",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $250",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/palm-beach",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 175,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 150,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 135,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 250,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-palm-springs",
-      "name": "Sun Inspections (Palm Springs pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "palm-springs"
-      ],
-      "service_area": "Palm Springs and Palm Beach County (statewide company)",
-      "wind_mit": "From $175 (up to 3,000 sq ft)",
-      "four_point": "From $150 (up to 2,000 sq ft)",
-      "roof_cert": "From $135",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $250",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/palm-springs",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 175,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 150,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 135,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 250,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-highland-beach",
-      "name": "Sun Inspections (Highland Beach pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "highland-beach"
-      ],
-      "service_area": "Highland Beach and Palm Beach County (statewide company)",
-      "wind_mit": "From $125 (up to 3,000 sq ft)",
-      "four_point": "From $100 (up to 2,000 sq ft)",
-      "roof_cert": "From $85",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $200",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/highland-beach",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 125,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 100,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 85,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 200,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
-    },
-    {
-      "slug": "sun-inspections-belle-glade",
-      "name": "Sun Inspections (Belle Glade pricing)",
-      "website": "https://www.suninspections.com/",
-      "cities": [
-        "the-glades"
-      ],
-      "service_area": "Belle Glade and Palm Beach County (statewide company); separate Pahokee and South Bay pages list their own prices",
-      "wind_mit": "From $175 (up to 3,000 sq ft)",
-      "four_point": "From $175 (up to 2,000 sq ft)",
-      "roof_cert": "From $235",
-      "bundle": "Yes: 4-Point + Wind Mitigation from $265",
-      "source": "https://www.suninspections.com/areas-served/palm-beach-county/belle-glade",
-      "checked": "2026-10-21",
-      "firm": "sun",
-      "firm_name": "Sun Inspections",
-      "phone": "(727) 346-6453",
-      "phone_src": "https://www.suninspections.com/contact",
-      "email": null,
-      "contact_note": "Online scheduler and phone",
-      "booking": "https://www.suninspections.com/schedule-inspection",
-      "base": "unknown",
-      "base_note": "No street address on the site (statewide company)",
-      "lic_status": "verified",
-      "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
-      "prices": {
-        "wind": {
-          "amt": 175,
-          "cap": "homes up to 3,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "four": {
-          "amt": 175,
-          "cap": "homes up to 2,000 sq ft",
-          "covers2000": true,
-          "note": null
-        },
-        "roof": {
-          "amt": 235,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        },
-        "bundle": {
-          "amt": 265,
-          "cap": null,
-          "covers2000": false,
-          "note": null
-        }
-      }
+    "bundle": {
+     "amt": 200,
+     "cap": null,
+     "covers2000": false,
+     "note": null
     }
-  ]
+   }
+  },
+  {
+   "slug": "home-inspector-proz",
+   "name": "Home Inspector Proz",
+   "website": "https://homeinspectorproz.com/",
+   "cities": [
+    "boca-raton"
+   ],
+   "service_area": "Boca Raton-based; Palm Beach, Broward and Miami-Dade counties",
+   "wind_mit": "$125",
+   "four_point": "$125",
+   "roof_cert": "$125",
+   "bundle": "Yes: Wind Mitigation + 4-Point $200 (homes up to 2,000 sq ft)",
+   "source": "https://homeinspectorproz.com/pricing",
+   "checked": "2026-10-26",
+   "license": "Home Inspector HI18198 (Nikolay Barkalin), active on DBPR (checked 2026-10-21)",
+   "firm": "hip",
+   "firm_name": "Home Inspector Proz",
+   "phone": "(305) 482-3232",
+   "phone_src": "https://homeinspectorproz.com/contact",
+   "email": "info@homeinspectorproz.com",
+   "booking": "https://homeinspectorproz.com/book-inspection",
+   "base": "pbc",
+   "base_note": "Boca Raton (business address on its site)",
+   "contact_note": null,
+   "lic_status": "verified",
+   "prices": {
+    "wind": {
+     "amt": 125,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 125,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 125,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "bundle": {
+     "amt": 200,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "all-rite-home-inspections",
+   "name": "All Rite Home Inspections, Inc of Palm Beach County",
+   "website": "https://www.allritehomeinspectionsinc.com/",
+   "cities": [
+    "boca-raton",
+    "delray-beach",
+    "boynton-beach",
+    "lake-worth-beach",
+    "palm-beach-gardens",
+    "palm-beach",
+    "riviera-beach"
+   ],
+   "service_area": "Palm Beach County: Delray Beach, Boca Raton, Deerfield Beach, Boynton Beach, Lake Worth, Palm Beach, Palm Beach Gardens, Riviera Beach",
+   "wind_mit": "$125 stand-alone ($100 with home inspection)",
+   "four_point": "$125 stand-alone ($100 with home inspection)",
+   "roof_cert": "$150",
+   "bundle": "Yes: 4-Point + Wind Mitigation combo $225",
+   "source": "https://www.allritehomeinspectionsinc.com/your-inspection/",
+   "checked": "2026-10-26",
+   "license": "Home Inspector HI14846 (John P. Bronner), active on DBPR (checked 2026-10-21)",
+   "firm": "allrite",
+   "firm_name": "All Rite Home Inspections, Inc of Palm Beach County",
+   "phone": "914-384-6435",
+   "phone_src": "https://www.allritehomeinspectionsinc.com/your-inspection/",
+   "email": "johnb@allritehomeinspectionsinc.com",
+   "booking": "https://www.allritehomeinspectionsinc.com/schedule-your-inspection/",
+   "base": "unknown",
+   "base_note": "No street address on the site",
+   "contact_note": null,
+   "lic_status": "verified",
+   "prices": {
+    "wind": {
+     "amt": 125,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "four": {
+     "amt": 125,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "roof": {
+     "amt": 150,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 225,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "green-foot-home-inspections",
+   "name": "Green Foot Home Inspections",
+   "website": "https://greenfoothomeinspections.com/",
+   "cities": [
+    "boca-raton"
+   ],
+   "service_area": "Miami-Dade, Broward and Palm Beach corridor, incl. Boca Raton",
+   "wind_mit": "From $100",
+   "four_point": "From $125",
+   "roof_cert": "From $150 (2-year roof certification)",
+   "bundle": "Yes: 4-Point + Wind same visit $200",
+   "source": "https://greenfoothomeinspections.com/florida-insurance-inspections-guide",
+   "checked": "2026-10-26",
+   "license": "Home Inspector HI7640 (Fabian Ivan Fernandez) and HI8652 (Hernan Fernandez Sergio), both active on DBPR (checked 2026-10-21)",
+   "firm": "greenfoot",
+   "firm_name": "Green Foot Home Inspections",
+   "phone": "(786) 301-5677",
+   "phone_src": "https://greenfoothomeinspections.com/",
+   "email": "inspectors@greenfoothomeinspections.com",
+   "booking": null,
+   "base": "pbc",
+   "base_note": "7406 Clarke Rd, West Palm Beach (address on its site)",
+   "contact_note": null,
+   "lic_status": "verified",
+   "prices": {
+    "wind": {
+     "amt": 100,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "four": {
+     "amt": 125,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "roof": {
+     "amt": 150,
+     "cap": null,
+     "covers2000": false,
+     "note": "2-year roof certification"
+    },
+    "bundle": {
+     "amt": 200,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "modern-building-inspections",
+   "name": "Modern Building Inspections",
+   "website": "https://modernbuildinginspections.com/",
+   "cities": [
+    "boca-raton"
+   ],
+   "service_area": "Within 60 miles of West Kendall office: Miami-Dade, Broward and the Boca Raton area",
+   "wind_mit": "From $200",
+   "four_point": "From $200",
+   "roof_cert": "From $150",
+   "bundle": "Yes: 4-Point + Wind Mitigation combo from $250",
+   "source": "https://modernbuildinginspections.com/pricing/",
+   "checked": "2026-10-26",
+   "license": "Home Inspector HI9540 (Jorge Luis Garcia), current on DBPR (checked 2026-10-21)",
+   "firm": "modern",
+   "firm_name": "Modern Building Inspections",
+   "phone": "(786) 839-1644",
+   "phone_src": "https://modernbuildinginspections.com/contact/",
+   "email": "modernbuildinginspections@gmail.com",
+   "booking": "https://modernbuildinginspections.com/schedule/",
+   "base": "bd",
+   "base_note": "West Kendall, Miami-Dade (office location stated on its site)",
+   "contact_note": null,
+   "lic_status": "verified",
+   "prices": {
+    "wind": {
+     "amt": 200,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "four": {
+     "amt": 200,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "roof": {
+     "amt": 150,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 250,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "accurate-building-inspections",
+   "name": "Accurate Building Inspections LLC",
+   "website": "https://accuratebi.com/",
+   "cities": [
+    "boca-raton",
+    "west-palm-beach",
+    "delray-beach",
+    "boynton-beach",
+    "jupiter",
+    "wellington",
+    "palm-beach-gardens",
+    "lake-worth-beach",
+    "riviera-beach",
+    "royal-palm-beach",
+    "greenacres",
+    "lantana",
+    "north-palm-beach",
+    "tequesta",
+    "juno-beach",
+    "lake-park",
+    "palm-beach",
+    "palm-springs",
+    "highland-beach"
+   ],
+   "service_area": "Palm Beach, Broward, Miami-Dade, Martin, St. Lucie and Monroe counties; says it serves throughout Palm Beach County and lists cities from Boca Raton to Tequesta, incl. Riviera Beach, Royal Palm Beach, Greenacres, Lantana, Palm Springs and Palm Beach",
+   "wind_mit": "$150 on the package page ($125 stand-alone on its wind mitigation page)",
+   "four_point": "$150",
+   "roof_cert": "Call for price",
+   "bundle": "Yes: 4-Point + Wind Mitigation package $250",
+   "source": "https://accuratebi.com/services/insurance-inspection-package",
+   "checked": "2026-10-26",
+   "license": "Home Inspector HI13351 (Guillermo Ruiz, co-founder), active on DBPR (checked 2026-10-21). The number shown on the site (JE303969) does not match a DBPR record; co-founder Wesley Williford holds Mold Assessor MRSA5406 (active).",
+   "firm": "accurate",
+   "firm_name": "Accurate Building Inspections LLC",
+   "phone": "(786) 863-4866",
+   "phone_src": "https://accuratebi.com/contact",
+   "email": "accuratebuildinginspections@gmail.com",
+   "booking": "https://accuratebi.com/schedule",
+   "base": "pbc",
+   "base_note": "Royal Palm Beach (business address in its site data)",
+   "contact_note": null,
+   "lic_status": "verified",
+   "prices": {
+    "wind": {
+     "amt": 150,
+     "cap": null,
+     "covers2000": false,
+     "note": "$125 on its wind mitigation page"
+    },
+    "four": {
+     "amt": 150,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "roof": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 250,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "steelsight-home-inspections",
+   "name": "Steelsight Home Inspections",
+   "website": "https://www.steelsightinspections.com/",
+   "cities": [
+    "boca-raton",
+    "jupiter"
+   ],
+   "service_area": "Boca Raton, Jupiter and Palm Beach County",
+   "wind_mit": "Call for price",
+   "four_point": "Call for price",
+   "roof_cert": "Call for price",
+   "bundle": "Not stated",
+   "source": "https://www.steelsightinspections.com/wind-mitigation-inspection",
+   "checked": "2026-10-26",
+   "license": "Home Inspector HI18142 (Victor Rogoff), active on DBPR (checked 2026-10-21)",
+   "firm": "steelsight",
+   "firm_name": "Steelsight Home Inspections",
+   "phone": "(561) 609-0312",
+   "phone_src": "https://www.steelsightinspections.com/license-and-certificates",
+   "email": "rogoffvictor@gmail.com",
+   "booking": null,
+   "base": "pbc",
+   "base_note": "Boca Raton (stated on its site)",
+   "contact_note": null,
+   "lic_status": "verified",
+   "prices": {
+    "wind": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "four": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "roof": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "my-safe-home-inspection",
+   "name": "My Safe Home Inspection",
+   "website": "https://mshi.com/",
+   "cities": [
+    "boca-raton",
+    "delray-beach",
+    "boynton-beach",
+    "highland-beach"
+   ],
+   "service_area": "Boca Raton, Delray Beach, Highland Beach, Boynton Beach, Deerfield Beach, Coconut Creek, Parkland, West Boca (statewide team)",
+   "wind_mit": "Call for price",
+   "four_point": "Call for price",
+   "roof_cert": "Call for price",
+   "bundle": "Not stated",
+   "source": "https://mshi.com/wind-mitigation-inspection-in-boca-raton-fl/",
+   "checked": "2026-10-26",
+   "license": "The site publishes no inspector names or license numbers, so we could not check DBPR (checked 2026-10-21). It says its inspectors are licensed; the owner can send license details.",
+   "firm": "mshi",
+   "firm_name": "My Safe Home Inspection",
+   "phone": "(888) 697-2331",
+   "phone_src": "https://mshi.com/",
+   "email": null,
+   "contact_note": "Phone or website form (email address not shown in plain text)",
+   "booking": null,
+   "base": "other",
+   "base_note": "Palm Bay, Brevard County (address on its site)",
+   "lic_status": "none_shown",
+   "prices": {
+    "wind": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "four": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "roof": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "wind-inspections-florida",
+   "name": "Wind Inspections Florida",
+   "website": "https://www.windinspectionflorida.com/",
+   "cities": [
+    "boca-raton"
+   ],
+   "service_area": "Palm Beach, Broward and Martin counties",
+   "wind_mit": "Call for price",
+   "four_point": "Call for price",
+   "roof_cert": "Call for price",
+   "bundle": "Not stated",
+   "source": "https://www.windinspectionflorida.com/",
+   "checked": "2026-10-26",
+   "license": "The site publishes no inspector name or license number, so we could not check DBPR (checked 2026-10-21); the owner can send license details.",
+   "firm": "windfl",
+   "firm_name": "Wind Inspections Florida",
+   "phone": "(561) 504-7962",
+   "phone_src": "https://www.windinspectionflorida.com/",
+   "email": null,
+   "contact_note": "Phone or website schedule form",
+   "booking": null,
+   "base": "pbc",
+   "base_note": "Boca Raton (address on its site)",
+   "lic_status": "none_shown",
+   "prices": {
+    "wind": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "four": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "roof": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-wpb",
+   "name": "Sun Inspections (West Palm Beach pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "west-palm-beach"
+   ],
+   "service_area": "West Palm Beach and Palm Beach County (statewide company)",
+   "wind_mit": "From $175 (up to 3,000 sq ft)",
+   "four_point": "From $150",
+   "roof_cert": "From $135",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $250",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/west-palm-beach",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "prices": {
+    "wind": {
+     "amt": 175,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 150,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 135,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 250,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-delray",
+   "name": "Sun Inspections (Delray Beach pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "delray-beach"
+   ],
+   "service_area": "Delray Beach and Palm Beach County (statewide company)",
+   "wind_mit": "From $150 (up to 3,000 sq ft)",
+   "four_point": "From $125",
+   "roof_cert": "From $135",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $225",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/delray-beach",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "prices": {
+    "wind": {
+     "amt": 150,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 125,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 135,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 225,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "palm-beach-inspections",
+   "name": "Palm Beach Inspections, LLC",
+   "website": "https://pbinspect.com/",
+   "cities": [
+    "west-palm-beach",
+    "delray-beach",
+    "boynton-beach",
+    "jupiter",
+    "wellington",
+    "palm-beach-gardens",
+    "lake-worth-beach",
+    "riviera-beach",
+    "royal-palm-beach",
+    "greenacres",
+    "lantana",
+    "north-palm-beach",
+    "tequesta",
+    "juno-beach",
+    "lake-park",
+    "palm-beach",
+    "palm-springs",
+    "highland-beach"
+   ],
+   "service_area": "West Palm Beach-based; states it serves all of Palm Beach County and lists coastal and central cities from Boca Raton to Tequesta (incl. Highland Beach, Lantana, Greenacres, Palm Springs, Royal Palm Beach, Lake Park, Riviera Beach, Juno Beach, North Palm Beach)",
+   "wind_mit": "$165 (up to 2,500 sq ft; larger homes more)",
+   "four_point": "$165 (up to 2,500 sq ft)",
+   "roof_cert": "$125 insurance roof inspection (up to 2,500 sq ft)",
+   "bundle": "Yes: Wind Mit + 4-Point $225 (up to 2,500 sq ft)",
+   "source": "https://pbinspect.com/cost",
+   "license": "Home Inspector HI12371 (Raimo Kumpulainen, owner) and HI15474 (Lukas Kumpulainen), both active on DBPR (checked 2026-10-21)",
+   "checked": "2026-10-26",
+   "firm": "pbi",
+   "firm_name": "Palm Beach Inspections, LLC",
+   "phone": "(561) 582-4332",
+   "phone_src": "https://pbinspect.com/contact",
+   "email": null,
+   "contact_note": "Phone or website contact form",
+   "booking": null,
+   "base": "pbc",
+   "base_note": "7906 Martin Ave, West Palm Beach (address on its site)",
+   "lic_status": "verified",
+   "prices": {
+    "wind": {
+     "amt": 165,
+     "cap": "up to 2,500 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 165,
+     "cap": "up to 2,500 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 125,
+     "cap": "up to 2,500 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "bundle": {
+     "amt": 225,
+     "cap": "up to 2,500 sq ft",
+     "covers2000": true,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "home-scan-inspections",
+   "name": "Home Scan Inspections",
+   "website": "https://www.homescanfl.com/",
+   "cities": [
+    "west-palm-beach",
+    "delray-beach",
+    "boynton-beach",
+    "jupiter",
+    "wellington",
+    "palm-beach-gardens",
+    "lake-worth-beach",
+    "riviera-beach",
+    "royal-palm-beach",
+    "greenacres",
+    "lantana",
+    "north-palm-beach",
+    "tequesta",
+    "juno-beach",
+    "lake-park",
+    "palm-beach",
+    "palm-springs",
+    "highland-beach"
+   ],
+   "service_area": "Palm Beach County; states it serves all of Palm Beach County and lists cities incl. Riviera Beach, Royal Palm Beach, Lantana, North Palm Beach, Tequesta and Palm Beach",
+   "wind_mit": "$150 stand-alone ($75 with a home inspection)",
+   "four_point": "$150 stand-alone ($75 with a home inspection)",
+   "roof_cert": "Call for price",
+   "bundle": "Not stated (discount when added to a home inspection)",
+   "source": "https://www.homescanfl.com/west-palm-beach-home-inspections",
+   "license": "Home Inspector HI11676 (George Randall Seuss), active on DBPR; this number is shown on the site (checked 2026-10-21)",
+   "checked": "2026-10-26",
+   "firm": "homescan",
+   "firm_name": "Home Scan Inspections",
+   "phone": "(561) 320-1970",
+   "phone_src": "https://www.homescanfl.com/contact",
+   "email": "homescanfl@gmail.com",
+   "booking": "https://app.spectora.com/home-inspectors/my-inspection-company-2c9382c77b/schedule",
+   "base": "unknown",
+   "base_note": "No street address on the site",
+   "contact_note": null,
+   "lic_status": "verified",
+   "prices": {
+    "wind": {
+     "amt": 150,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "four": {
+     "amt": 150,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "roof": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "certified-inspectors",
+   "name": "Certified Inspectors, LLC",
+   "website": "https://certifiedinspectors.com/",
+   "cities": [
+    "west-palm-beach",
+    "delray-beach",
+    "boynton-beach",
+    "lake-worth-beach",
+    "wellington"
+   ],
+   "service_area": "Palm Beach, Broward and Miami-Dade; lists Boca Raton, West Palm Beach, Delray Beach, Boynton Beach, Lake Worth, Wellington",
+   "wind_mit": "From $150",
+   "four_point": "Call for price",
+   "roof_cert": "Call for price",
+   "bundle": "Yes: 4-Point + Wind Mitigation 'Insurance Only Package' $300",
+   "source": "https://certifiedinspectors.com/service/wind-mitigation-inspection/",
+   "license": "License not found on DBPR (checked 2026-10-21): the site names no license number, and a DBPR name search for owner Angelo Menendez found no inspector or contractor license. Engineers and architects are licensed outside DBPR; the owner can send license details.",
+   "checked": "2026-10-26",
+   "firm": "certified",
+   "firm_name": "Certified Inspectors, LLC",
+   "phone": "(561) 570-6311",
+   "phone_src": "https://certifiedinspectors.com/contact-us/",
+   "email": "info@certifiedinspectors.com",
+   "booking": "https://certifiedinspectors.com/schedule-inspection/",
+   "base": "pbc",
+   "base_note": "Boca Raton mailing address (W Palmetto Park Rd) on its site",
+   "contact_note": null,
+   "lic_status": "not_verified",
+   "prices": {
+    "wind": {
+     "amt": 150,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "four": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "roof": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 300,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "ellenbogen-inspections",
+   "name": "Steven Ellenbogen Inspections",
+   "website": "https://www.ellenbogeninspections.com/",
+   "cities": [
+    "west-palm-beach",
+    "delray-beach",
+    "boynton-beach",
+    "wellington",
+    "palm-beach-gardens",
+    "lake-worth-beach",
+    "riviera-beach",
+    "royal-palm-beach",
+    "greenacres",
+    "lantana",
+    "north-palm-beach",
+    "juno-beach",
+    "lake-park",
+    "palm-springs",
+    "highland-beach",
+    "palm-beach",
+    "the-glades"
+   ],
+   "service_area": "Broward and Palm Beach counties; its Palm Beach County list includes Riviera Beach, Palm Beach, Royal Palm Beach, Greenacres, Lantana, Palm Springs, Lake Park, North Palm Beach, Juno Beach, Highland Beach and South Bay",
+   "wind_mit": "Call for price",
+   "four_point": "Call for price",
+   "roof_cert": "Call for price",
+   "bundle": "Not stated",
+   "source": "https://www.ellenbogeninspections.com/wind-mitigation/Delray%20Beach/",
+   "license": "Steven L. Ellenbogen: Certified Building Contractor CBC1254077 and Standard Inspector BN5843, both active on DBPR (checked 2026-10-21). His home inspector license (HI5824) is null and void; Form OIR-B1-1802 lists licensed building contractors among those who may sign it.",
+   "checked": "2026-10-26",
+   "firm": "ellenbogen",
+   "firm_name": "Steven Ellenbogen Inspections",
+   "phone": "(954) 255-5675",
+   "phone_src": "https://www.ellenbogeninspections.com/",
+   "email": "wind11@email.com",
+   "booking": null,
+   "base": "bd",
+   "base_note": "Fort Lauderdale, Broward (business address in its site data)",
+   "contact_note": null,
+   "lic_status": "verified",
+   "prices": {
+    "wind": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "four": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "roof": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "truview-inspections",
+   "name": "TruView Inspections",
+   "website": "https://www.truviewinspections.com/",
+   "cities": [
+    "west-palm-beach",
+    "delray-beach",
+    "boynton-beach",
+    "jupiter",
+    "wellington",
+    "palm-beach-gardens",
+    "riviera-beach",
+    "royal-palm-beach",
+    "greenacres",
+    "lantana",
+    "north-palm-beach",
+    "tequesta",
+    "juno-beach",
+    "lake-park",
+    "palm-beach",
+    "palm-springs",
+    "highland-beach"
+   ],
+   "service_area": "States it covers all of Palm Beach County (multi-city company); location pages incl. West Palm Beach, Delray Beach, Boynton Beach, Jupiter, Wellington, Palm Beach Gardens",
+   "wind_mit": "Free with a full home inspection; stand-alone price not published",
+   "four_point": "Free with a full home inspection; stand-alone price not published",
+   "roof_cert": "Call for price",
+   "bundle": "Included with full home inspection ($400-$700 single-family; condos from $299)",
+   "source": "https://www.truviewinspections.com/locations/west-palm-beach/",
+   "license": "Certified Residential Contractor CRC1330244 (shown on the site) is active on DBPR (checked 2026-10-21), held by Luis Miguel Perez / Dri-Max Restoration LLC at the Coral Gables address TruView uses. The site's 'H17112' matches home inspector license HI17112, which DBPR lists for Jose Mauricio Luna of Jacksonville; we could not confirm his link to TruView.",
+   "checked": "2026-10-26",
+   "firm": "truview",
+   "firm_name": "TruView Inspections",
+   "phone": "(561) 515-0113",
+   "phone_src": "https://www.truviewinspections.com/locations/west-palm-beach/",
+   "email": null,
+   "contact_note": "Phone or online scheduler",
+   "booking": "https://goisn.net/truviewinspections/online-scheduler/a60ac7a4-65c4-5205-99c4-52c3e5f37002",
+   "base": "bd",
+   "base_note": "901 Ponce de Leon Blvd, Coral Gables, Miami-Dade (address on its site)",
+   "lic_status": "verified",
+   "prices": {
+    "wind": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "four": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "roof": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "inspectionnow",
+   "name": "InspectionNow",
+   "website": "https://www.inspectionow.com/",
+   "cities": [
+    "west-palm-beach",
+    "delray-beach"
+   ],
+   "service_area": "Miami-Dade, Broward and Palm Beach counties incl. West Palm Beach and Delray Beach",
+   "wind_mit": "Free with a pre-purchase inspection; stand-alone price not published",
+   "four_point": "Free with a pre-purchase inspection; stand-alone price not published",
+   "roof_cert": "Call for price",
+   "bundle": "Wind Mit + 4-Point included with a pre-purchase inspection",
+   "source": "https://www.inspectionow.com/home-inspection-west-palm-beach/",
+   "license": "Home Inspector HI2355 (Luiz Fernando Franco), active on DBPR; this number is shown on the site (checked 2026-10-21)",
+   "checked": "2026-10-26",
+   "firm": "inow",
+   "firm_name": "InspectionNow",
+   "phone": "(954) 543-1177",
+   "phone_src": "https://www.inspectionow.com/home-inspection-west-palm-beach/",
+   "email": "info@inspectionow.com",
+   "booking": null,
+   "base": "bd",
+   "base_note": "Pembroke Pines, Broward (address on its site)",
+   "contact_note": null,
+   "lic_status": "verified",
+   "prices": {
+    "wind": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "four": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "roof": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "don-meyler-inspections",
+   "name": "Don Meyler Inspections",
+   "website": "https://windstorminspections.com/",
+   "cities": [
+    "west-palm-beach",
+    "delray-beach",
+    "boynton-beach",
+    "jupiter",
+    "wellington",
+    "palm-beach-gardens",
+    "lake-worth-beach",
+    "riviera-beach",
+    "royal-palm-beach",
+    "greenacres",
+    "lantana",
+    "north-palm-beach",
+    "tequesta",
+    "juno-beach",
+    "lake-park",
+    "palm-beach",
+    "palm-springs",
+    "highland-beach",
+    "the-glades"
+   ],
+   "service_area": "Statewide (states it operates in all 67 Florida counties)",
+   "wind_mit": "From $125 (varies by building type and location)",
+   "four_point": "Call for price",
+   "roof_cert": "Usually $99",
+   "bundle": "Not stated",
+   "source": "https://windstorminspections.com/our-services/",
+   "license": "Certified General Contractor CGC1516363, active on DBPR under the name 'Don Meyler Inspections' (checked 2026-10-21). The site says it uses multiple state-certified inspectors; individual inspector licenses aren't listed.",
+   "checked": "2026-10-26",
+   "firm": "dmi",
+   "firm_name": "Don Meyler Inspections",
+   "phone": "(800) 469-0434",
+   "phone_src": "https://windstorminspections.com/our-services/",
+   "email": null,
+   "contact_note": "Phone or online inspection request form",
+   "booking": "https://windstorminspections.com/insurance-inspection-request/",
+   "base": "bd",
+   "base_note": "2703 Gateway Dr, Pompano Beach, Broward (address on its site)",
+   "lic_status": "verified",
+   "prices": {
+    "wind": {
+     "amt": 125,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "four": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "roof": {
+     "amt": 99,
+     "cap": null,
+     "covers2000": false,
+     "note": "'usually'"
+    },
+    "bundle": {
+     "amt": null,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-boynton-beach",
+   "name": "Sun Inspections (Boynton Beach pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "boynton-beach"
+   ],
+   "service_area": "Boynton Beach and Palm Beach County (statewide company)",
+   "wind_mit": "From $150 (up to 3,000 sq ft)",
+   "four_point": "From $125 (up to 2,000 sq ft)",
+   "roof_cert": "From $135",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $225",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/boynton-beach",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 150,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 125,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 135,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 225,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-jupiter",
+   "name": "Sun Inspections (Jupiter pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "jupiter"
+   ],
+   "service_area": "Jupiter and Palm Beach County (statewide company)",
+   "wind_mit": "From $200 (up to 3,000 sq ft)",
+   "four_point": "From $200 (up to 2,000 sq ft)",
+   "roof_cert": "From $235",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $275",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/jupiter",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 200,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 200,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 235,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 275,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-wellington",
+   "name": "Sun Inspections (Wellington pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "wellington"
+   ],
+   "service_area": "Wellington and Palm Beach County (statewide company)",
+   "wind_mit": "From $175 (up to 3,000 sq ft)",
+   "four_point": "From $150 (up to 2,000 sq ft)",
+   "roof_cert": "From $135",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $250",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/wellington",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 175,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 150,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 135,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 250,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-palm-beach-gardens",
+   "name": "Sun Inspections (Palm Beach Gardens pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "palm-beach-gardens"
+   ],
+   "service_area": "Palm Beach Gardens and Palm Beach County (statewide company)",
+   "wind_mit": "From $175 (up to 3,000 sq ft)",
+   "four_point": "From $175 (up to 2,000 sq ft)",
+   "roof_cert": "From $235",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $265",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/palm-beach-gardens",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 175,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 175,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 235,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 265,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-lake-worth-beach",
+   "name": "Sun Inspections (Lake Worth Beach pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "lake-worth-beach"
+   ],
+   "service_area": "Lake Worth Beach and Palm Beach County (statewide company)",
+   "wind_mit": "From $175 (up to 3,000 sq ft)",
+   "four_point": "From $150 (up to 2,000 sq ft)",
+   "roof_cert": "From $135",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $250",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/lake-worth-beach",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 175,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 150,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 135,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 250,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-riviera-beach",
+   "name": "Sun Inspections (Riviera Beach pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "riviera-beach"
+   ],
+   "service_area": "Riviera Beach and Palm Beach County (statewide company)",
+   "wind_mit": "From $175 (up to 3,000 sq ft)",
+   "four_point": "From $175 (up to 2,000 sq ft)",
+   "roof_cert": "From $235",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $265",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/riviera-beach",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 175,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 175,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 235,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 265,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-royal-palm-beach",
+   "name": "Sun Inspections (Royal Palm Beach pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "royal-palm-beach"
+   ],
+   "service_area": "Royal Palm Beach and Palm Beach County (statewide company)",
+   "wind_mit": "From $175 (up to 3,000 sq ft)",
+   "four_point": "From $150 (up to 2,000 sq ft)",
+   "roof_cert": "From $135",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $250",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/royal-palm-beach",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 175,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 150,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 135,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 250,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-greenacres",
+   "name": "Sun Inspections (Greenacres pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "greenacres"
+   ],
+   "service_area": "Greenacres and Palm Beach County (statewide company)",
+   "wind_mit": "From $175 (up to 3,000 sq ft)",
+   "four_point": "From $150 (up to 2,000 sq ft)",
+   "roof_cert": "From $135",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $250",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/greenacres",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 175,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 150,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 135,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 250,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-lantana",
+   "name": "Sun Inspections (Lantana pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "lantana"
+   ],
+   "service_area": "Lantana and Palm Beach County (statewide company)",
+   "wind_mit": "From $175 (up to 3,000 sq ft)",
+   "four_point": "From $150 (up to 2,000 sq ft)",
+   "roof_cert": "From $135",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $250",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/lantana",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 175,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 150,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 135,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 250,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-north-palm-beach",
+   "name": "Sun Inspections (North Palm Beach pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "north-palm-beach"
+   ],
+   "service_area": "North Palm Beach and Palm Beach County (statewide company)",
+   "wind_mit": "From $175 (up to 3,000 sq ft)",
+   "four_point": "From $175 (up to 2,000 sq ft)",
+   "roof_cert": "From $235",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $265",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/north-palm-beach",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 175,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 175,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 235,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 265,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-tequesta",
+   "name": "Sun Inspections (Tequesta pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "tequesta"
+   ],
+   "service_area": "Tequesta and Palm Beach County (statewide company)",
+   "wind_mit": "From $200 (up to 3,000 sq ft)",
+   "four_point": "From $200 (up to 2,000 sq ft)",
+   "roof_cert": "From $235",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $275",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/tequesta",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 200,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 200,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 235,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 275,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-juno-beach",
+   "name": "Sun Inspections (Juno Beach pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "juno-beach"
+   ],
+   "service_area": "Juno Beach and Palm Beach County (statewide company)",
+   "wind_mit": "From $200 (up to 3,000 sq ft)",
+   "four_point": "From $200 (up to 2,000 sq ft)",
+   "roof_cert": "From $235",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $275",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/juno-beach",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 200,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 200,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 235,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 275,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-lake-park",
+   "name": "Sun Inspections (Lake Park pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "lake-park"
+   ],
+   "service_area": "Lake Park and Palm Beach County (statewide company)",
+   "wind_mit": "From $175 (up to 3,000 sq ft)",
+   "four_point": "From $175 (up to 2,000 sq ft)",
+   "roof_cert": "From $235",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $265",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/lake-park",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 175,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 175,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 235,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 265,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-palm-beach",
+   "name": "Sun Inspections (Palm Beach pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "palm-beach"
+   ],
+   "service_area": "Palm Beach and Palm Beach County (statewide company)",
+   "wind_mit": "From $175 (up to 3,000 sq ft)",
+   "four_point": "From $150 (up to 2,000 sq ft)",
+   "roof_cert": "From $135",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $250",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/palm-beach",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 175,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 150,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 135,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 250,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-palm-springs",
+   "name": "Sun Inspections (Palm Springs pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "palm-springs"
+   ],
+   "service_area": "Palm Springs and Palm Beach County (statewide company)",
+   "wind_mit": "From $175 (up to 3,000 sq ft)",
+   "four_point": "From $150 (up to 2,000 sq ft)",
+   "roof_cert": "From $135",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $250",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/palm-springs",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 175,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 150,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 135,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 250,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-highland-beach",
+   "name": "Sun Inspections (Highland Beach pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "highland-beach"
+   ],
+   "service_area": "Highland Beach and Palm Beach County (statewide company)",
+   "wind_mit": "From $125 (up to 3,000 sq ft)",
+   "four_point": "From $100 (up to 2,000 sq ft)",
+   "roof_cert": "From $85",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $200",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/highland-beach",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 125,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 100,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 85,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 200,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  },
+  {
+   "slug": "sun-inspections-belle-glade",
+   "name": "Sun Inspections (Belle Glade pricing)",
+   "website": "https://www.suninspections.com/",
+   "cities": [
+    "the-glades"
+   ],
+   "service_area": "Belle Glade and Palm Beach County (statewide company); separate Pahokee and South Bay pages list their own prices",
+   "wind_mit": "From $175 (up to 3,000 sq ft)",
+   "four_point": "From $175 (up to 2,000 sq ft)",
+   "roof_cert": "From $235",
+   "bundle": "Yes: 4-Point + Wind Mitigation from $265",
+   "source": "https://www.suninspections.com/areas-served/palm-beach-county/belle-glade",
+   "checked": "2026-10-26",
+   "firm": "sun",
+   "firm_name": "Sun Inspections",
+   "phone": "(727) 346-6453",
+   "phone_src": "https://www.suninspections.com/contact",
+   "email": null,
+   "contact_note": "Online scheduler and phone",
+   "booking": "https://www.suninspections.com/schedule-inspection",
+   "base": "unknown",
+   "base_note": "No street address on the site (statewide company)",
+   "lic_status": "verified",
+   "license": "Andrea Nally Maldonado, Home Inspector HI11148, active on DBPR (checked 2026-10-21); named on each Palm Beach County city page",
+   "prices": {
+    "wind": {
+     "amt": 175,
+     "cap": "homes up to 3,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "four": {
+     "amt": 175,
+     "cap": "homes up to 2,000 sq ft",
+     "covers2000": true,
+     "note": null
+    },
+    "roof": {
+     "amt": 235,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    },
+    "bundle": {
+     "amt": 265,
+     "cap": null,
+     "covers2000": false,
+     "note": null
+    }
+   }
+  }
+ ]
 }
