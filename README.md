@@ -1,6 +1,6 @@
 # Palm Beach Inspection Finder (v1)
 
-Static directory of Palm Beach County, FL wind mitigation (OIR-B1-1802), 4-point and roof certification inspectors. Owner: Leonard Ponce.
+Static directory of Palm Beach County, FL wind mitigation (OIR-B1-1802), 4-point and roof certification inspectors. The site is run by an individual, not a registered business.
 
 - `data/inspectors.json`: inspector records (source URL + date checked on every record). `data/inspectors.csv` is regenerated from it.
 - `data/cities.json`: one entry per city page.
