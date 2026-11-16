@@ -380,9 +380,11 @@
  },
  "truview-inspections": {
   "amounts": [
+   "$130",
    "$150",
    "$150,",
    "$200",
+   "$250",
    "$260",
    "$299",
    "$300",
@@ -398,8 +400,17 @@
    "ach? TruView home inspections in West Palm Beach range from $400\u2013$700 for standard s",
    "TruView home inspections in West Palm Beach range from $400\u2013$700 for standard single",
    "or standard single-family homes; condo inspections start at $299. Every full inspect",
-   "includes a free 4-point and wind mitigation report \u2014 saving $260\u2013$500 compared to or",
-   "des a free 4-point and wind mitigation report \u2014 saving $260\u2013$500 compared to orderin",
+   "includes a free 4-point and wind mitigation report, saving $260\u2013$500 compared to or",
+   "udes a free 4-point and wind mitigation report, saving $260\u2013$500 compared to orderin",
+   "View, a full home inspection for a single-family home costs $400 to $700+, depending",
+   "full home inspection for a single-family home costs $400 to $700+, depending on size",
+   "to $700+, depending on size, and condo inspections start at $299. Every full inspect",
+   "a free 4-point and wind mitigation report, which would cost $260 to $500 if ordered",
+   "-point and wind mitigation report, which would cost $260 to $500 if ordered separate",
+   "t in Florida? A standalone TruView 4-point inspection costs $130 to $250 for a home,",
+   "rida? A standalone TruView 4-point inspection costs $130 to $250 for a home, or $200",
+   "ruView 4-point inspection costs $130 to $250 for a home, or $200 to $300 bundled wit",
+   "-point inspection costs $130 to $250 for a home, or $200 to $300 bundled with wind m",
    "standalone TruView roof inspection in West Palm Beach costs $150 to $300 for most ho",
    "ne TruView roof inspection in West Palm Beach costs $150 to $300 for most homes: $15",
    "ction in West Palm Beach costs $150 to $300 for most homes: $150 to $200 for homes u",
@@ -407,7 +418,7 @@
    "t homes: $150 to $200 for homes up to about 2,000 sq ft and $200 to $300 for 2,000 t",
    "$150 to $200 for homes up to about 2,000 sq ft and $200 to $300 for 2,000 to 4,500"
   ],
-  "fetched": "2026-11-02"
+  "fetched": "2026-11-16"
  },
  "inspectionnow": {
   "amounts": [],
